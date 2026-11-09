@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" width="1600" height="1200" role="img" aria-label="Cena original de fliperama neon dos anos 90, sem personagens de franquia">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#120628"/>
+      <stop offset="55%" stop-color="#2a0b5f"/>
+      <stop offset="100%" stop-color="#4a146e"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1030"/>
+      <stop offset="100%" stop-color="#0b0714"/>
+    </linearGradient>
+    <linearGradient id="cabA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff2bd6"/>
+      <stop offset="100%" stop-color="#6d00ff"/>
+    </linearGradient>
+    <linearGradient id="cabB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffe14a"/>
+      <stop offset="100%" stop-color="#ff7a00"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7dffef"/>
+      <stop offset="100%" stop-color="#1487ff"/>
+    </linearGradient>
+    <linearGradient id="marquee" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff3cac"/>
+      <stop offset="50%" stop-color="#784ba0"/>
+      <stop offset="100%" stop-color="#2b86c5"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="tiles" width="70" height="70" patternUnits="userSpaceOnUse">
+      <rect width="70" height="70" fill="#1c142c"/>
+      <rect width="35" height="35" fill="#2e2148"/>
+      <rect x="35" y="35" width="35" height="35" fill="#2e2148"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="1200" fill="url(#sky)"/>
+  <g fill="#fff8a8" opacity="0.9">
+    <circle cx="120" cy="90" r="3"/><circle cx="260" cy="50" r="2"/><circle cx="400" cy="110" r="2.5"/>
+    <circle cx="620" cy="40" r="2"/><circle cx="900" cy="80" r="3"/><circle cx="1180" cy="55" r="2"/>
+    <circle cx="1400" cy="100" r="2.5"/><circle cx="1480" cy="40" r="2"/><circle cx="730" cy="140" r="2"/>
+  </g>
+  <path d="M0 430 Q800 360 1600 430 L1600 1200 L0 1200 Z" fill="url(#floor)"/>
+  <g opacity="0.55">
+    <polygon points="80,470 1520,470 1600,1200 0,1200" fill="url(#tiles)"/>
+  </g>
+  <ellipse cx="800" cy="430" rx="540" ry="28" fill="#ff4de1" opacity="0.25" filter="url(#glow)"/>
+  <rect x="430" y="250" width="740" height="90" rx="12" fill="url(#marquee)" filter="url(#glow)"/>
+  <rect x="450" y="268" width="700" height="54" rx="8" fill="#12041f"/>
+  <text x="800" y="308" text-anchor="middle" font-family="Bungee, Impact, sans-serif" font-size="42" fill="#ffe14a">NEON ARCADE</text>
+  <g>
+    <rect x="250" y="360" width="300" height="520" rx="18" fill="url(#cabA)"/>
+    <rect x="270" y="390" width="260" height="190" rx="10" fill="#0b1020"/>
+    <rect x="286" y="406" width="228" height="158" rx="6" fill="url(#screen)"/>
+    <circle cx="360" cy="470" r="28" fill="#ffef5a"/>
+    <circle cx="450" cy="500" r="22" fill="#ff3d6e"/>
+    <rect x="310" y="430" width="70" height="10" fill="#fff" opacity="0.7"/>
+    <rect x="290" y="600" width="220" height="70" rx="10" fill="#240433"/>
+    <circle cx="340" cy="635" r="18" fill="#ff3d6e"/>
+    <circle cx="400" cy="635" r="18" fill="#31e1ff"/>
+    <circle cx="460" cy="635" r="18" fill="#ffe14a"/>
+    <rect x="330" y="700" width="140" height="24" rx="8" fill="#111"/>
+    <rect x="270" y="760" width="80" height="90" fill="#3a0d5c"/>
+    <rect x="450" y="760" width="80" height="90" fill="#3a0d5c"/>
+  </g>
+  <g>
+    <rect x="1050" y="380" width="300" height="500" rx="18" fill="url(#cabB)"/>
+    <rect x="1070" y="410" width="260" height="180" rx="10" fill="#0b1020"/>
+    <rect x="1086" y="426" width="228" height="148" rx="6" fill="#1428ff"/>
+    <rect x="1110" y="450" width="180" height="18" fill="#7dffef"/>
+    <rect x="1130" y="480" width="140" height="18" fill="#ffe14a"/>
+    <rect x="1160" y="510" width="90" height="18" fill="#ff4de1"/>
+    <rect x="1090" y="620" width="220" height="70" rx="10" fill="#5a2200"/>
+    <circle cx="1160" cy="655" r="22" fill="#111"/>
+    <circle cx="1240" cy="655" r="16" fill="#ff3d6e"/>
+    <rect x="1070" y="760" width="80" height="90" fill="#9a4b00"/>
+    <rect x="1250" y="760" width="80" height="90" fill="#9a4b00"/>
+  </g>
+  <g>
+    <rect x="690" y="560" width="220" height="160" rx="16" fill="#24103f" stroke="#ffe14a" stroke-width="6"/>
+    <circle cx="800" cy="640" r="48" fill="#ff2bd6"/>
+    <rect x="752" y="628" width="96" height="24" rx="8" fill="#ffe14a"/>
+    <text x="800" y="646" text-anchor="middle" font-family="Nunito, sans-serif" font-size="16" font-weight="800" fill="#24103f">INSERT</text>
+  </g>
+  <g transform="translate(620,820)">
+    <rect x="0" y="20" width="130" height="70" rx="8" fill="#d9a24a"/>
+    <circle cx="28" cy="90" r="16" fill="#222"/>
+    <circle cx="102" cy="90" r="16" fill="#222"/>
+    <rect x="18" y="8" width="70" height="40" rx="6" fill="#6ad0ff"/>
+    <rect x="28" y="18" width="50" height="8" fill="#fff"/>
+  </g>
+  <g transform="translate(820,860)">
+    <ellipse cx="70" cy="40" rx="70" ry="18" fill="#7a3b12"/>
+    <path d="M10,40 Q40,0 70,18 Q100,0 130,40 Z" fill="#e8b03a"/>
+    <circle cx="50" cy="28" r="6" fill="#c0392b"/>
+    <circle cx="80" cy="22" r="5" fill="#27ae60"/>
+  </g>
+  <g transform="translate(200,860)">
+    <rect width="70" height="110" rx="10" fill="#31e1ff"/>
+    <rect x="10" y="14" width="50" height="50" rx="8" fill="#fff"/>
+    <circle cx="35" cy="90" r="10" fill="#ff3d6e"/>
+  </g>
+  <g transform="translate(1380,820)">
+    <rect width="90" height="54" rx="6" fill="#111"/>
+    <rect x="8" y="10" width="74" height="34" fill="#ffef5a"/>
+    <rect x="-6" y="22" width="10" height="10" fill="#888"/>
+  </g>
+  <path d="M0 0 H1600 V18 H0 Z" fill="#ff2bd6" opacity="0.45"/>
+  <path d="M0 1182 H1600 V1200 H0 Z" fill="#31e1ff" opacity="0.35"/>
+</svg>

@@ -1,0 +1,17 @@
+node_modules
+dist
+.playwright
+test-results
+playwright-report
+coverage
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+.turbo
+.vite
+*.tsbuildinfo
+.cache
+artifacts-local
+artifacts

@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - name: Validar catálogos (mínimo 1; aviso abaixo de 200)
+        run: npm run validate:catalog
+      - run: npm test
+      - run: npm run build
+      - name: Instalar Chromium do Playwright
+        run: npx playwright install --with-deps chromium
+      - name: E2E
+        run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report
+          if-no-files-found: ignore
+
+      # Etapa 8: troque o comando de catálogo por
+      #   npx tsx packages/content-manager/src/cli.ts --min 200 --warn-below 200 --catalog ...
+      # para tornar o mínimo de 200 imagens distintas obrigatório no CI.

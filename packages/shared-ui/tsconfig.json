@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "jsx": "react-jsx",
+    "outDir": "dist",
+    "rootDir": "src",
+    "noEmit": false
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../puzzle-engine" },
+    { "path": "../content-manager" },
+    { "path": "../shared-utils" }
+  ]
+}

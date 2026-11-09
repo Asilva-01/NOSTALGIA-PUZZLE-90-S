@@ -1,0 +1,47 @@
+:root,
+:root[data-theme='nostalgia'] {
+  --bg: #12041c;
+  --surface: #2a0d45;
+  --text: #ffe9a8;
+  --accent: #ff2bd6;
+  --accent-ink: #1a0418;
+  --line: #ffe14a;
+  --focus: #31e1ff;
+  --font-display: 'Bungee', Impact, sans-serif;
+  --font-body: 'Nunito', sans-serif;
+  --btn-radius: 0.35rem;
+  --radius: 0.4rem;
+  color-scheme: dark;
+}
+
+body {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgb(255 255 255 / 0.03) 0,
+      rgb(255 255 255 / 0.03) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    radial-gradient(circle at 20% 0%, #4a146e, #12041c 55%);
+}
+
+.hero h1 {
+  text-shadow: 4px 0 #31e1ff, -3px 0 #ff2bd6;
+  transform: rotate(-1.2deg);
+}
+
+.btn.primary,
+.chip[aria-pressed='true'] {
+  box-shadow: 0 4px 0 #7a0a5c;
+}
+
+.phase-cell {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+}
+
+.hero-art {
+  box-shadow: 12px 12px 0 #31e1ff;
+  border-radius: 0;
+}

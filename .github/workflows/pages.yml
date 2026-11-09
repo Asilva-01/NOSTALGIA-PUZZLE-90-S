@@ -1,0 +1,44 @@
+name: GitHub Pages (Nostalgia)
+
+# NÃO publica automaticamente a cada push em main.
+# O dono do projeto precisa aprovar e, se quiser deploy contínuo,
+# adicionar `push: branches: [main]` abaixo depois de revisar o app.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Build Nostalgia com base do GitHub Pages
+        env:
+          VITE_BASE: /NOSTALGIA-PUZZLE-90-S/
+        run: npm run build:nostalgia
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/nostalgia-90/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
