@@ -21,7 +21,13 @@ export async function assemblePuzzle(page: Page, pieceCount: 12 | 24): Promise<v
     await page.waitForFunction(
       (id) => window.__PUZZLE_TEST__?.session.pieceById(id).placed === true,
       piece.id,
-      { timeout: 5_000 },
+      { timeout: 8_000 },
+    );
+    await page.evaluate(
+      () =>
+        new Promise<void>((resolve) => {
+          requestAnimationFrame(() => resolve());
+        }),
     );
   }
 

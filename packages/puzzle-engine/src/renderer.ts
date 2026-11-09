@@ -174,6 +174,7 @@ export class PuzzleRenderer {
   };
 
   resize(): void {
+    if (this.session.draggingId) return;
     const rect = this.canvas.getBoundingClientRect();
     this.dpr = Math.min(window.devicePixelRatio || 1, 2);
     const nextW = Math.max(1, Math.floor(rect.width * this.dpr));
