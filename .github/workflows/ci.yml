@@ -18,7 +18,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
-      - name: Validar catálogos (mínimo 1; aviso abaixo de 200)
+      - name: Validar catálogos (mínimo 10; aviso abaixo de 200)
         run: npm run validate:catalog
       - run: npm test
       - run: npm run build

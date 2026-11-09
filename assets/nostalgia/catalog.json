@@ -4,10 +4,10 @@
   "locale": "pt-BR",
   "puzzles": [
     {
-      "id": "arcade-neon",
-      "name": "Fliperama Neon",
-      "collection": "Esquina dos anos 90",
-      "description": "Uma loja de fliperama original, com cabinets geométricos, marquee neon e o chão xadrez da madrugada. Nenhum personagem ou marca de franquia.",
+      "id": "quarto-tv",
+      "name": "Quarto com TV de tubo",
+      "collection": "Cotidiano dos anos 90",
+      "description": "Quarto de sábado de manhã: TV de tubo, um console oval original e controles em gota. Sem marca, sem mascote de franquia — só a memória do tapete e do controle compartilhado.",
       "recommendedLevel": 1,
       "difficulty": "easy",
       "defaultPieceCount": 12,
@@ -15,18 +15,262 @@
         "type": "free"
       },
       "license": {
-        "author": "Puzzle Universe / André Luiz (arte gerada em SVG original)",
+        "author": "Puzzle Universe",
         "license": "CC BY 4.0",
-        "source": "assets/nostalgia/images/arcade-neon.svg",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
         "date": "2026-11-08",
         "type": "original"
       },
       "image": {
-        "src": "images/arcade-neon.png",
-        "thumbnail": "images/arcade-neon-thumb.png",
-        "width": 1600,
-        "height": 1200,
-        "hash": "a6638056670657a755374b4d42f856095e047da34acaef722fdcb909a3c21b20"
+        "src": "images/quarto-tv.webp",
+        "srcMedium": "images/quarto-tv-800.webp",
+        "thumbnail": "images/quarto-tv-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "ea77b4dda20721b45c21f3365d4fd2ce8b0eb1dc84e7475c97cb18f5c1086053"
+      }
+    },
+    {
+      "id": "fliperama",
+      "name": "Fliperama",
+      "collection": "Lazer dos anos 90",
+      "description": "Loja de fliperama de esquina, cabinets geométricos, tela em branco e a máquina de pelúcia com bichos inventados. Neon, pizza e moeda no bolso.",
+      "recommendedLevel": 2,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/fliperama.webp",
+        "srcMedium": "images/fliperama-800.webp",
+        "thumbnail": "images/fliperama-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "c4ede08e6cc3f789ecf0f447bc2e76d93715391551311a20d0d6e352a32fe471"
+      }
+    },
+    {
+      "id": "locadora",
+      "name": "Locadora de vídeo",
+      "collection": "Cotidiano dos anos 90",
+      "description": "Prateleiras de VHS com lombadas lisas, caixa registradora ao lado de uma TV e pipoca no balcão. A família escolhe o filme da noite sem logotipo de estúdio.",
+      "recommendedLevel": 3,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/locadora.webp",
+        "srcMedium": "images/locadora-800.webp",
+        "thumbnail": "images/locadora-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "133b6fa339239a4de30825f9f55bb54eb1ad38ae6f9e7ca86c6563652d2d93cd"
+      }
+    },
+    {
+      "id": "recreio",
+      "name": "Recreio na escola",
+      "collection": "Escola dos anos 90",
+      "description": "Pátio brasileiro no recreio: amarelinha, ioiô, figurinha e uma pelada improvisada. Uniforme, sol e giz no chão — nenhum personagem de desenho alheio.",
+      "recommendedLevel": 4,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/recreio.webp",
+        "srcMedium": "images/recreio-800.webp",
+        "thumbnail": "images/recreio-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "10a23db163c179c0e36a2762cfc0623840e5e66142c0e4e35ea28a1cd18bd068"
+      }
+    },
+    {
+      "id": "festa-junina",
+      "name": "Festa Junina",
+      "collection": "Festas dos anos 90",
+      "description": "Noite de arraial: bandeirinhas, fogueira, espiga, sanfona e roupa xadrez. Espantalho e milho no palito, cena original de festa junina.",
+      "recommendedLevel": 5,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/festa-junina.webp",
+        "srcMedium": "images/festa-junina-800.webp",
+        "thumbnail": "images/festa-junina-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "fd6de1adae6c705356c6d498d6c3f575f791154115b63910e0d9f9d9ab7d5926"
+      }
+    },
+    {
+      "id": "praia-walkman",
+      "name": "Praia com Walkman",
+      "collection": "Lazer dos anos 90",
+      "description": "Areia, fone de espuma, fita cassete e um rádio portátil ao lado do castelo. Carrinho de picolé e vôlei — verão sem console de videogame na toalha.",
+      "recommendedLevel": 6,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/praia-walkman.webp",
+        "srcMedium": "images/praia-walkman-800.webp",
+        "thumbnail": "images/praia-walkman-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "273953ef83c93cf6f867c6edf9781236bc23d2119e32e7ca4c90698245ef2a94"
+      }
+    },
+    {
+      "id": "banca-jornal",
+      "name": "Banca de jornal",
+      "collection": "Cotidiano dos anos 90",
+      "description": "Banca de rua com revistas de capa lisa, figurinhas e adesivos genéricos. Crianças escolhem o que levar, sem gibi de franquia no expositor.",
+      "recommendedLevel": 7,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/banca-jornal.webp",
+        "srcMedium": "images/banca-jornal-800.webp",
+        "thumbnail": "images/banca-jornal-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "9c00136f4480295b155eefaa55246941cbc849e3fb10253964b73974322d0ad4"
+      }
+    },
+    {
+      "id": "pelada",
+      "name": "Pelada na rua",
+      "collection": "Esporte dos anos 90",
+      "description": "Rua de paralelepípedo, gol de chinelo e camisa lisa. Varal nas janelas, bola miúda e ninguém com escudo de clube — só a pelada depois da escola.",
+      "recommendedLevel": 8,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/pelada.webp",
+        "srcMedium": "images/pelada-800.webp",
+        "thumbnail": "images/pelada-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "95497616d3efd65cb1b7ee2ad879bd6445ac761309a3ac627a1ae59b0b55987e"
+      }
+    },
+    {
+      "id": "sala-auditorio",
+      "name": "Sala — programa de auditório",
+      "collection": "TV dos anos 90",
+      "description": "Sala com sofá floral, pipoca e um programa de auditório inventado na TV de tubo. Apresentador fictício, plateia colorida, nenhum apresentador real.",
+      "recommendedLevel": 9,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/sala-auditorio.webp",
+        "srcMedium": "images/sala-auditorio-800.webp",
+        "thumbnail": "images/sala-auditorio-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "a0a2ab5a330566997e240ceee3f99ada46331b4fcfea4e600caa14e9c222edc8"
+      }
+    },
+    {
+      "id": "parque",
+      "name": "Parque de diversões",
+      "collection": "Lazer dos anos 90",
+      "description": "Entardecer no parque: roda-gigante, carrossel, algodão-doce e pelúcias originais no estande de prêmios. Luzes quentes, sem marca de parque famoso.",
+      "recommendedLevel": 10,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/parque.webp",
+        "srcMedium": "images/parque-800.webp",
+        "thumbnail": "images/parque-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "78602ff1d0860184995347e06a6e91deb4fa21bff6ebb053eeeb6c03a91e6b76"
       }
     }
   ]

@@ -1,15 +1,19 @@
 import type { Catalog } from '@puzzle-universe/content-manager';
 import type { ProductConfig } from '@puzzle-universe/shared-ui';
 import catalogJson from '../../../assets/nostalgia/catalog.json';
-import arcade from '../../../assets/nostalgia/images/arcade-neon.png';
-import arcadeThumb from '../../../assets/nostalgia/images/arcade-neon-thumb.png';
 
 const catalog = catalogJson as Catalog;
 
-const urls: Record<string, string> = {
-  'images/arcade-neon.png': arcade,
-  'images/arcade-neon-thumb.png': arcadeThumb,
-};
+const modules = import.meta.glob('../../../assets/nostalgia/images/*.webp', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
+
+const urls: Record<string, string> = {};
+for (const [path, url] of Object.entries(modules)) {
+  const file = path.split('/').pop();
+  if (file) urls[`images/${file}`] = url;
+}
 
 export const product: ProductConfig = {
   appId: 'nostalgia-90',

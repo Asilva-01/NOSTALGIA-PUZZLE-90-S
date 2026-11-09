@@ -4,10 +4,10 @@
   "locale": "pt-BR",
   "puzzles": [
     {
-      "id": "noe-e-a-arca",
-      "name": "Noé e a arca",
-      "collection": "Noé e a arca",
-      "description": "Ilustração original em estilo livro infantil: a arca sobre as águas, o arco-íris da promessa e animais em pares.",
+      "id": "eden",
+      "name": "Criação / Éden",
+      "collection": "Antigo Testamento",
+      "description": "Jardim recém-criado: Adão e Eva, riacho, árvores e animais em paz sob o arco-íris. Ilustração original em estilo livro infantil.",
       "recommendedLevel": 1,
       "difficulty": "easy",
       "defaultPieceCount": 12,
@@ -15,25 +15,332 @@
         "type": "free"
       },
       "license": {
-        "author": "Puzzle Universe / André Luiz (arte gerada em SVG original)",
+        "author": "Puzzle Universe",
         "license": "CC BY 4.0",
-        "source": "assets/bible/images/noe-e-a-arca.svg",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
         "date": "2026-11-08",
         "type": "original"
       },
       "story": {
-        "title": "Noé e a arca",
-        "summary": "Noé constrói uma arca, acolhe os animais e atravessa o dilúvio. Quando as águas baixam, um arco-íris assina a promessa de recomeço.",
-        "reference": "Gênesis 6–9",
-        "message": "Cuidar uns dos outros e da criação é um jeito de honrar a promessa.",
-        "curiosity": "A palavra hebraica para arco-íris, qeshet, também pode significar arco de guerra — aqui transformado em sinal de paz."
+        "title": "A criação e o jardim",
+        "summary": "Deus cria o mundo e coloca o casal no jardim para cuidar da terra. É o começo da história — um convite à vida, não a um conto de fadas.",
+        "reference": "Gênesis 1–3",
+        "message": "Cuidar da criação e uns dos outros é a primeira tarefa que recebemos.",
+        "curiosity": "Éden significa “delícia” ou “prazer” em hebraico — um jardim para habitar, não um palácio para visitar."
       },
       "image": {
-        "src": "images/noe-e-a-arca.png",
-        "thumbnail": "images/noe-e-a-arca-thumb.png",
-        "width": 1600,
-        "height": 1200,
-        "hash": "686f912c50f013f2fba5be9a81487d2226a47fa8ab4e2b1ad6b72dbf81d22bd8"
+        "src": "images/eden.webp",
+        "srcMedium": "images/eden-800.webp",
+        "thumbnail": "images/eden-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "d7e984c42496ddce6a68b8d7d069cae0e415516e38f6a827bc1ceba6c4ba105c"
+      }
+    },
+    {
+      "id": "mar-vermelho",
+      "name": "Moisés e o Mar Vermelho",
+      "collection": "Antigo Testamento",
+      "description": "Duas paredes de água, caminho seco e Moisés com o cajado. Famílias, ovelhas e a coluna de nuvem ao longe — a travessia sem fauna de zoológico.",
+      "recommendedLevel": 2,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "story": {
+        "title": "A travessia do mar",
+        "summary": "O povo sai do Egito e se vê encurralado. Moisés estende o cajado, as águas se abrem e a caminhada continua em terra seca.",
+        "reference": "Êxodo 14",
+        "message": "Há caminhos que só aparecem quando a gente dá o primeiro passo juntos.",
+        "curiosity": "O texto hebraico fala em “mar de juncos” (Yam Suph). A tradição cristã consolidou o nome Mar Vermelho."
+      },
+      "image": {
+        "src": "images/mar-vermelho.webp",
+        "srcMedium": "images/mar-vermelho-800.webp",
+        "thumbnail": "images/mar-vermelho-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "23eaecd36aa7f0829462e61c60a4b96e996c1173e0acc84f371ffdbd2036a6b4"
+      }
+    },
+    {
+      "id": "davi-golias",
+      "name": "Davi e Golias",
+      "collection": "Antigo Testamento",
+      "description": "O menino pastor com a funda diante do gigante no vale. Ovelhas ao fundo, pastel de livro ilustrado, sem armadura de filme de Hollywood.",
+      "recommendedLevel": 3,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "story": {
+        "title": "O pastor e o gigante",
+        "summary": "Davi, o mais novo dos irmãos, enfrenta Golias com funda e pedra. A coragem não vem do tamanho da arma, e sim de quem ele escolhe servir.",
+        "reference": "1 Samuel 17",
+        "message": "Tamanho e barulho não decidem a história quando o coração está no lugar certo.",
+        "curiosity": "A funda era arma de verdade de pastores e soldados — não um brinquedo. Davi já a usava para proteger o rebanho."
+      },
+      "image": {
+        "src": "images/davi-golias.webp",
+        "srcMedium": "images/davi-golias-800.webp",
+        "thumbnail": "images/davi-golias-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "84bb8c6b69debef82b5b728909c1b91c9e7058f94f7fb10177e95b8643edc5b9"
+      }
+    },
+    {
+      "id": "daniel-leoes",
+      "name": "Daniel na cova dos leões",
+      "collection": "Antigo Testamento",
+      "description": "Daniel em oração na cova iluminada pela lua, leões serenos ao redor. Grades, pedra e um silêncio que o decreto do rei não conseguiu quebrar.",
+      "recommendedLevel": 4,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "story": {
+        "title": "A cova e a oração",
+        "summary": "Daniel continua orando mesmo quando a lei proíbe. Lançado à cova, amanhece ileso: a fidelidade pesou mais do que o decreto.",
+        "reference": "Daniel 6",
+        "message": "A fé discreta, repetida todo dia, é mais forte do que o espetáculo do medo.",
+        "curiosity": "Daniel era um exilado em cargo alto na Pérsia — a cova é o preço de não trocar a oração por um cargo."
+      },
+      "image": {
+        "src": "images/daniel-leoes.webp",
+        "srcMedium": "images/daniel-leoes-800.webp",
+        "thumbnail": "images/daniel-leoes-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "58ec614d013e2d64333720a06374d261fec19600cdfbb4c990134ab36ceabadb"
+      }
+    },
+    {
+      "id": "jonas",
+      "name": "Jonas e o grande peixe",
+      "collection": "Antigo Testamento",
+      "description": "Mar aberto, um peixe enorme e amigável, algas e Jonas a caminho de um recado que ele tentou fugir. Cena de livro, não de terror oceânico.",
+      "recommendedLevel": 5,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "story": {
+        "title": "O profeta que fugiu",
+        "summary": "Jonas foge do recado de Deus, cai no mar e é engolido por um grande peixe. De dentro da escuridão, ora — e ganha uma segunda chance.",
+        "reference": "Jonas 1–2",
+        "message": "Dá para recomeçar mesmo depois de ter corrido para o lado errado.",
+        "curiosity": "O texto fala em “grande peixe”, não necessariamente baleia. A tradição popular é que preencheu o animal."
+      },
+      "image": {
+        "src": "images/jonas.webp",
+        "srcMedium": "images/jonas-800.webp",
+        "thumbnail": "images/jonas-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "ca9be8adcedb49d6e24a99ba1cce3247a6278f34c3640a2c007b7235501c49d1"
+      }
+    },
+    {
+      "id": "manjedoura",
+      "name": "Nascimento de Jesus",
+      "collection": "Novo Testamento",
+      "description": "Presépio original: Maria, José, o bebê, pastores, magos e a estrela. Estábulo simples, animais da roça, sem cartão-postal de shopping.",
+      "recommendedLevel": 6,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "story": {
+        "title": "O nascimento em Belém",
+        "summary": "Jesus nasce longe dos palácios, numa manjedoura. Pastores chegam primeiro; depois vêm visitantes do oriente guiados pela estrela.",
+        "reference": "Lucas 2",
+        "message": "A notícia boa começa no lugar humilde, no meio de quem estava acordado no campo.",
+        "curiosity": "Manjedoura é comedouro de animais. Lucas destaca isso para dizer onde o recém-nascido foi deitado — não num berço real."
+      },
+      "image": {
+        "src": "images/manjedoura.webp",
+        "srcMedium": "images/manjedoura-800.webp",
+        "thumbnail": "images/manjedoura-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "1854456a2a839872219a9b35c4bd14227eeda6fc47e4a5b7c25a89b9bfa19a88"
+      }
+    },
+    {
+      "id": "tempestade",
+      "name": "Jesus acalma a tempestade",
+      "collection": "Novo Testamento",
+      "description": "Barco de pesca inclinado, ondas altas, raios e discípulos nas cordas. Jesus à proa, um feixe de luz rasgando as nuvens.",
+      "recommendedLevel": 7,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "story": {
+        "title": "A paz no meio do vento",
+        "summary": "Uma tempestade pega o barco no lago. Os discípulos entram em pânico; Jesus fala com o vento e o mar, e tudo se acalma.",
+        "reference": "Marcos 4:35–41",
+        "message": "Medo e fé podem ocupar o mesmo barco — o que muda é para quem a gente grita.",
+        "curiosity": "O lago da Galileia desce cerca de 200 m abaixo do nível do mar; ventos súbitos descem das colinas e viram temporal em minutos."
+      },
+      "image": {
+        "src": "images/tempestade.webp",
+        "srcMedium": "images/tempestade-800.webp",
+        "thumbnail": "images/tempestade-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "099205b980272a8d8129cedf0185e73dcb1ac91051250dad1b4d761d5d3d7208"
+      }
+    },
+    {
+      "id": "paes-peixes",
+      "name": "Multiplicação dos pães",
+      "collection": "Novo Testamento",
+      "description": "Encosta ao ar livre, cestos, pães e peixes. Jesus abençoa o lanche de uma criança e a multidão se senta para comer junta.",
+      "recommendedLevel": 8,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "story": {
+        "title": "Pães e peixes para todos",
+        "summary": "Uma multidão tem fome e quase nada para comer. Jesus abençoa cinco pães e dois peixes — e todos se alimentam, com sobra.",
+        "reference": "João 6:1–14",
+        "message": "O pouco oferecido com generosidade chega mais longe do que o muito guardado.",
+        "curiosity": "Os quatro evangelhos narram esta cena. João é o único que aponta que o lanche veio de um menino."
+      },
+      "image": {
+        "src": "images/paes-peixes.webp",
+        "srcMedium": "images/paes-peixes-800.webp",
+        "thumbnail": "images/paes-peixes-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "2098025a9c9fc6523384f2387b780801f6598de6284213b9c3f07671b19cacba"
+      }
+    },
+    {
+      "id": "bom-samaritano",
+      "name": "Bom Samaritano",
+      "collection": "Novo Testamento",
+      "description": "Estrada ao entardecer, oliveiras, um viajante ferido e o samaritano que para com o jumento. A parábola em aquarela, sem vilão de fantasia.",
+      "recommendedLevel": 9,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "story": {
+        "title": "Quem foi o próximo",
+        "summary": "Um homem cai nas mãos de assaltantes. Quem deveria ajudar passa longe; um samaritano — o vizinho improvável — cuida, paga e volta.",
+        "reference": "Lucas 10:25–37",
+        "message": "Próximo não é quem se parece conosco: é quem para quando a gente precisa.",
+        "curiosity": "Judeus e samaritanos evitavam convívio. Jesus escolhe o “errado” do mapa social para ensinar o amor que atravessa fronteira."
+      },
+      "image": {
+        "src": "images/bom-samaritano.webp",
+        "srcMedium": "images/bom-samaritano-800.webp",
+        "thumbnail": "images/bom-samaritano-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "46cb71afe01b68c0d02fc640409a3e6613b8ae76ce98b24286c41fc34a65f873"
+      }
+    },
+    {
+      "id": "filho-prodigo",
+      "name": "Filho Pródigo",
+      "collection": "Novo Testamento",
+      "description": "Abraço do pai no filho que volta, o irmão mais velho à porta, casa e festa ao pôr do sol. Reconciliação em cores de livro ilustrado.",
+      "recommendedLevel": 10,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "story": {
+        "title": "O filho que voltou",
+        "summary": "O filho mais novo gasta tudo, passa fome e decide voltar. O pai corre para abraçá-lo; o mais velho resmunga a festa — e ainda assim é convidado a entrar.",
+        "reference": "Lucas 15:11–32",
+        "message": "Casa é o lugar aonde se pode voltar. E também o lugar que precisa abrir a porta de novo.",
+        "curiosity": "“Pródigo” quer dizer perdulário, não arrependido. O título fala do desperdício; a parábola fala do pai que não desiste."
+      },
+      "image": {
+        "src": "images/filho-prodigo.webp",
+        "srcMedium": "images/filho-prodigo-800.webp",
+        "thumbnail": "images/filho-prodigo-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "23940033ef054a99fd57ef9c433384ede9b94ee145483f8c1d2fa07dbd12bff0"
       }
     }
   ]

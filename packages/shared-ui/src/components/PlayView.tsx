@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { catalogPlaySrc } from '@puzzle-universe/content-manager';
 import {
   HELP_PRESETS,
   PuzzleRenderer,
@@ -159,7 +160,7 @@ export function PlayView({
     const canvas = canvasRef.current;
     if (!canvas) return undefined;
     let cancelled = false;
-    const imageUrl = config.assetUrl(target.puzzle.image.src);
+    const imageUrl = config.assetUrl(catalogPlaySrc(target.puzzle.image, window.innerWidth));
     const initialSaved = savedOnMount.current;
     completedRef.current = Boolean(initialSaved?.completed);
 
@@ -427,7 +428,10 @@ export function PlayView({
         <div className="overlay" role="dialog" aria-modal="true" aria-label="Imagem completa">
           <div className="modal">
             <h2>Imagem completa</h2>
-            <img src={config.assetUrl(target.puzzle.image.src)} alt={target.puzzle.name} />
+            <img
+              src={config.assetUrl(catalogPlaySrc(target.puzzle.image, window.innerWidth))}
+              alt={target.puzzle.name}
+            />
             <button className="btn primary" type="button" onClick={() => setPeek(false)}>
               Fechar
             </button>
