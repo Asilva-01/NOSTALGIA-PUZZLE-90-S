@@ -1,6 +1,6 @@
 import { mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 function artifactDir(): string {
   for (const candidate of ['/opt/cursor/artifacts', resolve('artifacts')]) {
@@ -22,6 +22,8 @@ test('captura home, início, meio e conclusão', async ({ page }, testInfo) => {
 
   await page.goto('/');
   await page.getByRole('heading').first().waitFor();
+  await expect(page.locator('.level-card img')).toHaveCount(10);
+  await expect(page.getByRole('button', { name: /Surpreenda-me/ })).toBeDisabled();
   await page.screenshot({
     path: `${dir}/${app}-home-${size}.png`,
     fullPage: true,

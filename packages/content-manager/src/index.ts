@@ -8,11 +8,11 @@ export type {
   StoryMeta,
   UnlockRule,
 } from './schema.ts';
-export { DIFFICULTIES, LICENSE_TYPES, PIECE_COUNTS, isPieceCount } from './schema.ts';
 export {
-  loadCatalogFile,
-  validateCatalogJson,
-  type ValidateOptions,
-  type ValidationIssue,
-  type ValidationResult,
-} from './validate.ts';
+  DIFFICULTIES,
+  LICENSE_ORIGIN_PHRASE,
+  LICENSE_TYPES,
+  PIECE_COUNTS,
+  catalogPlaySrc,
+  isPieceCount,
+} from './schema.ts';

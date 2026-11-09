@@ -1,6 +1,6 @@
 # Roadmap — etapas 2 a 10
 
-A etapa 1 (arquitetura + motor jogável 12/24 + UI inicial + 1 imagem por app) é esta entrega.
+A etapa 1 (arquitetura + motor jogável 12/24 + UI inicial + 1 imagem por app) já entrou. Esta entrega acrescenta o lote 1: 10 artes originais por app.
 
 ## 2. Engine
 
@@ -24,7 +24,7 @@ Identidades iniciais distintas. Falta onboarding, loja de temas visuais originai
 
 ## 8. Catálogo e 200 desafios
 
-Validador pronto; mínimo 200 vira erro no CI. Produzir lote original/licenciado, thumbnails preguiçosos, nunca carregar 200 PNG grandes juntos.
+Validador pronto; `--min 10` no CI, aviso abaixo de 200. Produzir o restante do lote original/licenciado, thumbnails preguiçosos, nunca pré-carregar 200 WebP grandes no service worker.
 
 ## 9. Persistência / PWA / testes
 

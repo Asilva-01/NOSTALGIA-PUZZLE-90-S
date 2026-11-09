@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import {
   DIFFICULTIES,
@@ -141,18 +141,20 @@ function validateEntry(
     return null;
   }
   const src = asString(raw.image.src);
+  const srcMedium = asString(raw.image.srcMedium);
   const thumbnail = asString(raw.image.thumbnail);
   const hash = asString(raw.image.hash);
-  if (!src || !thumbnail || !hash) {
+  if (!src || !srcMedium || !thumbnail || !hash) {
     issues.push({
       level: 'error',
       code: 'image.meta',
-      message: 'src, thumbnail e hash da imagem são obrigatórios',
+      message: 'src, srcMedium, thumbnail e hash da imagem são obrigatórios',
       puzzleId: id,
     });
     return null;
   }
   const srcPath = resolve(catalogDir, src);
+  const mediumPath = resolve(catalogDir, srcMedium);
   const thumbPath = resolve(catalogDir, thumbnail);
   if (!existsSync(srcPath)) {
     issues.push({
@@ -163,11 +165,28 @@ function validateEntry(
     });
     return null;
   }
+  if (!existsSync(mediumPath)) {
+    issues.push({
+      level: 'error',
+      code: 'image.medium.missing',
+      message: `Variante média não encontrada: ${srcMedium}`,
+      puzzleId: id,
+    });
+  }
   if (!existsSync(thumbPath)) {
     issues.push({
       level: 'error',
       code: 'thumb.missing',
       message: `Thumbnail não encontrado: ${thumbnail}`,
+      puzzleId: id,
+    });
+  }
+  const largeBytes = statSync(srcPath).size;
+  if (largeBytes > 350 * 1024) {
+    issues.push({
+      level: 'warn',
+      code: 'image.size',
+      message: `Versão grande com ${(largeBytes / 1024).toFixed(0)} KB (meta: 350 KB)`,
       puzzleId: id,
     });
   }
@@ -218,6 +237,7 @@ function validateEntry(
     license: raw.license as CatalogEntry['license'],
     image: {
       src,
+      srcMedium,
       thumbnail,
       width: Number(raw.image.width) || 0,
       height: Number(raw.image.height) || 0,
@@ -306,6 +326,19 @@ export function validateCatalogJson(
     puzzles.push(entry);
   }
 
+  if (appId === 'bible-puzzle') {
+    for (const entry of puzzles) {
+      if (!entry.story) {
+        issues.push({
+          level: 'error',
+          code: 'story.missing',
+          message: 'Entradas do Bible Puzzle precisam da história (story)',
+          puzzleId: entry.id,
+        });
+      }
+    }
+  }
+
   if (puzzles.length < options.minEntries) {
     issues.push({
       level: 'error',
@@ -316,7 +349,7 @@ export function validateCatalogJson(
     issues.push({
       level: 'warn',
       code: 'min.warn',
-      message: `Primeira entrega: ${puzzles.length} registro(s) em ${appId}. A etapa 8 torna obrigatório o mínimo de ${options.warnBelow} imagens distintas (hash). Rode o validador com --min ${options.warnBelow} para falhar o CI.`,
+      message: `Catálogo ${appId} tem ${puzzles.length} registro(s); a meta da etapa 8 é ${options.warnBelow} imagens distintas (hash). Rode o validador com --min ${options.warnBelow} para falhar o CI.`,
     });
   }
 

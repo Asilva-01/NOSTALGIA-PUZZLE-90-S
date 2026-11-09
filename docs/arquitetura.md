@@ -11,7 +11,7 @@ packages/puzzle-engine motor sem React (geometria, sessão, renderer Canvas, per
 packages/content-manager schema + CLI de validação
 packages/shared-ui     casca React das duas UIs
 packages/shared-utils  rng, math, format
-assets/nostalgia|bible SVG fonte, PNG, catálogo JSON
+assets/nostalgia|bible WebP (grande / 800 / thumb) + catálogo JSON
 ```
 
 Cada app é publicável sozinha: `VITE_BASE`, `manifest.webmanifest`, ícones e `index.html` próprios.
@@ -30,7 +30,7 @@ Tamanho mínimo de peça na tela: 44 px (a câmera aumenta a escala se a grade f
 
 ## Progressão
 
-Tabela parametrizável em `PHASE_BANDS` (fases 1–200). Com 1 imagem, as fases reutilizam o mesmo item. Desbloqueio sequencial, replay liberado, estrelas e melhor pontuação por fase. No catálogo, 12/24/48 estão jogáveis para validar o motor sem grind.
+Tabela parametrizável em `PHASE_BANDS` (fases 1–200). Com 10 imagens, as fases 1–10 (12 peças) usam uma arte cada; a partir da 11 a tabela recicla o catálogo. Desbloqueio sequencial, replay liberado, estrelas e melhor pontuação por fase. No catálogo, 12/24/48 estão jogáveis para validar o motor sem grind.
 
 ## Aleatório
 

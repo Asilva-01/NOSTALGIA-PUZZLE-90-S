@@ -22,7 +22,8 @@ const license = {
   type: 'original',
 };
 
-function puzzle(id: string) {
+function puzzle(id: string, files?: { src: string; srcMedium: string; thumbnail: string }) {
+  const image = files ?? { src: 'a.png', srcMedium: 'a-md.png', thumbnail: 'a-thumb.png' };
   return {
     id,
     name: id,
@@ -34,8 +35,7 @@ function puzzle(id: string) {
     unlock: { type: 'free' },
     license,
     image: {
-      src: 'a.png',
-      thumbnail: 'a-thumb.png',
+      ...image,
       width: 1,
       height: 1,
       hash: hash(PNG),
@@ -46,6 +46,7 @@ function puzzle(id: string) {
 function writeCatalog(puzzles: unknown[]) {
   const dir = mkdtempSync(join(tmpdir(), 'catalog-'));
   writeFileSync(join(dir, 'a.png'), PNG);
+  writeFileSync(join(dir, 'a-md.png'), PNG);
   writeFileSync(join(dir, 'a-thumb.png'), PNG);
   const catalogPath = join(dir, 'catalog.json');
   writeFileSync(
@@ -92,5 +93,18 @@ describe('validador de catálogo', () => {
     });
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.code === 'min')).toBe(true);
+  });
+
+  it('exige a variante média da imagem', () => {
+    const catalogPath = writeCatalog([
+      puzzle('one', { src: 'a.png', srcMedium: 'missing-md.png', thumbnail: 'a-thumb.png' }),
+    ]);
+    const result = validateCatalogJson(JSON.parse(readFileSync(catalogPath, 'utf8')), {
+      minEntries: 1,
+      warnBelow: 200,
+      catalogPath,
+    });
+    expect(result.ok).toBe(false);
+    expect(result.issues.some((issue) => issue.code === 'image.medium.missing')).toBe(true);
   });
 });

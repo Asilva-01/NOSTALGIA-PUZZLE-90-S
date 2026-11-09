@@ -46,6 +46,14 @@ body {
   border-radius: 999px;
 }
 
+.phase-cell.with-art {
+  border-radius: 1.1rem;
+}
+
+.level-card {
+  border-radius: 1.4rem 0.5rem 1.4rem 0.6rem;
+}
+
 .play-hud {
   background: linear-gradient(#fff8ea, #f6ebd4);
   border-bottom: 2px dashed #c4a06a;

@@ -6,6 +6,8 @@ export type LicenseType = (typeof LICENSE_TYPES)[number];
 export const DIFFICULTIES = ['easy', 'medium', 'hard', 'expert'] as const;
 export type Difficulty = (typeof DIFFICULTIES)[number];
 
+export const LICENSE_ORIGIN_PHRASE = 'Arte original gerada por IA para o Puzzle Universe';
+
 export type LicenseMeta = {
   author: string;
   license: string;
@@ -24,6 +26,7 @@ export type StoryMeta = {
 
 export type CatalogImage = {
   src: string;
+  srcMedium: string;
   thumbnail: string;
   width: number;
   height: number;
@@ -57,6 +60,10 @@ export type Catalog = {
 
 export function isPieceCount(value: unknown): value is PieceCount {
   return typeof value === 'number' && (PIECE_COUNTS as readonly number[]).includes(value);
+}
+
+export function catalogPlaySrc(image: CatalogImage, viewportWidth: number): string {
+  return viewportWidth < 900 ? image.srcMedium : image.src;
 }
 
 export { PIECE_COUNTS };

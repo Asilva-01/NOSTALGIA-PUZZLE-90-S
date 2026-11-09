@@ -1,15 +1,19 @@
 import type { Catalog } from '@puzzle-universe/content-manager';
 import type { ProductConfig } from '@puzzle-universe/shared-ui';
 import catalogJson from '../../../assets/bible/catalog.json';
-import ark from '../../../assets/bible/images/noe-e-a-arca.png';
-import arkThumb from '../../../assets/bible/images/noe-e-a-arca-thumb.png';
 
 const catalog = catalogJson as Catalog;
 
-const urls: Record<string, string> = {
-  'images/noe-e-a-arca.png': ark,
-  'images/noe-e-a-arca-thumb.png': arkThumb,
-};
+const modules = import.meta.glob('../../../assets/bible/images/*.webp', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>;
+
+const urls: Record<string, string> = {};
+for (const [path, url] of Object.entries(modules)) {
+  const file = path.split('/').pop();
+  if (file) urls[`images/${file}`] = url;
+}
 
 export const product: ProductConfig = {
   appId: 'bible-puzzle',

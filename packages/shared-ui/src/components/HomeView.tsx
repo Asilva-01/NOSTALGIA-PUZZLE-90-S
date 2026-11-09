@@ -1,7 +1,15 @@
-import type { AppSettings, PhaseDefinition, ProgressState, SavedSession } from '@puzzle-universe/puzzle-engine';
-import { isUnlocked, PHASE_BANDS, practiceCounts } from '@puzzle-universe/puzzle-engine';
+import type { CatalogEntry } from '@puzzle-universe/content-manager';
+import {
+  isUnlocked,
+  PHASE_BANDS,
+  practiceCounts,
+  type AppSettings,
+  type PhaseDefinition,
+  type PieceCount,
+  type ProgressState,
+  type SavedSession,
+} from '@puzzle-universe/puzzle-engine';
 import { formatElapsed } from '@puzzle-universe/shared-utils';
-import type { PieceCount } from '@puzzle-universe/puzzle-engine';
 import type { ProductConfig } from '../types.ts';
 
 type Props = {
@@ -17,6 +25,17 @@ type Props = {
   onPractice: (count: PieceCount) => void;
 };
 
+function puzzleById(config: ProductConfig, id: string): CatalogEntry | undefined {
+  return config.catalog.puzzles.find((item) => item.id === id);
+}
+
+function difficultyLabel(value: CatalogEntry['difficulty']): string {
+  if (value === 'easy') return 'fácil';
+  if (value === 'medium') return 'médio';
+  if (value === 'hard') return 'difícil';
+  return 'especialista';
+}
+
 export function HomeView({
   config,
   progress,
@@ -30,7 +49,8 @@ export function HomeView({
   onPractice,
 }: Props) {
   const featured = config.catalog.puzzles[0];
-  const thumb = featured ? config.assetUrl(featured.image.thumbnail) : '';
+  const featuredThumb = featured ? config.assetUrl(featured.image.thumbnail) : '';
+  const featuredMedium = featured ? config.assetUrl(featured.image.srcMedium) : '';
 
   return (
     <div className="home">
@@ -47,7 +67,14 @@ export function HomeView({
         </div>
         {featured ? (
           <div className="hero-art">
-            <img src={thumb} alt={featured.name} width={featured.image.width} height={featured.image.height} />
+            <img
+              src={featuredThumb}
+              srcSet={`${featuredThumb} 320w, ${featuredMedium} 800w`}
+              sizes="(min-width: 900px) 480px, 100vw"
+              alt={featured.name}
+              width={320}
+              height={240}
+            />
           </div>
         ) : null}
       </section>
@@ -60,7 +87,7 @@ export function HomeView({
         <button className="btn primary" type="button" onClick={onRandom}>
           Desafio aleatório
         </button>
-        <button className="btn" type="button" disabled title="Em breve">
+        <button className="btn" type="button" disabled title="Em breve: imagem e dificuldade alinhadas ao seu nível">
           Surpreenda-me <span className="soon">em breve</span>
         </button>
       </div>
@@ -69,7 +96,7 @@ export function HomeView({
           <h2>{featured.name}</h2>
           <p>{featured.description}</p>
           <p>
-            Coleção {featured.collection} · {featured.difficulty === 'easy' ? 'fácil' : featured.difficulty} ·
+            Coleção {featured.collection} · {difficultyLabel(featured.difficulty)} ·
             licença {featured.license.license} ({featured.license.type})
           </p>
           {featured.story ? (
@@ -96,6 +123,42 @@ export function HomeView({
         </section>
       ) : null}
       <section className="panel">
+        <h2>Níveis</h2>
+        <p>
+          As fases 1 a 10 usam 12 peças e estas {config.catalog.puzzles.length} imagens originais. Depois a campanha
+          reutiliza as artes com mais peças.
+        </p>
+        <ul className="level-grid">
+          {config.catalog.puzzles.map((puzzle, index) => {
+            const phase = phases[index];
+            if (!phase) return null;
+            const unlocked = isUnlocked(progress, phase.id);
+            const stars = progress.stars[phase.id] ?? 0;
+            const thumb = config.assetUrl(puzzle.image.thumbnail);
+            return (
+              <li key={puzzle.id}>
+                <button
+                  type="button"
+                  className={`level-card${unlocked ? '' : ' locked'}`}
+                  disabled={!unlocked}
+                  onClick={() => onPlayPhase(phase)}
+                  aria-label={`Fase ${phase.number}: ${puzzle.name}${unlocked ? '' : ', bloqueada'}`}
+                >
+                  <img src={thumb} alt="" width={320} height={240} loading="lazy" />
+                  <span className="level-card-meta">
+                    <strong>{puzzle.name}</strong>
+                    <small>
+                      Fase {phase.number} · {puzzle.collection}
+                    </small>
+                    {stars ? <small>{'★'.repeat(stars)}</small> : null}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+      <section className="panel">
         <h2>Campanha</h2>
         <p>Tabela da especificação: 1–10 com 12 peças, depois 24, 48, 72, 96, 150 e 200. Dá para repetir fase já aberta.</p>
         {PHASE_BANDS.map((band) => (
@@ -109,16 +172,19 @@ export function HomeView({
                 .map((phase) => {
                   const unlocked = isUnlocked(progress, phase.id);
                   const stars = progress.stars[phase.id] ?? 0;
+                  const puzzle = puzzleById(config, phase.puzzleId);
+                  const thumb = puzzle ? config.assetUrl(puzzle.image.thumbnail) : '';
                   return (
                     <button
                       key={phase.id}
                       type="button"
-                      className={`phase-cell${unlocked ? '' : ' locked'}${stars ? ' done' : ''}`}
+                      className={`phase-cell with-art${unlocked ? '' : ' locked'}${stars ? ' done' : ''}`}
                       disabled={!unlocked}
                       onClick={() => onPlayPhase(phase)}
-                      aria-label={`Fase ${phase.number}, ${phase.pieceCount} peças${unlocked ? '' : ', bloqueada'}`}
+                      aria-label={`Fase ${phase.number}, ${puzzle?.name ?? phase.puzzleId}, ${phase.pieceCount} peças${unlocked ? '' : ', bloqueada'}`}
                     >
-                      {unlocked ? phase.number : '•'}
+                      {thumb ? <img src={thumb} alt="" width={320} height={240} loading="lazy" /> : null}
+                      <span className="phase-num">{unlocked ? phase.number : '•'}</span>
                       {stars ? <small>{'★'.repeat(stars)}</small> : null}
                     </button>
                   );

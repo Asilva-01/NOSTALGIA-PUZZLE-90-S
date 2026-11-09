@@ -129,7 +129,8 @@ a {
 
 .btn:focus-visible,
 .icon-btn:focus-visible,
-.phase-cell:focus-visible {
+.phase-cell:focus-visible,
+.level-card:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
@@ -228,9 +229,59 @@ a {
   border-color: transparent;
 }
 
+.level-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0.75rem;
+}
+
+.level-card {
+  width: 100%;
+  display: grid;
+  gap: 0.45rem;
+  padding: 0;
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: inherit;
+  text-align: left;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.level-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.level-card-meta {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0 0.65rem 0.7rem;
+}
+
+.level-card-meta strong {
+  font-size: 0.92rem;
+  line-height: 1.2;
+}
+
+.level-card-meta small {
+  opacity: 0.75;
+  font-size: 0.75rem;
+}
+
+.level-card.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .phase-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
   gap: 0.45rem;
 }
 
@@ -243,6 +294,40 @@ a {
   display: grid;
   place-items: center;
   font-weight: 800;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+
+.phase-cell.with-art {
+  min-height: 72px;
+}
+
+.phase-cell.with-art img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  grid-area: 1 / 1;
+}
+
+.phase-cell .phase-num,
+.phase-cell small {
+  grid-area: 1 / 1;
+  z-index: 1;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.55);
+}
+
+.phase-cell .phase-num {
+  align-self: start;
+  justify-self: start;
+  margin: 0.2rem 0.35rem;
+  font-size: 0.78rem;
+}
+
+.phase-cell small {
+  align-self: end;
+  justify-self: end;
+  margin: 0.15rem 0.3rem;
 }
 
 .phase-cell.locked {
