@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "baseUrl": ".",
+    "paths": {
+      "@puzzle-universe/shared-utils": ["./packages/shared-utils/src/index.ts"],
+      "@puzzle-universe/puzzle-engine": ["./packages/puzzle-engine/src/index.ts"],
+      "@puzzle-universe/content-manager": ["./packages/content-manager/src/index.ts"],
+      "@puzzle-universe/shared-ui": ["./packages/shared-ui/src/index.ts"]
+    }
+  },
+  "include": [
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "apps/**/*.ts",
+    "apps/**/*.tsx",
+    "scripts/**/*.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "tests/**/*.ts",
+    "env.d.ts"
+  ],
+  "exclude": ["**/dist/**", "**/node_modules/**"]
+}

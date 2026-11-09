@@ -1,0 +1,40 @@
+{
+  "appId": "bible-puzzle",
+  "title": "Bible Puzzle Adventures",
+  "locale": "pt-BR",
+  "puzzles": [
+    {
+      "id": "noe-e-a-arca",
+      "name": "Noé e a arca",
+      "collection": "Noé e a arca",
+      "description": "Ilustração original em estilo livro infantil: a arca sobre as águas, o arco-íris da promessa e animais em pares.",
+      "recommendedLevel": 1,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe / André Luiz (arte gerada em SVG original)",
+        "license": "CC BY 4.0",
+        "source": "assets/bible/images/noe-e-a-arca.svg",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "story": {
+        "title": "Noé e a arca",
+        "summary": "Noé constrói uma arca, acolhe os animais e atravessa o dilúvio. Quando as águas baixam, um arco-íris assina a promessa de recomeço.",
+        "reference": "Gênesis 6–9",
+        "message": "Cuidar uns dos outros e da criação é um jeito de honrar a promessa.",
+        "curiosity": "A palavra hebraica para arco-íris, qeshet, também pode significar arco de guerra — aqui transformado em sinal de paz."
+      },
+      "image": {
+        "src": "images/noe-e-a-arca.png",
+        "thumbnail": "images/noe-e-a-arca-thumb.png",
+        "width": 1600,
+        "height": 1200,
+        "hash": "686f912c50f013f2fba5be9a81487d2226a47fa8ab4e2b1ad6b72dbf81d22bd8"
+      }
+    }
+  ]
+}

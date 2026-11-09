@@ -1,0 +1,33 @@
+{
+  "appId": "nostalgia-90",
+  "title": "Nostalgia Puzzle 90's",
+  "locale": "pt-BR",
+  "puzzles": [
+    {
+      "id": "arcade-neon",
+      "name": "Fliperama Neon",
+      "collection": "Esquina dos anos 90",
+      "description": "Uma loja de fliperama original, com cabinets geométricos, marquee neon e o chão xadrez da madrugada. Nenhum personagem ou marca de franquia.",
+      "recommendedLevel": 1,
+      "difficulty": "easy",
+      "defaultPieceCount": 12,
+      "unlock": {
+        "type": "free"
+      },
+      "license": {
+        "author": "Puzzle Universe / André Luiz (arte gerada em SVG original)",
+        "license": "CC BY 4.0",
+        "source": "assets/nostalgia/images/arcade-neon.svg",
+        "date": "2026-11-08",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/arcade-neon.png",
+        "thumbnail": "images/arcade-neon-thumb.png",
+        "width": 1600,
+        "height": 1200,
+        "hash": "a6638056670657a755374b4d42f856095e047da34acaef722fdcb909a3c21b20"
+      }
+    }
+  ]
+}
