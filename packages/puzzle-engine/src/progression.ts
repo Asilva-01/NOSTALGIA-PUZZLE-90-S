@@ -124,3 +124,19 @@ export function canPlayPieceCount(count: PieceCount, progress: ProgressState): b
 export function practiceCounts(): PieceCount[] {
   return PLAYABLE_COUNTS;
 }
+
+export function nextPlayablePhase(
+  current: PhaseDefinition,
+  phases: readonly PhaseDefinition[],
+): PhaseDefinition | null {
+  const next = phases.find((phase) => phase.number === current.number + 1);
+  if (!next) return null;
+  if (!PLAYABLE_COUNTS.includes(next.pieceCount)) return null;
+  return next;
+}
+
+export function nextPracticeCount(count: PieceCount): PieceCount | null {
+  const index = PLAYABLE_COUNTS.indexOf(count);
+  if (index < 0) return null;
+  return PLAYABLE_COUNTS[index + 1] ?? null;
+}

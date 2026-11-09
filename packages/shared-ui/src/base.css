@@ -23,6 +23,7 @@ body,
 #root {
   min-height: 100%;
   margin: 0;
+  overflow-x: hidden;
 }
 
 body {
@@ -58,6 +59,13 @@ a {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+}
+
+.app-shell > main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .skip-link {
@@ -199,8 +207,7 @@ a {
   margin: 0 0 0.6rem;
 }
 
-.chip-row,
-.help-dock {
+.chip-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -254,30 +261,46 @@ a {
 .play-root {
   flex: 1;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   min-height: 100dvh;
+  overflow: hidden;
 }
 
 .play-hud {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.6rem;
-  overflow-x: auto;
-  flex-wrap: wrap;
+  gap: 0.35rem 0.45rem;
+  padding: 0.4rem 0.5rem;
+  overflow: hidden;
 }
 
-.play-hud .icon-btn,
-.play-hud .hud-stat,
-.play-hud strong {
+.play-hud .icon-btn {
   flex-shrink: 0;
+  padding: 0 0.7rem;
+  font-size: 0.85rem;
+}
+
+.hud-center {
+  min-width: 0;
+  display: grid;
+  gap: 0.08rem;
 }
 
 .play-hud strong {
-  max-width: 9rem;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+}
+
+.hud-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.65rem;
+  min-width: 0;
 }
 
 .band summary {
@@ -294,9 +317,18 @@ a {
   padding: 0 0.4rem;
 }
 
+.board-bezel {
+  min-height: 0;
+  margin: 0.35rem 0.45rem;
+  padding: 0.45rem;
+  display: grid;
+}
+
 .board-wrap {
   position: relative;
   min-height: 0;
+  min-width: 0;
+  height: 100%;
 }
 
 .board-wrap canvas {
@@ -308,10 +340,64 @@ a {
 }
 
 .help-dock {
-  padding: 0.55rem 0.6rem 0.85rem;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.35rem;
+  padding: 0.4rem 0.45rem calc(0.55rem + env(safe-area-inset-bottom, 0px));
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.help-btn {
+  position: relative;
+  min-height: var(--touch);
+  min-width: 0;
+  width: 100%;
+  padding: 0.2rem 0.15rem 0.25rem;
+  border-radius: var(--btn-radius, 0.7rem);
+  border: 2px solid var(--line);
+  background: var(--surface);
+  color: inherit;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 0.05rem;
+  font-size: 0.62rem;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.help-btn span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.help-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.help-btn[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: transparent;
+}
+
+.help-badge {
+  position: absolute;
+  top: 0.1rem;
+  right: 0.15rem;
+  min-width: 1.05rem;
+  padding: 0 0.22rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.58rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .overlay {
@@ -348,8 +434,39 @@ a {
 }
 
 .stars {
-  font-size: 2rem;
+  font-size: 2.4rem;
   letter-spacing: 0.2rem;
+  margin: 0;
+}
+
+.star-burst {
+  display: inline-block;
+  animation: star-pop 0.7s ease-out;
+}
+
+.complete h1 {
+  font-size: clamp(2.2rem, 10vw, 4rem);
+}
+
+.complete-meta {
+  font-size: 1.1rem;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes star-pop {
+  0% {
+    transform: scale(0.4);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  55% {
+    transform: scale(1.18);
+    filter: drop-shadow(0 0 12px var(--accent));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 6px var(--accent));
+  }
 }
 
 .update-banner {
@@ -378,6 +495,10 @@ a {
 
   .actions {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .help-dock {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
   }
 }
 

@@ -7,6 +7,8 @@ import {
   buildPhaseTable,
   emptyProgress,
   ensureProgress,
+  nextPlayablePhase,
+  nextPracticeCount,
   pickRandomChallenge,
   practiceCounts,
   rememberRandom,
@@ -31,6 +33,7 @@ type Route =
       score: number;
       elapsedMs: number;
       target: PlayTarget;
+      next: PlayTarget | null;
     };
 
 export function AppRoot({ config }: { config: ProductConfig }) {
@@ -45,6 +48,7 @@ export function AppRoot({ config }: { config: ProductConfig }) {
     helpPreset: 'casual',
     timerEnabled: true,
     reducedMotion: false,
+    soundEnabled: false,
   });
   const [saved, setSaved] = useState<SavedSession | null>(null);
   const [updateReady, setUpdateReady] = useState(false);
@@ -136,6 +140,32 @@ export function AppRoot({ config }: { config: ProductConfig }) {
     });
   }, [config.catalog.puzzles, persist, phases, progress, puzzleById, startPlay]);
 
+  const resolveNextTarget = useCallback(
+    (target: PlayTarget): PlayTarget | null => {
+      if (target.phaseId) {
+        const phase = phases.find((item) => item.id === target.phaseId);
+        if (!phase) return null;
+        const nextPhase = nextPlayablePhase(phase, phases);
+        if (!nextPhase) return null;
+        return {
+          puzzle: puzzleById(nextPhase.puzzleId),
+          pieceCount: nextPhase.pieceCount,
+          phaseId: nextPhase.id,
+          seed: Date.now() % 1_000_000,
+        };
+      }
+      const nextCount = nextPracticeCount(target.pieceCount);
+      if (!nextCount) return null;
+      return {
+        puzzle: target.puzzle,
+        pieceCount: nextCount,
+        phaseId: null,
+        seed: Date.now() % 1_000_000,
+      };
+    },
+    [phases, puzzleById],
+  );
+
   const onComplete = useCallback(
     async (payload: { stars: 1 | 2 | 3; score: number; elapsedMs: number; target: PlayTarget }) => {
       let next = progress;
@@ -149,9 +179,9 @@ export function AppRoot({ config }: { config: ProductConfig }) {
       }
       await persist.clearSession();
       setSaved(null);
-      setRoute({ name: 'complete', ...payload });
+      setRoute({ name: 'complete', ...payload, next: resolveNextTarget(payload.target) });
     },
-    [persist, phases, progress],
+    [persist, phases, progress, resolveNextTarget],
   );
 
   const resume = useCallback(() => {
@@ -249,6 +279,7 @@ export function AppRoot({ config }: { config: ProductConfig }) {
             elapsedMs={route.elapsedMs}
             onHome={() => setRoute({ name: 'home' })}
             onReplay={() => void startPlay(route.target)}
+            onNext={route.next ? () => void startPlay(route.next as PlayTarget) : undefined}
           />
         ) : null}
       </main>

@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/bungee": "^5.2.7",
+    "@fontsource/nunito": "^5.2.7",
     "@puzzle-universe/content-manager": "*",
     "@puzzle-universe/puzzle-engine": "*",
     "@puzzle-universe/shared-ui": "*",

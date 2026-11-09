@@ -10,12 +10,14 @@ export type AppSettings = {
   helpPreset: 'casual' | 'desafio';
   timerEnabled: boolean;
   reducedMotion: boolean;
+  soundEnabled: boolean;
 };
 
 const DEFAULT_SETTINGS: AppSettings = {
   helpPreset: 'casual',
   timerEnabled: true,
   reducedMotion: false,
+  soundEnabled: false,
 };
 
 function openDb(): Promise<IDBDatabase> {

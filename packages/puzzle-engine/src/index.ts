@@ -24,7 +24,14 @@ export {
 } from './geometry.ts';
 export { fisherYates, scatterPieces, separateEdgePieces } from './shuffle.ts';
 export { computeScore, computeStars } from './score.ts';
-export { HELP_PRESETS, canUseHelp, emptyHelpUsage, formatHelpLimit, remainingHelp } from './help.ts';
+export {
+  HELP_PRESETS,
+  canUseHelp,
+  emptyHelpUsage,
+  formatHelpBadge,
+  formatHelpLimit,
+  remainingHelp,
+} from './help.ts';
 export { PuzzleSession, type SessionConfig } from './session.ts';
 export {
   PersistStore,
@@ -40,6 +47,8 @@ export {
   canPlayPieceCount,
   ensureProgress,
   isUnlocked,
+  nextPlayablePhase,
+  nextPracticeCount,
   phaseById,
   pieceCountForPhase,
   practiceCounts,
@@ -58,3 +67,11 @@ export {
 } from './camera.ts';
 export { pathToSvg } from './path.ts';
 export { beep } from './audio.ts';
+export {
+  MAX_START_OVERLAP,
+  contentsWorld,
+  fitWorldInView,
+  layoutPlayfield,
+  pieceScreenRect,
+  rectsOverlapRatio,
+} from './playfield.ts';

@@ -2,7 +2,9 @@ import { clamp, defined, dist } from '@puzzle-universe/shared-utils';
 import { generatePuzzle } from './geometry.ts';
 import { canUseHelp, emptyHelpUsage, HELP_PRESETS, remainingHelp } from './help.ts';
 import { computeScore, computeStars } from './score.ts';
-import { scatterPieces, separateEdgePieces } from './shuffle.ts';
+import { contentsWorld, fitWorldInView, isPortraitView, layoutPlayfield } from './playfield.ts';
+import { DEFAULT_LAYOUT_VIEW, scatterPieces, separateEdgePieces } from './shuffle.ts';
+import type { CameraState } from './types.ts';
 import type {
   HelpLimits,
   HelpPresetName,
@@ -50,9 +52,13 @@ export class PuzzleSession {
   updatedAt: string;
   highlight: HighlightState = null;
   draggingId: string | null = null;
+  lastPulseId: string | null = null;
   private dragOffset = { x: 0, y: 0 };
   private maxZ: number;
   private lastTick: number | null = null;
+  private view = DEFAULT_LAYOUT_VIEW;
+  private restored = false;
+  private didLayout = false;
 
   constructor(config: SessionConfig, saved?: SavedSession) {
     this.config = config;
@@ -77,7 +83,44 @@ export class PuzzleSession {
 
     if (saved) {
       this.restore(saved);
+      this.restored = true;
     }
+  }
+
+  fitToView(width: number, height: number): CameraState {
+    this.view = { width: Math.max(80, width), height: Math.max(80, height) };
+    return fitWorldInView(this.view, contentsWorld(this.board, this.pieces));
+  }
+
+  layoutToView(width: number, height: number): CameraState {
+    const next = { width: Math.max(80, width), height: Math.max(80, height) };
+    const tooSmall = next.width < 160 || next.height < 160;
+    const orientationChanged =
+      this.didLayout && isPortraitView(next) !== isPortraitView(this.view);
+    this.view = next;
+    if (
+      !tooSmall &&
+      !this.restored &&
+      !this.draggingId &&
+      (!this.didLayout || orientationChanged)
+    ) {
+      const placed = this.pieces.filter((piece) => piece.placed);
+      const loose = this.generation.pieces.filter(
+        (geometry) => !placed.some((piece) => piece.id === geometry.id),
+      );
+      const laid = layoutPlayfield({
+        view: this.view,
+        board: this.board,
+        cols: this.generation.cols,
+        rows: this.generation.rows,
+        pieces: loose.length > 0 ? loose : this.generation.pieces,
+        seed: this.config.seed,
+      });
+      this.pieces = placed.length > 0 ? [...placed, ...laid.pieces] : laid.pieces;
+      this.maxZ = this.pieces.reduce((max, piece) => Math.max(max, piece.zIndex), 0);
+      this.didLayout = true;
+    }
+    return fitWorldInView(this.view, contentsWorld(this.board, this.pieces));
   }
 
   get board(): Rect {
@@ -181,6 +224,7 @@ export class PuzzleSession {
     const distance = dist(piece.x, piece.y, targetX, targetY);
     if (distance <= this.snapThreshold) {
       this.placePiece(piece);
+      this.lastPulseId = piece.id;
       return true;
     }
     this.touch();
@@ -207,7 +251,7 @@ export class PuzzleSession {
     const loose = this.generation.pieces.filter(
       (geometry) => !placed.some((piece) => piece.id === geometry.id),
     );
-    const scattered = scatterPieces(loose, this.board, seed);
+    const scattered = scatterPieces(loose, this.board, seed, this.view);
     this.pieces = [...placed, ...scattered];
     this.helpUsed.shuffle += 1;
     this.touch();
@@ -217,7 +261,7 @@ export class PuzzleSession {
   separateEdges(): boolean {
     if (this.paused || this.completed) return false;
     if (!canUseHelp(this.helpLimits, this.helpUsed, 'separateEdges')) return false;
-    this.pieces = separateEdgePieces(this.pieces, this.board);
+    this.pieces = separateEdgePieces(this.pieces, this.board, this.view);
     this.helpUsed.separateEdges += 1;
     this.touch();
     return true;

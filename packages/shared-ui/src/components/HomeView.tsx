@@ -155,6 +155,14 @@ export function HomeView({
           >
             Cronômetro {settings.timerEnabled ? 'ligado' : 'desligado'}
           </button>
+          <button
+            type="button"
+            className="chip"
+            aria-pressed={settings.soundEnabled}
+            onClick={() => onSettings({ ...settings, soundEnabled: !settings.soundEnabled })}
+          >
+            Som {settings.soundEnabled ? 'ligado' : 'desligado'}
+          </button>
         </div>
       </section>
     </div>

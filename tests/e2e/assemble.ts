@@ -2,7 +2,10 @@ import { expect, type Page } from '@playwright/test';
 
 export async function assemblePuzzle(page: Page, pieceCount: 12 | 24): Promise<void> {
   await page.goto(`/?play=${pieceCount}`);
-  await page.waitForFunction(() => Boolean(window.__PUZZLE_TEST__?.getUnplaced().length));
+  await page.waitForFunction(() => {
+    const pieces = window.__PUZZLE_TEST__?.getUnplaced() ?? [];
+    return pieces.length > 0 && pieces.every((piece) => piece.screen.width > 20);
+  });
   const total = await page.evaluate(() => window.__PUZZLE_TEST__?.getUnplaced().length ?? 0);
   expect(total).toBe(pieceCount);
 

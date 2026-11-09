@@ -3,6 +3,8 @@ import {
   applyCompletion,
   buildPhaseTable,
   isUnlocked,
+  nextPlayablePhase,
+  nextPracticeCount,
   pieceCountForPhase,
 } from '../src/progression.ts';
 import { emptyProgress } from '../src/persist.ts';
@@ -41,5 +43,18 @@ describe('progressão', () => {
     progress = applyCompletion(progress, phase1, 1, 100, 40_000);
     expect(progress.stars['phase-1']).toBe(3);
     expect(progress.bestScores['phase-1']).toBe(800);
+  });
+
+  it('oferece próxima fase jogável e o próximo tamanho de prática', () => {
+    const phases = buildPhaseTable(['ark']);
+    const phase1 = phases[0];
+    const phase10 = phases[9];
+    const phase50 = phases[49];
+    if (!phase1 || !phase10 || !phase50) throw new Error('fases');
+    expect(nextPlayablePhase(phase1, phases)?.id).toBe('phase-2');
+    expect(nextPlayablePhase(phase10, phases)?.pieceCount).toBe(24);
+    expect(nextPlayablePhase(phase50, phases)).toBeNull();
+    expect(nextPracticeCount(12)).toBe(24);
+    expect(nextPracticeCount(48)).toBeNull();
   });
 });

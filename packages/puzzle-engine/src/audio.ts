@@ -10,7 +10,8 @@ function ctx(): AudioContext | null {
   return context;
 }
 
-export function beep(kind: 'snap' | 'complete' | 'ui'): void {
+export function beep(kind: 'snap' | 'complete' | 'ui', enabled = false): void {
+  if (!enabled) return;
   const audio = ctx();
   if (!audio) return;
   void audio.resume();

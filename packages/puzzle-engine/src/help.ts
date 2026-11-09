@@ -43,3 +43,10 @@ export function formatHelpLimit(value: number): string {
   }
   return String(value);
 }
+
+export function formatHelpBadge(value: number): string {
+  if (!Number.isFinite(value)) {
+    return '∞';
+  }
+  return String(value);
+}

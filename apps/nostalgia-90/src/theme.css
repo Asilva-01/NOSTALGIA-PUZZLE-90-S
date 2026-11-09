@@ -8,7 +8,7 @@
   --line: #ffe14a;
   --focus: #31e1ff;
   --font-display: 'Bungee', Impact, sans-serif;
-  --font-body: 'Nunito', sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
   --btn-radius: 0.35rem;
   --radius: 0.4rem;
   color-scheme: dark;
@@ -18,21 +18,28 @@ body {
   background:
     repeating-linear-gradient(
       to bottom,
-      rgb(255 255 255 / 0.03) 0,
-      rgb(255 255 255 / 0.03) 1px,
+      rgb(255 255 255 / 0.035) 0,
+      rgb(255 255 255 / 0.035) 1px,
       transparent 1px,
       transparent 4px
     ),
-    radial-gradient(circle at 20% 0%, #4a146e, #12041c 55%);
+    radial-gradient(circle at 18% 0%, #5a1a86, #12041c 58%);
+}
+
+.hero h1,
+.complete h1,
+.play-hud strong {
+  text-shadow: 4px 0 #31e1ff, -3px 0 #ff2bd6;
+  letter-spacing: 0.02em;
 }
 
 .hero h1 {
-  text-shadow: 4px 0 #31e1ff, -3px 0 #ff2bd6;
   transform: rotate(-1.2deg);
 }
 
 .btn.primary,
-.chip[aria-pressed='true'] {
+.chip[aria-pressed='true'],
+.help-btn[aria-pressed='true'] {
   box-shadow: 0 4px 0 #7a0a5c;
 }
 
@@ -44,4 +51,103 @@ body {
 .hero-art {
   box-shadow: 12px 12px 0 #31e1ff;
   border-radius: 0;
+  border-width: 4px;
+  image-rendering: pixelated;
+}
+
+.play-hud {
+  background: linear-gradient(#3d1462, #1a0728);
+  border-bottom: 3px solid #ffe14a;
+  box-shadow: 0 0 18px rgb(255 43 214 / 0.35);
+}
+
+.play-hud .icon-btn {
+  border-radius: 0.3rem;
+  box-shadow: 0 3px 0 #7a0a5c;
+}
+
+.board-bezel {
+  background:
+    linear-gradient(#2c2038, #120810 70%),
+    #120810;
+  border: 4px solid #1a0a14;
+  border-radius: 1.15rem 1.15rem 1.45rem 1.45rem;
+  box-shadow:
+    inset 0 0 0 3px #ffe14a,
+    inset 0 0 0 7px #3a1458,
+    0 0 22px rgb(49 225 255 / 0.28);
+  position: relative;
+}
+
+.board-bezel::before,
+.board-bezel::after {
+  content: '';
+  position: absolute;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff6c2, #c9a227 55%, #4a3208);
+  box-shadow: 0 0 0 2px #1a0a14;
+}
+
+.board-bezel::before {
+  top: 0.35rem;
+  left: 0.4rem;
+}
+
+.board-bezel::after {
+  top: 0.35rem;
+  right: 0.4rem;
+}
+
+.board-wrap {
+  border-radius: 0.28rem;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 28px rgb(0 0 0 / 0.45),
+    0 0 0 2px #0b0410;
+  background: #08020e;
+}
+
+.board-wrap::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.35) 100%),
+    repeating-linear-gradient(
+      to bottom,
+      rgb(255 255 255 / 0.05) 0,
+      rgb(255 255 255 / 0.05) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  mix-blend-mode: overlay;
+}
+
+.help-dock {
+  background: #16061f;
+  border-top: 3px solid #ffe14a;
+}
+
+.help-btn {
+  border-radius: 0.3rem;
+  background: #2a0d45;
+}
+
+.complete {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgb(255 255 255 / 0.04) 0,
+      rgb(255 255 255 / 0.04) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+}
+
+.stars {
+  color: #ffe14a;
+  text-shadow: 0 0 12px #ff2bd6;
 }

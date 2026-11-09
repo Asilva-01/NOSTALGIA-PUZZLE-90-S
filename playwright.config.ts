@@ -35,7 +35,7 @@ export default defineConfig({
   projects: [
     {
       name: 'nostalgia-mobile-360',
-      testMatch: 'puzzle-12.spec.ts',
+      testMatch: /(puzzle-12|layout)\.spec\.ts/,
       use: {
         browserName: 'chromium',
         ...devices['Desktop Chrome'],
@@ -47,7 +47,7 @@ export default defineConfig({
     },
     {
       name: 'nostalgia-mobile-390',
-      testMatch: 'puzzle-12.spec.ts',
+      testMatch: /(puzzle-12|layout)\.spec\.ts/,
       use: {
         browserName: 'chromium',
         ...devices['Desktop Chrome'],
@@ -59,7 +59,7 @@ export default defineConfig({
     },
     {
       name: 'nostalgia-tablet',
-      testMatch: 'puzzle-12.spec.ts',
+      testMatch: /(puzzle-12|layout)\.spec\.ts/,
       use: {
         browserName: 'chromium',
         ...devices['Desktop Chrome'],
@@ -70,7 +70,7 @@ export default defineConfig({
     },
     {
       name: 'nostalgia-desktop',
-      testMatch: 'puzzle-12.spec.ts',
+      testMatch: /(puzzle-12|layout)\.spec\.ts/,
       use: {
         browserName: 'chromium',
         ...devices['Desktop Chrome'],
