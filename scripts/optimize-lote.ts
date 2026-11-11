@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
@@ -114,14 +114,23 @@ for (const entry of LOTE1_ENTRIES) {
 }
 
 function writeCatalog(app: 'nostalgia' | 'bible', appId: string, title: string): void {
-  const puzzles = results.filter((item) => item.entry.app === app).map((item) => toPuzzle(item.entry, item.image));
-  const catalog = {
-    appId,
-    title,
-    locale: 'pt-BR',
-    puzzles,
+  const lote1 = results.filter((item) => item.entry.app === app).map((item) => toPuzzle(item.entry, item.image));
+  const catalogPath = resolve(root, 'assets', app, 'catalog.json');
+  const current = JSON.parse(readFileSync(catalogPath, 'utf8')) as {
+    appId: string;
+    title: string;
+    locale: 'pt-BR';
+    puzzles: Array<{ id: string }>;
   };
-  writeFileSync(resolve(root, 'assets', app, 'catalog.json'), `${JSON.stringify(catalog, null, 2)}\n`);
+  const lote1Ids = new Set(lote1.map((puzzle) => puzzle.id));
+  const extras = current.puzzles.filter((puzzle) => !lote1Ids.has(puzzle.id));
+  const catalog = {
+    appId: current.appId || appId,
+    title: current.title || title,
+    locale: 'pt-BR' as const,
+    puzzles: [...lote1, ...extras],
+  };
+  writeFileSync(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`);
 }
 
 writeCatalog('nostalgia', 'nostalgia-90', "Nostalgia Puzzle 90's");

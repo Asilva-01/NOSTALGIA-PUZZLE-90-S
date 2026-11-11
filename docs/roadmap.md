@@ -1,6 +1,6 @@
 # Roadmap — etapas 2 a 10
 
-A etapa 1 (arquitetura + motor jogável 12/24 + UI inicial + 1 imagem por app) já entrou. O lote 1 (10 artes originais por app) também. Este PR fecha o motor compartilhado: grupos, recorte variado, prévia parcial, som e polish de 48 peças.
+A etapa 1 (arquitetura + motor jogável 12/24 + UI inicial + 1 imagem por app) já entrou. O lote 1 (10 artes originais por app) e o motor do PR #3 também. Este PR acrescenta o lote 2: 15 artes originais por app (fases 11–25, 24 peças).
 
 ## 2. Engine
 
@@ -24,7 +24,7 @@ Identidades iniciais distintas. Falta onboarding, loja de temas visuais originai
 
 ## 8. Catálogo e 200 desafios
 
-Validador pronto; `--min 10` no CI, aviso abaixo de 200. Lote 2 de artes (fases 11–25) ainda não entra. Produzir o restante do lote original/licenciado, thumbnails preguiçosos, nunca pré-carregar 200 WebP grandes no service worker.
+Validador pronto; `--min 25` no CI, aviso abaixo de 200. Lote 2 (fases 11–25) entrou. Produzir o restante rumo a 200, thumbnails preguiçosos, nunca pré-carregar 200 WebP grandes no service worker.
 
 ## 9. Persistência / PWA / testes
 

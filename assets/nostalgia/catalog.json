@@ -272,6 +272,426 @@
         "height": 864,
         "hash": "78602ff1d0860184995347e06a6e91deb4fa21bff6ebb053eeeb6c03a91e6b76"
       }
+    },
+    {
+      "id": "orelhao",
+      "name": "Orelhão na calçada",
+      "collection": "Cotidiano dos anos 90",
+      "description": "Calçada portuguesa, orelhão laranja sem marca e a fila do telefonema depois da escola. Padaria ao fundo com toldo liso, bicicleta e cachorro — rua brasileira, nenhum logo.",
+      "recommendedLevel": 11,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 11
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/orelhao.webp",
+        "srcMedium": "images/orelhao-800.webp",
+        "thumbnail": "images/orelhao-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "d4cbcf7b12c1f6c08df958741f8e36c02136a1eabbadcc69de5a21fe70ae5c48"
+      }
+    },
+    {
+      "id": "pipas",
+      "name": "Pipas no terreno baldio",
+      "collection": "Lazer dos anos 90",
+      "description": "Terreno de terra vermelha, muro de bloco e o céu cheio de pipas geométricas. Crianças correm com a linha — sem desenho de franquia na rabiola, só cor e vento.",
+      "recommendedLevel": 12,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 12
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/pipas.webp",
+        "srcMedium": "images/pipas-800.webp",
+        "thumbnail": "images/pipas-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "00d481018782f6f987be4d0654b5a1a8e0a544453ab74d056664afb2b86a0705"
+      }
+    },
+    {
+      "id": "lanchonete",
+      "name": "Lanchonete de esquina",
+      "collection": "Cotidiano dos anos 90",
+      "description": "Balcão de fórmica, coxinha, pastel e refrigerante em garrafa sem rótulo. Banquinho giratório, ventilador de teto e jukebox com painel geométrico — esquina sem marca.",
+      "recommendedLevel": 13,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 13
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/lanchonete.webp",
+        "srcMedium": "images/lanchonete-800.webp",
+        "thumbnail": "images/lanchonete-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "42f5e4545a787d933f760b8399164e176d92f162eef146c3864a2e44829e93fd"
+      }
+    },
+    {
+      "id": "shopping",
+      "name": "Shopping dos anos 90",
+      "collection": "Lazer dos anos 90",
+      "description": "Átrio com fonte, elevador de vidro e vitrines de lojas genéricas. Sorvete no copinho, claraboia e gente no corrimão — shopping inventado, nenhuma fachada famosa.",
+      "recommendedLevel": 14,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 14
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/shopping.webp",
+        "srcMedium": "images/shopping-800.webp",
+        "thumbnail": "images/shopping-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "1027bac615d7b011bf199c78dd4a23e0d2d0b02e11ebbe57b1358fa4deb5114d"
+      }
+    },
+    {
+      "id": "clube-piscina",
+      "name": "Clube com piscina e toboágua",
+      "collection": "Lazer dos anos 90",
+      "description": "Piscina turquesa, toboágua colorido e cadeira de praia. Crianças no splash, quiosque de suco sem logo e palmeira — domingo de clube, sem parque temático de franquia.",
+      "recommendedLevel": 15,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 15
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/clube-piscina.webp",
+        "srcMedium": "images/clube-piscina-800.webp",
+        "thumbnail": "images/clube-piscina-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "125386bdc78731a044d691cb2f9715e6155f8cce24b3bda67e86e0912421e397"
+      }
+    },
+    {
+      "id": "feira-livre",
+      "name": "Feira livre",
+      "collection": "Cotidiano dos anos 90",
+      "description": "Barracas de lona listrada, banana pendurada, peixe no gelo e flor. Sacola na mão da criança, paralelepípedo e o cheiro da manhã — feira sem placa escrita.",
+      "recommendedLevel": 16,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 16
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/feira-livre.webp",
+        "srcMedium": "images/feira-livre-800.webp",
+        "thumbnail": "images/feira-livre-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "d29221e686ef7e1fd742879bb018f740efeb332e63b367983da17dc1979d2e75"
+      }
+    },
+    {
+      "id": "aniversario",
+      "name": "Aniversário com bolo de brigadeiro",
+      "collection": "Festas dos anos 90",
+      "description": "Sala enfeitada, bolo de brigadeiro sem letra, balão e chapéu de festa. Crianças ao redor da mesa, serpentinas e uma pinhata em estrela geométrica — festa caseira original.",
+      "recommendedLevel": 17,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 17
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/aniversario.webp",
+        "srcMedium": "images/aniversario-800.webp",
+        "thumbnail": "images/aniversario-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "16526d32992c91e3297a54e4719226359a575f1e6bd192123ddecd8768b80ab9"
+      }
+    },
+    {
+      "id": "cinema-bairro",
+      "name": "Cinema de bairro",
+      "collection": "Lazer dos anos 90",
+      "description": "Marquise de lâmpadas, cartazes em branco com arte geométrica e a fila da pipoca. Bilheteria de madeira, carro antigo na rua — nenhum filme real no letreiro.",
+      "recommendedLevel": 18,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 18
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/cinema-bairro.webp",
+        "srcMedium": "images/cinema-bairro-800.webp",
+        "thumbnail": "images/cinema-bairro-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "4bad3e7269867618f66c32f548c50f8ed40bdb279fce88b7df4bcb9470e2d50a"
+      }
+    },
+    {
+      "id": "rolima",
+      "name": "Carrinho de rolimã",
+      "collection": "Esporte dos anos 90",
+      "description": "Ladeira de paralelepípedo, carrinho de madeira com rolamento e capacete de panela. Cachorro correndo atrás, casas no morro — descida de fim de tarde, sem marca de skate shop.",
+      "recommendedLevel": 19,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 19
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/rolima.webp",
+        "srcMedium": "images/rolima-800.webp",
+        "thumbnail": "images/rolima-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "f4aff79c772b0ac956616af7a17104608e3497a0caafc9cb15ef74c6f422947b"
+      }
+    },
+    {
+      "id": "gude",
+      "name": "Bolinha de gude na calçada",
+      "collection": "Cotidiano dos anos 90",
+      "description": "Círculo de giz no mosaico português, bolinhas de vidro coloridas e mochila jogada no canto. Crianças agachadas no jogo — detalhe miúdo, contraste alto, nenhuma figurinha de franquia.",
+      "recommendedLevel": 20,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 20
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/gude.webp",
+        "srcMedium": "images/gude-800.webp",
+        "thumbnail": "images/gude-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "36f7c1df858ddda25ba9781712fdc3dc697837c45777fe6fbd5b4e85be8b590c"
+      }
+    },
+    {
+      "id": "radio-fm",
+      "name": "Rádio FM no quarto",
+      "collection": "Cotidiano dos anos 90",
+      "description": "Rádio-gravador grande com sintonizador analógico, fitas sem rótulo escrito e posters geométricos. Adolescente dança no tapete — aparelho genérico, nenhum logo de fabricante.",
+      "recommendedLevel": 21,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 21
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/radio-fm.webp",
+        "srcMedium": "images/radio-fm-800.webp",
+        "thumbnail": "images/radio-fm-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "847e413626fa284aa6a3acfd0dbdea284b4e9a72521af1bac2718f6ed94044fd"
+      }
+    },
+    {
+      "id": "skate-praca",
+      "name": "Skate na praça",
+      "collection": "Esporte dos anos 90",
+      "description": "Praça de concreto, shape pintado em geométrico sem marca e banco de praça. Fonte, mosaico e o salto no meio da tarde — original, sem logo de marca de skate.",
+      "recommendedLevel": 22,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 22
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/skate-praca.webp",
+        "srcMedium": "images/skate-praca-800.webp",
+        "thumbnail": "images/skate-praca-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "6ff982eb52ebfa6c1269c88e8fc18bb8bf04e004556c16be71439c5b31d00151"
+      }
+    },
+    {
+      "id": "casa-avo",
+      "name": "Casa da avó",
+      "collection": "Cotidiano dos anos 90",
+      "description": "Cozinha-sala com renda, sofá encapado e a avó no fogão. Mangueira no quintal vista pela janela, gato no balcão, neto na cadeira — casa de verdade, sem mascote de desenho na parede.",
+      "recommendedLevel": 23,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 23
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/casa-avo.webp",
+        "srcMedium": "images/casa-avo-800.webp",
+        "thumbnail": "images/casa-avo-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "4d5eca0e51241dd23acde09128e832ae7273e06cbf438cd34418090c3b6966a6"
+      }
+    },
+    {
+      "id": "padaria",
+      "name": "Padaria da esquina",
+      "collection": "Cotidiano dos anos 90",
+      "description": "Balcão de vidro com pão francês, leite e café. Padeiro de touca, criança com moedas e azulejo até o teto — manhã de padaria, toldo liso, nenhum nome de padaria escrita.",
+      "recommendedLevel": 24,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 24
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/padaria.webp",
+        "srcMedium": "images/padaria-800.webp",
+        "thumbnail": "images/padaria-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "76cddc7748048357c9646583a385f36f6a713a2b28834987f9e579d3e0cd6706"
+      }
+    },
+    {
+      "id": "acampamento",
+      "name": "Acampamento de férias",
+      "collection": "Lazer dos anos 90",
+      "description": "Barracas entre eucaliptos, fogueira, lanterna e canoa no lago. Céu começando a estrelar, cabana simples ao fundo — colônia de férias inventada, sem logo de acampamento famoso.",
+      "recommendedLevel": 25,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 25
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "image": {
+        "src": "images/acampamento.webp",
+        "srcMedium": "images/acampamento-800.webp",
+        "thumbnail": "images/acampamento-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "b0b13a7d83795781f8996f1c60f7cc270c32a0904923a4f5df34f82d3a560486"
+      }
     }
   ]
 }
