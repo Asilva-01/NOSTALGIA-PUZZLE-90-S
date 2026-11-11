@@ -23,7 +23,7 @@ test('captura home, início, meio e conclusão', async ({ page }, testInfo) => {
   await page.goto('/');
   await page.getByRole('heading').first().waitFor();
   await expect(page.locator('.level-card img')).toHaveCount(10);
-  await expect(page.getByRole('button', { name: /Surpreenda-me/ })).toBeDisabled();
+  await expect(page.getByRole('button', { name: /Surpreenda-me/ })).toBeEnabled();
   await page.screenshot({
     path: `${dir}/${app}-home-${size}.png`,
     fullPage: true,

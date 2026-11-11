@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { emptyProgress } from '../src/persist.ts';
 import { applyCompletion, buildPhaseTable } from '../src/progression.ts';
-import { pickRandomChallenge, rememberRandom } from '../src/random-challenge.ts';
+import {
+  pickRandomChallenge,
+  pickSurpriseChallenge,
+  rememberRandom,
+} from '../src/random-challenge.ts';
 
 describe('modo aleatório', () => {
   it('sorteia só fases desbloqueadas e válidas, evitando repetição imediata', () => {
@@ -39,5 +43,29 @@ describe('modo aleatório', () => {
     const pick = pickRandomChallenge(phases, progress, new Set(['ok']), 3);
     expect(pick?.phase.id).toBe('phase-2');
     expect(pick?.reason).toBe('avoided-repeat');
+  });
+
+  it('Surpreenda-me alinha dificuldade ao nível e não repete o imediato', () => {
+    const puzzles = [
+      { id: 'easy-a', difficulty: 'easy' as const, recommendedLevel: 1 },
+      { id: 'easy-b', difficulty: 'easy' as const, recommendedLevel: 2 },
+    ];
+    const phases = buildPhaseTable(puzzles.map((item) => item.id));
+    let progress = emptyProgress('n');
+    const p1 = phases[0];
+    if (!p1) throw new Error('fase');
+    progress = applyCompletion(progress, p1, 2, 10, 1);
+    progress = rememberRandom(progress, 'phase-1');
+    const pick = pickSurpriseChallenge(
+      phases,
+      progress,
+      new Set(puzzles.map((item) => item.id)),
+      puzzles,
+      11,
+    );
+    expect(pick).not.toBeNull();
+    expect(pick?.phase.id).not.toBe('phase-1');
+    expect(pick?.phase.pieceCount).toBe(12);
+    expect(puzzles.some((item) => item.id === pick?.phase.puzzleId)).toBe(true);
   });
 });

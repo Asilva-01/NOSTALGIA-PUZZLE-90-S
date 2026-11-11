@@ -1,13 +1,15 @@
 import { debounce } from '@puzzle-universe/shared-utils';
-import { beep } from './audio.ts';
+import { playSfx, unlockAudio } from './audio.ts';
 import {
   MIN_PIECE_SCREEN_PX,
+  clampCameraToWorld,
   panCamera,
   screenToWorld,
   worldToScreen,
   zoomAt,
 } from './camera.ts';
 import { applyPath } from './path.ts';
+import { contentsWorld } from './playfield.ts';
 import type { PuzzleSession } from './session.ts';
 import type { CameraState, PathCommand, PieceRuntime } from './types.ts';
 
@@ -127,46 +129,43 @@ export class PuzzleRenderer {
     this.soundEnabled = enabled;
   }
 
-  zoomBy(factor: number): void {
-    const rect = this.canvas.getBoundingClientRect();
-    this.camera = zoomAt(
-      this.camera,
-      rect.width / 2,
-      rect.height / 2,
-      factor,
-      this.minScale(),
-      this.maxScale(),
-    );
-    this.markDirty();
-  }
-
   markDirty(): void {
     this.dirty = true;
   }
 
   private minScale(): number {
-    const { cols, rows, board } = this.session.generation;
-    return Math.max(
-      (MIN_PIECE_SCREEN_PX * cols) / board.width,
-      (MIN_PIECE_SCREEN_PX * rows) / board.height,
-    ) * 0.7;
+    const world = contentsWorld(this.session.board, this.session.pieces);
+    const fit = Math.min(
+      Math.max(80, this.canvas.clientWidth) / Math.max(1, world.width),
+      Math.max(80, this.canvas.clientHeight) / Math.max(1, world.height),
+    );
+    return Math.max(0.08, fit * 0.72);
   }
 
   private maxScale(): number {
-    return this.minScale() * 6;
+    const { cols, board } = this.session.generation;
+    const tactile = (MIN_PIECE_SCREEN_PX * cols) / board.width;
+    return Math.max(this.minScale() * 8, tactile * 3.5);
   }
 
   private loop = (): void => {
     if (!this.running) return;
     const now = performance.now();
+    const hadHighlight = Boolean(this.session.highlight);
+    const hadPeek = Boolean(this.session.partialPeek);
     this.session.tick(now);
-    if (this.session.lastPulseId) {
-      this.pulses.push({ id: this.session.lastPulseId, start: now });
-      this.session.lastPulseId = null;
+    if (this.session.lastPulseIds.length > 0) {
+      for (const id of this.session.lastPulseIds) {
+        this.pulses.push({ id, start: now });
+      }
+      this.session.lastPulseIds = [];
       this.dirty = true;
     }
+    if (hadHighlight && !this.session.highlight) this.dirty = true;
+    if (hadPeek && !this.session.partialPeek) this.dirty = true;
     this.pulses = this.pulses.filter((pulse) => now - pulse.start < 480);
-    if (this.dirty || this.session.draggingId || this.pulses.length > 0) {
+    const timed = Boolean(this.session.highlight || this.session.partialPeek);
+    if (this.dirty || this.session.draggingId || this.pulses.length > 0 || timed) {
       this.draw();
       this.dirty = Boolean(this.session.draggingId || this.pulses.length > 0);
     }
@@ -297,7 +296,36 @@ export class PuzzleRenderer {
       const path = this.pathCache.get(piece.id);
       if (path) ctx.stroke(path);
     }
+    this.drawPartialPeek();
     ctx.restore();
+  }
+
+  private drawPartialPeek(): void {
+    const peek = this.session.partialPeek;
+    if (!peek) return;
+    const { ctx } = this;
+    const now = performance.now();
+    const fade = Math.min(1, Math.max(0.35, (peek.until - now) / 3800));
+    for (const id of peek.pieceIds) {
+      const path = this.pathCache.get(id);
+      if (!path) continue;
+      ctx.save();
+      ctx.clip(path);
+      ctx.globalAlpha = 0.55 + 0.3 * fade;
+      ctx.drawImage(
+        this.image,
+        this.session.board.x,
+        this.session.board.y,
+        this.session.board.width,
+        this.session.board.height,
+      );
+      ctx.restore();
+      ctx.save();
+      ctx.strokeStyle = `rgba(255, 214, 64, ${0.35 + 0.55 * fade})`;
+      ctx.lineWidth = 3 / this.camera.scale;
+      ctx.stroke(path);
+      ctx.restore();
+    }
   }
 
   private drawPiece(piece: PieceRuntime): void {
@@ -322,7 +350,7 @@ export class PuzzleRenderer {
         ctx.fill(path);
       }
     }
-    if (this.session.draggingId === piece.id) {
+    if (this.isDraggingMember(piece)) {
       ctx.strokeStyle = 'rgba(255,255,255,0.9)';
       ctx.lineWidth = 3 / this.camera.scale;
       const path = this.pathCache.get(piece.id);
@@ -377,13 +405,15 @@ export class PuzzleRenderer {
     event.preventDefault();
     const rect = this.canvas.getBoundingClientRect();
     const factor = event.deltaY < 0 ? 1.08 : 0.92;
-    this.camera = zoomAt(
-      this.camera,
-      event.clientX - rect.left,
-      event.clientY - rect.top,
-      factor,
-      this.minScale(),
-      this.maxScale(),
+    this.camera = this.clampCam(
+      zoomAt(
+        this.camera,
+        event.clientX - rect.left,
+        event.clientY - rect.top,
+        factor,
+        this.minScale(),
+        this.maxScale(),
+      ),
     );
     this.markDirty();
   };
@@ -392,6 +422,7 @@ export class PuzzleRenderer {
     if (this.session.paused && !this.session.completed) {
       return;
     }
+    unlockAudio();
     this.canvas.setPointerCapture(event.pointerId);
     const point = this.eventPoint(event);
     this.pointers.set(event.pointerId, point);
@@ -413,6 +444,7 @@ export class PuzzleRenderer {
     const hit = this.session.hitTest(world.x, world.y);
     if (hit && !this.session.paused) {
       this.session.beginDrag(hit.id, world.x, world.y);
+      playSfx('pickup', this.soundEnabled);
       this.markDirty();
       this.onChange();
       return;
@@ -433,13 +465,15 @@ export class PuzzleRenderer {
       const midX = (a.x + b.x) / 2;
       const midY = (a.y + b.y) / 2;
       const factor = dist / Math.max(1, this.pinchStart.dist);
-      this.camera = zoomAt(
-        { ...this.camera, scale: this.pinchStart.scale },
-        midX,
-        midY,
-        factor,
-        this.minScale(),
-        this.maxScale(),
+      this.camera = this.clampCam(
+        zoomAt(
+          { ...this.camera, scale: this.pinchStart.scale },
+          midX,
+          midY,
+          factor,
+          this.minScale(),
+          this.maxScale(),
+        ),
       );
       this.markDirty();
       return;
@@ -451,7 +485,7 @@ export class PuzzleRenderer {
       return;
     }
     if (this.panning && prev) {
-      this.camera = panCamera(this.camera, point.x - prev.x, point.y - prev.y);
+      this.camera = this.clampCam(panCamera(this.camera, point.x - prev.x, point.y - prev.y));
       this.markDirty();
     }
   };
@@ -462,14 +496,15 @@ export class PuzzleRenderer {
       this.pinchStart = null;
     }
     if (this.session.draggingId) {
-      const snapped = this.session.endDrag();
-      if (snapped) {
-        beep('snap', this.soundEnabled);
-        this.camera = this.session.fitToView(this.canvas.clientWidth, this.canvas.clientHeight);
+      const result = this.session.endDrag();
+      if (result.placed) {
+        playSfx('snap', this.soundEnabled);
         if (this.session.completed) {
-          beep('complete', this.soundEnabled);
+          playSfx('complete', this.soundEnabled);
           this.onComplete();
         }
+      } else if (result.joined) {
+        playSfx('join', this.soundEnabled);
       }
       this.persistDebounced();
       this.onChange();
@@ -482,6 +517,36 @@ export class PuzzleRenderer {
       // already released
     }
   };
+
+  private isDraggingMember(piece: PieceRuntime): boolean {
+    if (!this.session.draggingId) return false;
+    const lead = this.session.pieceById(this.session.draggingId);
+    return piece.groupId === lead.groupId;
+  }
+
+  private clampCam(camera: CameraState): CameraState {
+    return clampCameraToWorld(
+      camera,
+      this.canvas.clientWidth,
+      this.canvas.clientHeight,
+      contentsWorld(this.session.board, this.session.pieces),
+    );
+  }
+
+  zoomBy(factor: number): void {
+    const rect = this.canvas.getBoundingClientRect();
+    this.camera = this.clampCam(
+      zoomAt(
+        this.camera,
+        rect.width / 2,
+        rect.height / 2,
+        factor,
+        this.minScale(),
+        this.maxScale(),
+      ),
+    );
+    this.markDirty();
+  }
 
   private eventPoint(event: PointerEvent): { x: number; y: number } {
     const rect = this.canvas.getBoundingClientRect();

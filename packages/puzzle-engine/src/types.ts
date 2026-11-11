@@ -13,6 +13,9 @@ export type PathCommand =
 
 export type EdgeKind = 'flat' | 'tab' | 'blank';
 
+export const TAB_PROFILES = ['classic', 'wide', 'tall', 'round', 'square', 'stem'] as const;
+export type TabProfile = (typeof TAB_PROFILES)[number];
+
 export type HelpPresetName = 'casual' | 'desafio';
 
 export type HelpLimits = {
@@ -20,6 +23,7 @@ export type HelpLimits = {
   highlight: number;
   separateEdges: number;
   shuffle: number;
+  partialPeek: number;
 };
 
 export type HelpUsage = {
@@ -27,6 +31,7 @@ export type HelpUsage = {
   highlight: number;
   separateEdges: number;
   shuffle: number;
+  partialPeek: number;
 };
 
 export type SharedEdge = {
@@ -44,6 +49,9 @@ export type SharedEdge = {
   sign: 1 | -1;
   center: number;
   size: number;
+  profile: TabProfile;
+  /** Skew of the knob along the edge, -1…1. */
+  lean: number;
 };
 
 export type PieceGeometry = {
@@ -75,6 +83,7 @@ export type PieceRuntime = PieceGeometry & {
   y: number;
   placed: boolean;
   zIndex: number;
+  groupId: string;
 };
 
 export type PuzzleGeneration = {
@@ -93,7 +102,19 @@ export type SavedPiece = {
   y: number;
   placed: boolean;
   zIndex: number;
+  groupId?: string;
 };
+
+export type DropResult = {
+  placed: boolean;
+  joined: boolean;
+  completed: boolean;
+};
+
+export type PartialPeekState = {
+  pieceIds: string[];
+  until: number;
+} | null;
 
 export type SavedSession = {
   version: 1;

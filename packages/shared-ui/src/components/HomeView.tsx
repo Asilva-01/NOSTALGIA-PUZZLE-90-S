@@ -21,6 +21,7 @@ type Props = {
   onResume: () => void;
   onSettings: (settings: AppSettings) => void;
   onRandom: () => void;
+  onSurprise: () => void;
   onPlayPhase: (phase: PhaseDefinition) => void;
   onPractice: (count: PieceCount) => void;
 };
@@ -45,6 +46,7 @@ export function HomeView({
   onResume,
   onSettings,
   onRandom,
+  onSurprise,
   onPlayPhase,
   onPractice,
 }: Props) {
@@ -87,8 +89,13 @@ export function HomeView({
         <button className="btn primary" type="button" onClick={onRandom}>
           Desafio aleatório
         </button>
-        <button className="btn" type="button" disabled title="Em breve: imagem e dificuldade alinhadas ao seu nível">
-          Surpreenda-me <span className="soon">em breve</span>
+        <button
+          className="btn"
+          type="button"
+          onClick={onSurprise}
+          title="Imagem e dificuldade alinhadas ao seu nível, só itens desbloqueados"
+        >
+          Surpreenda-me
         </button>
       </div>
       {featured ? (
@@ -195,7 +202,10 @@ export function HomeView({
       </section>
       <section className="panel">
         <h2>Ajuda e cronômetro</h2>
-        <p>Presets de limite. Casual é generoso; desafio é curto.</p>
+        <p>
+          Presets de limite por partida (imagem, dica, prévia parcial, bordas, mistura). Casual é
+          generoso; desafio é curto.
+        </p>
         <div className="chip-row">
           <button
             type="button"

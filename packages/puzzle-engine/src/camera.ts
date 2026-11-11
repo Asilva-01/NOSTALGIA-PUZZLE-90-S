@@ -78,3 +78,36 @@ export function zoomAt(
 export function panCamera(camera: CameraState, dx: number, dy: number): CameraState {
   return { ...camera, x: camera.x + dx, y: camera.y + dy };
 }
+
+export function clampCameraToWorld(
+  camera: CameraState,
+  viewWidth: number,
+  viewHeight: number,
+  world: Rect,
+  pad = 48,
+): CameraState {
+  const padded = {
+    x: world.x - pad / camera.scale,
+    y: world.y - pad / camera.scale,
+    width: world.width + (pad * 2) / camera.scale,
+    height: world.height + (pad * 2) / camera.scale,
+  };
+  const scaledW = padded.width * camera.scale;
+  const scaledH = padded.height * camera.scale;
+  let { x, y } = camera;
+  if (scaledW <= viewWidth) {
+    x = (viewWidth - scaledW) / 2 - padded.x * camera.scale;
+  } else {
+    const minX = viewWidth - (padded.x + padded.width) * camera.scale;
+    const maxX = -padded.x * camera.scale;
+    x = clamp(x, minX, maxX);
+  }
+  if (scaledH <= viewHeight) {
+    y = (viewHeight - scaledH) / 2 - padded.y * camera.scale;
+  } else {
+    const minY = viewHeight - (padded.y + padded.height) * camera.scale;
+    const maxY = -padded.y * camera.scale;
+    y = clamp(y, minY, maxY);
+  }
+  return { ...camera, x, y };
+}

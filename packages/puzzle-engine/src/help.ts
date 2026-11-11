@@ -6,12 +6,14 @@ export const HELP_PRESETS: Record<HelpPresetName, HelpLimits> = {
     highlight: 5,
     separateEdges: 3,
     shuffle: Number.POSITIVE_INFINITY,
+    partialPeek: 4,
   },
   desafio: {
     peekImage: 1,
     highlight: 1,
     separateEdges: 1,
     shuffle: 1,
+    partialPeek: 1,
   },
 };
 
@@ -21,7 +23,12 @@ export function emptyHelpUsage(): HelpUsage {
     highlight: 0,
     separateEdges: 0,
     shuffle: 0,
+    partialPeek: 0,
   };
+}
+
+export function normalizeHelpUsage(used?: Partial<HelpUsage> | null): HelpUsage {
+  return { ...emptyHelpUsage(), ...used };
 }
 
 export function remainingHelp(limits: HelpLimits, used: HelpUsage): HelpLimits {
@@ -30,6 +37,7 @@ export function remainingHelp(limits: HelpLimits, used: HelpUsage): HelpLimits {
     highlight: Math.max(0, limits.highlight - used.highlight),
     separateEdges: Math.max(0, limits.separateEdges - used.separateEdges),
     shuffle: Math.max(0, limits.shuffle - used.shuffle),
+    partialPeek: Math.max(0, limits.partialPeek - used.partialPeek),
   };
 }
 
@@ -49,4 +57,8 @@ export function formatHelpBadge(value: number): string {
     return '∞';
   }
   return String(value);
+}
+
+export function countHintUses(used: HelpUsage): number {
+  return used.peekImage + used.highlight + used.separateEdges + used.partialPeek;
 }

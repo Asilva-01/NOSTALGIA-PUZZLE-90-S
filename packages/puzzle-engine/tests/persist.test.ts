@@ -19,8 +19,19 @@ describe('salvar e recuperar', () => {
     const piece = session.pieces[3];
     if (!piece) throw new Error('peça');
     session.placePieceById(piece.id);
+    const neighbor = session.pieces.find(
+      (item) => item.id !== piece.id && Math.abs(item.row - piece.row) + Math.abs(item.col - piece.col) === 1,
+    );
+    if (neighbor) {
+      session.movePiece(
+        neighbor.id,
+        neighbor.bounds.x + 400,
+        neighbor.bounds.y + 280,
+      );
+    }
     session.elapsedMs = 12_500;
     session.helpUsed.highlight = 1;
+    session.helpUsed.partialPeek = 1;
     await store.saveSession(session.toSaved());
 
     const loaded = await store.loadSession();
@@ -41,7 +52,9 @@ describe('salvar e recuperar', () => {
     expect(restored.pieceById(piece.id).placed).toBe(true);
     expect(restored.elapsedMs).toBe(12_500);
     expect(restored.helpUsed.highlight).toBe(1);
+    expect(restored.helpUsed.partialPeek).toBe(1);
     expect(restored.unplacedPieces()).toHaveLength(11);
+    expect(restored.pieceById(piece.id).groupId).toBe(piece.id);
   });
 
   it('persiste progresso da campanha', async () => {
