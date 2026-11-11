@@ -51,7 +51,39 @@ export function pieceScreenRect(piece: PieceRuntime, camera: CameraState): Rect 
 function minCellPx(pieceCount: number): number {
   if (pieceCount <= 12) return 72;
   if (pieceCount <= 24) return 52;
-  return 40;
+  return 44;
+}
+
+function growTrays(
+  board: Rect,
+  slotW: number,
+  slotH: number,
+  count: number,
+  portrait: boolean,
+  gap: number,
+): { trays: Rect[]; slots: Array<{ x: number; y: number }>; world: Rect } {
+  if (portrait) {
+    const cols = Math.max(1, Math.floor(board.width / Math.max(1, slotW)));
+    let rows = Math.max(1, Math.ceil(count / 2 / cols));
+    let trays = traysPortrait(board, rows * slotH + 0.5, gap);
+    let slots = packSlots(trays, slotW, slotH);
+    while (slots.length < count && rows < 80) {
+      rows += 1;
+      trays = traysPortrait(board, rows * slotH + 0.5, gap);
+      slots = packSlots(trays, slotW, slotH);
+    }
+    return { trays, slots, world: union([board, ...trays]) };
+  }
+  const rows = Math.max(1, Math.floor(board.height / Math.max(1, slotH)));
+  let cols = Math.max(1, Math.ceil(count / 2 / rows));
+  let trays = traysLandscape(board, cols * slotW + 0.5, gap);
+  let slots = packSlots(trays, slotW, slotH);
+  while (slots.length < count && cols < 80) {
+    cols += 1;
+    trays = traysLandscape(board, cols * slotW + 0.5, gap);
+    slots = packSlots(trays, slotW, slotH);
+  }
+  return { trays, slots, world: union([board, ...trays]) };
 }
 
 function packSlots(trays: Rect[], slotW: number, slotH: number): Array<{ x: number; y: number }> {
@@ -165,30 +197,38 @@ export function layoutPlayfield(input: {
   const slotH = maxBoundH * 0.9;
   const usableW = input.view.width - MARGIN * 2;
   const usableH = input.view.height - MARGIN * 2;
+  const largeBoard = count >= 48;
   let scale = portrait ? usableW / input.board.width : usableH / input.board.height;
   const cellFloor = minCell / (input.board.width / input.cols);
 
   let chosen: ReturnType<typeof tryScale> = null;
-  for (let i = 0; i < 36; i += 1) {
-    const attempt = tryScale(input.view, input.board, slotW, slotH, count, scale, portrait);
-    if (attempt) {
-      chosen = attempt;
-      break;
+  if (largeBoard) {
+    const tactile = Math.max(cellFloor, minCell / (input.board.height / input.rows));
+    scale = Math.max(tactile, scale * 0.58);
+    const gap = GAP_SCREEN / scale;
+    chosen = growTrays(input.board, slotW, slotH, count, portrait, gap);
+  } else {
+    for (let i = 0; i < 36; i += 1) {
+      const attempt = tryScale(input.view, input.board, slotW, slotH, count, scale, portrait);
+      if (attempt) {
+        chosen = attempt;
+        break;
+      }
+      scale *= 0.93;
+      if (scale < cellFloor * 0.55) break;
     }
-    scale *= 0.93;
-    if (scale < cellFloor * 0.55) break;
-  }
-  if (!chosen) {
-    const gap = Math.max(slotW, slotH) * 0.08;
-    const cols = Math.max(1, Math.floor(input.board.width / slotW));
-    const trayH = slotH * Math.ceil(count / 2 / cols);
-    const trays = traysPortrait(input.board, trayH, gap);
-    chosen = {
-      trays,
-      slots: packSlots(trays, slotW, slotH),
-      world: union([input.board, ...trays]),
-    };
-    scale = Math.min(usableW / chosen.world.width, usableH / chosen.world.height);
+    if (!chosen) {
+      const gap = Math.max(slotW, slotH) * 0.08;
+      const cols = Math.max(1, Math.floor(input.board.width / slotW));
+      const trayH = slotH * Math.ceil(count / 2 / cols);
+      const trays = traysPortrait(input.board, trayH, gap);
+      chosen = {
+        trays,
+        slots: packSlots(trays, slotW, slotH),
+        world: union([input.board, ...trays]),
+      };
+      scale = Math.min(usableW / chosen.world.width, usableH / chosen.world.height);
+    }
   }
 
   const ordered = input.preferEdges
@@ -210,6 +250,7 @@ export function layoutPlayfield(input: {
       y: slot.y,
       placed: false,
       zIndex: index + 1,
+      groupId: piece.id,
     };
   });
 
@@ -222,7 +263,7 @@ export function layoutPlayfield(input: {
       height: piece.bounds.height,
     })),
   ]);
-  const camera = fitWorldInView(input.view, occupied);
+  const camera = fitPlayCamera(input.view, input.board, pieces, Math.max(count, input.cols * input.rows));
   return {
     camera,
     world: occupied,
@@ -237,6 +278,45 @@ export function fitWorldInView(view: ViewSize, world: Rect): CameraState {
   const innerH = Math.max(80, view.height - MARGIN * 2);
   const scale = Math.min(innerW / world.width, innerH / world.height);
   return cameraForWorld(view, world, scale);
+}
+
+export function fitPlayCamera(
+  view: ViewSize,
+  board: Rect,
+  pieces: readonly PieceRuntime[],
+  pieceCount: number,
+): CameraState {
+  const all = contentsWorld(board, pieces);
+  const sample = pieces[0];
+  const cell = Math.min(
+    sample?.cell.width ?? board.width,
+    sample?.cell.height ?? board.height,
+  );
+  const overview = fitWorldInView(view, all);
+  if (pieceCount < 48 || overview.scale * cell >= 42) {
+    return overview;
+  }
+  const pad = cell * 0.4;
+  const focus: Rect = {
+    x: board.x - pad,
+    y: board.y - pad,
+    width: board.width + pad * 2,
+    height: board.height + pad * 2,
+  };
+  const minScale = 44 / cell;
+  const fitted = fitWorldInView(view, focus);
+  return {
+    ...fitted,
+    scale: Math.max(fitted.scale, minScale),
+    x:
+      fitted.scale >= minScale
+        ? fitted.x
+        : (view.width - focus.width * minScale) / 2 - focus.x * minScale,
+    y:
+      fitted.scale >= minScale
+        ? fitted.y
+        : (view.height - focus.height * minScale) / 2 - focus.y * minScale,
+  };
 }
 
 export function contentsWorld(board: Rect, pieces: readonly PieceRuntime[]): Rect {

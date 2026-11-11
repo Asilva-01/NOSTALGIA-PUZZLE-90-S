@@ -2,10 +2,11 @@ import { describe, expect, it } from 'vitest';
 import {
   complementKind,
   edgeCommands,
+  edgeSignature,
   generatePuzzle,
   pieceAt,
 } from '../src/geometry.ts';
-import { PIECE_COUNTS } from '../src/types.ts';
+import { PIECE_COUNTS, TAB_PROFILES } from '../src/types.ts';
 import { gridForPieceCount } from '../src/grid.ts';
 import { reverseCommands } from '../src/path.ts';
 import { defined } from '@puzzle-universe/shared-utils';
@@ -78,9 +79,43 @@ describe('geometria das peças', () => {
     const a = generatePuzzle({ width: 640, height: 480, pieceCount: 24, seed: 1 });
     const b = generatePuzzle({ width: 640, height: 480, pieceCount: 24, seed: 1 });
     const c = generatePuzzle({ width: 640, height: 480, pieceCount: 24, seed: 2 });
-    expect(a.edges.map((edge) => edge.sign)).toEqual(b.edges.map((edge) => edge.sign));
-    expect(a.edges.map((edge) => edge.sign)).not.toEqual(c.edges.map((edge) => edge.sign));
+    expect(a.edges.map((edge) => edgeSignature(edge))).toEqual(
+      b.edges.map((edge) => edgeSignature(edge)),
+    );
+    expect(a.edges.map((edge) => edgeSignature(edge))).not.toEqual(
+      c.edges.map((edge) => edgeSignature(edge)),
+    );
   });
+
+  it.each([12, 24, 48] as const)(
+    'usa abas de perfis mistos em %i peças, sem virar quadrado',
+    (count) => {
+      const puzzle = generatePuzzle({
+        width: 800,
+        height: 600,
+        pieceCount: count,
+        seed: 2026,
+      });
+      const shaped = puzzle.edges.filter((edge) => edge.kind === 'shaped');
+      const profiles = new Set(shaped.map((edge) => edge.profile));
+      expect(profiles.size).toBeGreaterThanOrEqual(count === 12 ? 3 : 4);
+      for (const profile of profiles) {
+        expect(TAB_PROFILES.includes(profile)).toBe(true);
+      }
+      const unique = new Set(shaped.map((edge) => edgeSignature(edge)));
+      expect(unique.size).toBeGreaterThan(shaped.length * 0.45);
+
+      for (const piece of puzzle.pieces) {
+        const hasTab = Object.values(piece.edges).includes('tab');
+        if (hasTab) {
+          expect(piece.bounds.width * piece.bounds.height).toBeGreaterThan(
+            piece.cell.width * piece.cell.height,
+          );
+        }
+        expect(piece.path.some((cmd) => cmd.type === 'C')).toBe(true);
+      }
+    },
+  );
 });
 
 describe('grade para todas as contagens', () => {

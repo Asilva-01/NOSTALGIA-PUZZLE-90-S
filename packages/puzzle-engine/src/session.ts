@@ -1,10 +1,18 @@
 import { clamp, defined, dist } from '@puzzle-universe/shared-utils';
 import { generatePuzzle } from './geometry.ts';
-import { canUseHelp, emptyHelpUsage, HELP_PRESETS, remainingHelp } from './help.ts';
+import {
+  alignGroupToNeighbor,
+  alignmentError,
+  areGridNeighbors,
+  groupMembers,
+  mergeGroupIds,
+  translateGroup,
+} from './groups.ts';
+import { canUseHelp, emptyHelpUsage, HELP_PRESETS, normalizeHelpUsage, remainingHelp } from './help.ts';
 import { computeScore, computeStars } from './score.ts';
-import { contentsWorld, fitWorldInView, isPortraitView, layoutPlayfield } from './playfield.ts';
+import { contentsWorld, fitPlayCamera, fitWorldInView, isPortraitView, layoutPlayfield } from './playfield.ts';
 import { DEFAULT_LAYOUT_VIEW, scatterPieces, separateEdgePieces } from './shuffle.ts';
-import type { CameraState } from './types.ts';
+import type { CameraState, DropResult, PartialPeekState } from './types.ts';
 import type {
   HelpLimits,
   HelpPresetName,
@@ -51,8 +59,10 @@ export class PuzzleSession {
   startedAt: string;
   updatedAt: string;
   highlight: HighlightState = null;
+  partialPeek: PartialPeekState = null;
   draggingId: string | null = null;
-  lastPulseId: string | null = null;
+  lastPulseIds: string[] = [];
+  lastDrop: DropResult = { placed: false, joined: false, completed: false };
   private dragOffset = { x: 0, y: 0 };
   private maxZ: number;
   private lastTick: number | null = null;
@@ -105,22 +115,30 @@ export class PuzzleSession {
       (!this.didLayout || orientationChanged)
     ) {
       const placed = this.pieces.filter((piece) => piece.placed);
-      const loose = this.generation.pieces.filter(
-        (geometry) => !placed.some((piece) => piece.id === geometry.id),
+      const loose = this.pieces.filter((piece) => !piece.placed);
+      const clustered = loose.filter((piece) =>
+        loose.some((other) => other.id !== piece.id && other.groupId === piece.groupId),
       );
-      const laid = layoutPlayfield({
-        view: this.view,
-        board: this.board,
-        cols: this.generation.cols,
-        rows: this.generation.rows,
-        pieces: loose.length > 0 ? loose : this.generation.pieces,
-        seed: this.config.seed,
-      });
-      this.pieces = placed.length > 0 ? [...placed, ...laid.pieces] : laid.pieces;
+      const singles = loose.filter(
+        (piece) => !clustered.some((other) => other.id === piece.id),
+      );
+      const nextPieces = [...placed, ...clustered];
+      if (singles.length > 0 || clustered.length === 0) {
+        const laid = layoutPlayfield({
+          view: this.view,
+          board: this.board,
+          cols: this.generation.cols,
+          rows: this.generation.rows,
+          pieces: singles.length > 0 ? singles : this.generation.pieces,
+          seed: this.config.seed,
+        });
+        nextPieces.push(...laid.pieces);
+      }
+      this.pieces = nextPieces;
       this.maxZ = this.pieces.reduce((max, piece) => Math.max(max, piece.zIndex), 0);
       this.didLayout = true;
     }
-    return fitWorldInView(this.view, contentsWorld(this.board, this.pieces));
+    return fitPlayCamera(this.view, this.board, this.pieces, this.config.pieceCount);
   }
 
   get board(): Rect {
@@ -138,17 +156,24 @@ export class PuzzleSession {
     return remainingHelp(this.helpLimits, this.helpUsed);
   }
 
+  groupOf(id: string): PieceRuntime[] {
+    return groupMembers(this.pieces, this.pieceById(id).groupId);
+  }
+
   tick(now: number): void {
     if (this.paused || this.completed || !this.timerEnabled) {
       this.lastTick = now;
-      return;
+    } else {
+      if (this.lastTick !== null) {
+        this.elapsedMs += now - this.lastTick;
+      }
+      this.lastTick = now;
     }
-    if (this.lastTick !== null) {
-      this.elapsedMs += now - this.lastTick;
-    }
-    this.lastTick = now;
     if (this.highlight && now > this.highlight.until) {
       this.highlight = null;
+    }
+    if (this.partialPeek && now > this.partialPeek.until) {
+      this.partialPeek = null;
     }
   }
 
@@ -199,49 +224,47 @@ export class PuzzleSession {
     this.draggingId = id;
     this.dragOffset = { x: worldX - piece.x, y: worldY - piece.y };
     this.maxZ += 1;
-    piece.zIndex = this.maxZ;
+    for (const member of this.groupOf(id)) {
+      member.zIndex = this.maxZ;
+    }
   }
 
   dragTo(worldX: number, worldY: number): void {
     if (!this.draggingId || this.paused) return;
     const piece = this.pieceById(this.draggingId);
-    piece.x = worldX - this.dragOffset.x;
-    piece.y = worldY - this.dragOffset.y;
+    const nextX = worldX - this.dragOffset.x;
+    const nextY = worldY - this.dragOffset.y;
+    translateGroup(this.groupOf(piece.id), nextX - piece.x, nextY - piece.y);
   }
 
-  endDrag(): boolean {
-    if (!this.draggingId) return false;
+  endDrag(): DropResult {
+    if (!this.draggingId) {
+      this.lastDrop = { placed: false, joined: false, completed: false };
+      return this.lastDrop;
+    }
     const id = this.draggingId;
     this.draggingId = null;
-    return this.trySnap(id);
+    this.lastDrop = this.resolveDrop(id);
+    return this.lastDrop;
   }
 
   trySnap(id: string): boolean {
-    const piece = this.pieceById(id);
-    if (piece.placed) return false;
-    const targetX = piece.bounds.x;
-    const targetY = piece.bounds.y;
-    const distance = dist(piece.x, piece.y, targetX, targetY);
-    if (distance <= this.snapThreshold) {
-      this.placePiece(piece);
-      this.lastPulseId = piece.id;
-      return true;
-    }
-    this.touch();
-    return false;
+    return this.trySnapGroup(id);
   }
 
   /** Coloca a peça na posição correta — usado pelos testes e pelo E2E. */
   placePieceById(id: string): void {
-    this.placePiece(this.pieceById(id));
+    this.lastPulseIds = [];
+    this.placeGroup(this.groupOf(id));
   }
 
   movePiece(id: string, x: number, y: number): boolean {
     const piece = this.pieceById(id);
     if (piece.placed) return false;
-    piece.x = x;
-    piece.y = y;
-    return this.trySnap(id);
+    const dx = x - piece.x;
+    const dy = y - piece.y;
+    translateGroup(this.groupOf(id), dx, dy);
+    return this.resolveDrop(id).placed;
   }
 
   shuffle(seed = this.config.seed ^ (this.helpUsed.shuffle + 1) * 997): boolean {
@@ -289,6 +312,24 @@ export class PuzzleSession {
     return piece.id;
   }
 
+  /**
+   * Revela um recorte da imagem no tabuleiro (região de peças ainda soltas).
+   * Não mostra a arte inteira — isso é o botão Imagem.
+   */
+  peekPartial(now = Date.now()): string[] {
+    if (this.paused || this.completed) return [];
+    if (!canUseHelp(this.helpLimits, this.helpUsed, 'partialPeek')) return [];
+    const candidates = this.unplacedPieces();
+    if (candidates.length === 0) return [];
+    const start = defined(candidates[Math.floor(candidates.length / 3)], 'prévia');
+    const wanted = Math.min(6, Math.max(2, Math.ceil(Math.sqrt(candidates.length))));
+    const ids = this.clusterAround(start, wanted);
+    this.partialPeek = { pieceIds: ids, until: now + 3800 };
+    this.helpUsed.partialPeek += 1;
+    this.touch();
+    return ids;
+  }
+
   toSaved(): SavedSession {
     return {
       version: 1,
@@ -304,6 +345,7 @@ export class PuzzleSession {
         y: piece.y,
         placed: piece.placed,
         zIndex: piece.zIndex,
+        groupId: piece.groupId,
       })),
       elapsedMs: this.elapsedMs,
       timerEnabled: this.timerEnabled,
@@ -318,7 +360,7 @@ export class PuzzleSession {
   }
 
   restore(saved: SavedSession): void {
-    this.helpUsed = { ...saved.helpUsed };
+    this.helpUsed = normalizeHelpUsage(saved.helpUsed);
     this.helpPreset = saved.helpPreset;
     this.elapsedMs = saved.elapsedMs;
     this.timerEnabled = saved.timerEnabled;
@@ -335,6 +377,7 @@ export class PuzzleSession {
       piece.y = savedPiece.y;
       piece.placed = savedPiece.placed;
       piece.zIndex = savedPiece.zIndex;
+      piece.groupId = savedPiece.groupId ?? piece.id;
       if (piece.placed) {
         piece.x = piece.bounds.x;
         piece.y = piece.bounds.y;
@@ -358,11 +401,71 @@ export class PuzzleSession {
     });
   }
 
+  private resolveDrop(id: string): DropResult {
+    this.lastPulseIds = [];
+    const joined = this.joinAvailableNeighbors(id);
+    const placed =
+      this.groupOf(id).every((piece) => piece.placed) || this.trySnapGroup(id);
+    if (joined && !placed) {
+      this.lastPulseIds = this.groupOf(id).map((piece) => piece.id);
+    }
+    this.touch();
+    return { placed, joined, completed: this.completed };
+  }
+
+  private joinAvailableNeighbors(id: string): boolean {
+    let joined = false;
+    let changed = true;
+    while (changed) {
+      changed = false;
+      const members = this.groupOf(id);
+      for (const piece of members) {
+        for (const other of this.pieces) {
+          if (other.id === piece.id) continue;
+          if (other.groupId === piece.groupId) continue;
+          if (!areGridNeighbors(piece, other)) continue;
+          if (alignmentError(piece, other) > this.snapThreshold) continue;
+          if (other.placed) {
+            alignGroupToNeighbor(this.groupOf(piece.id), piece, other);
+            this.placeGroup(this.groupOf(piece.id));
+            return true;
+          }
+          const moving = this.groupOf(other.id);
+          alignGroupToNeighbor(moving, other, piece);
+          mergeGroupIds(this.pieces, other.groupId, piece.groupId);
+          joined = true;
+          changed = true;
+          break;
+        }
+        if (changed) break;
+      }
+    }
+    return joined;
+  }
+
+  private trySnapGroup(id: string): boolean {
+    const members = this.groupOf(id).filter((piece) => !piece.placed);
+    if (members.length === 0) return false;
+    const leader = defined(members[0], 'grupo');
+    const distance = dist(leader.x, leader.y, leader.bounds.x, leader.bounds.y);
+    if (distance > this.snapThreshold) return false;
+    this.placeGroup(members);
+    return true;
+  }
+
+  private placeGroup(members: readonly PieceRuntime[]): void {
+    for (const piece of members) {
+      if (piece.placed) continue;
+      this.placePiece(piece);
+    }
+  }
+
   private placePiece(piece: PieceRuntime): void {
     piece.placed = true;
     piece.x = piece.bounds.x;
     piece.y = piece.bounds.y;
     piece.zIndex = piece.row * this.generation.cols + piece.col;
+    this.lastPulseIds.push(piece.id);
     if (this.unplacedPieces().length === 0) {
       this.completed = true;
       this.paused = true;
@@ -373,6 +476,33 @@ export class PuzzleSession {
       });
     }
     this.touch();
+  }
+
+  private clusterAround(start: PieceRuntime, wanted: number): string[] {
+    const byKey = new Map(
+      this.generation.pieces.map((piece) => [`${piece.row}:${piece.col}`, piece.id]),
+    );
+    const seen = new Set<string>([start.id]);
+    const queue = [start];
+    while (queue.length > 0 && seen.size < wanted) {
+      const current = queue.shift();
+      if (!current) break;
+      const deltas: Array<[number, number]> = [
+        [0, 1],
+        [1, 0],
+        [0, -1],
+        [-1, 0],
+      ];
+      for (const [dr, dc] of deltas) {
+        const neighborId = byKey.get(`${current.row + dr}:${current.col + dc}`);
+        if (!neighborId || seen.has(neighborId)) continue;
+        seen.add(neighborId);
+        const neighbor = this.pieceById(neighborId);
+        queue.push(neighbor);
+        if (seen.size >= wanted) break;
+      }
+    }
+    return [...seen];
   }
 
   private touch(): void {

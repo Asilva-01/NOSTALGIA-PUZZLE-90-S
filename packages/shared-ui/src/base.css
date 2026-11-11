@@ -426,11 +426,43 @@ a {
 
 .help-dock {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.35rem;
   padding: 0.4rem 0.45rem calc(0.55rem + env(safe-area-inset-bottom, 0px));
   overflow: hidden;
   max-width: 100%;
+}
+
+.zoom-dock {
+  position: absolute;
+  right: 0.4rem;
+  bottom: 0.4rem;
+  display: grid;
+  gap: 0.3rem;
+  z-index: 3;
+}
+
+.zoom-dock .help-btn {
+  width: var(--touch);
+  min-width: var(--touch);
+  padding: 0.15rem;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+}
+
+.peek-banner {
+  position: absolute;
+  top: 0.45rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 88%, transparent);
+  color: var(--accent-ink);
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 .help-btn {
@@ -583,7 +615,7 @@ a {
   }
 
   .help-dock {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
 

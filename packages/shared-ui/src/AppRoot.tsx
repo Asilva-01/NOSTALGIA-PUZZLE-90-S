@@ -10,6 +10,7 @@ import {
   nextPlayablePhase,
   nextPracticeCount,
   pickRandomChallenge,
+  pickSurpriseChallenge,
   practiceCounts,
   rememberRandom,
   type AppSettings,
@@ -140,6 +141,30 @@ export function AppRoot({ config }: { config: ProductConfig }) {
     });
   }, [config.catalog.puzzles, persist, phases, progress, puzzleById, startPlay]);
 
+  const onSurprise = useCallback(async () => {
+    const valid = new Set(config.catalog.puzzles.map((item) => item.id));
+    const pick = pickSurpriseChallenge(
+      phases,
+      progress,
+      valid,
+      config.catalog.puzzles.map((item) => ({
+        id: item.id,
+        difficulty: item.difficulty,
+        recommendedLevel: item.recommendedLevel,
+      })),
+    );
+    if (!pick) return;
+    const next = rememberRandom(progress, pick.phase.id);
+    setProgress(next);
+    await persist.saveProgress(next);
+    await startPlay({
+      puzzle: puzzleById(pick.phase.puzzleId),
+      pieceCount: pick.phase.pieceCount,
+      phaseId: pick.phase.id,
+      seed: Date.now() % 1_000_000,
+    });
+  }, [config.catalog.puzzles, persist, phases, progress, puzzleById, startPlay]);
+
   const resolveNextTarget = useCallback(
     (target: PlayTarget): PlayTarget | null => {
       if (target.phaseId) {
@@ -226,6 +251,7 @@ export function AppRoot({ config }: { config: ProductConfig }) {
             onResume={resume}
             onSettings={saveSettings}
             onRandom={() => void onRandom()}
+            onSurprise={() => void onSurprise()}
             onPlayPhase={(phase) =>
               void startPlay({
                 puzzle: puzzleById(phase.puzzleId),

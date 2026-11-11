@@ -38,19 +38,32 @@ describe('layout inicial da bandeja', () => {
         expect(laid.pieces).toHaveLength(pieceCount);
 
         const screens = laid.pieces.map((piece) => pieceScreenRect(piece, laid.camera));
-        for (const rect of screens) {
-          expect(rect.x).toBeGreaterThanOrEqual(-2);
-          expect(rect.y).toBeGreaterThanOrEqual(-2);
-          expect(rect.x + rect.width).toBeLessThanOrEqual(view.width + 2);
-          expect(rect.y + rect.height).toBeLessThanOrEqual(view.height + 2);
+        const mustFitAll = pieceCount <= 24;
+        if (mustFitAll) {
+          for (const rect of screens) {
+            expect(rect.x).toBeGreaterThanOrEqual(-2);
+            expect(rect.y).toBeGreaterThanOrEqual(-2);
+            expect(rect.x + rect.width).toBeLessThanOrEqual(view.width + 2);
+            expect(rect.y + rect.height).toBeLessThanOrEqual(view.height + 2);
+          }
+        } else {
+          expect(laid.cellScreen).toBeGreaterThanOrEqual(40);
         }
 
+        const boxes = mustFitAll
+          ? screens
+          : laid.pieces.map((piece) => ({
+              x: piece.x,
+              y: piece.y,
+              width: piece.bounds.width,
+              height: piece.bounds.height,
+            }));
         let worst = 0;
-        for (let i = 0; i < screens.length; i += 1) {
-          const a = screens[i];
+        for (let i = 0; i < boxes.length; i += 1) {
+          const a = boxes[i];
           if (!a) continue;
-          for (let j = i + 1; j < screens.length; j += 1) {
-            const b = screens[j];
+          for (let j = i + 1; j < boxes.length; j += 1) {
+            const b = boxes[j];
             if (!b) continue;
             worst = Math.max(worst, rectsOverlapRatio(a, b));
           }
@@ -60,6 +73,9 @@ describe('layout inicial da bandeja', () => {
         if (pieceCount === 12 && view.width === 390) {
           const minW = Math.min(...screens.map((rect) => rect.width));
           expect(minW).toBeGreaterThan(44);
+        }
+        if (pieceCount === 48 && view.width <= 390) {
+          expect(laid.cellScreen).toBeGreaterThanOrEqual(40);
         }
       });
     }

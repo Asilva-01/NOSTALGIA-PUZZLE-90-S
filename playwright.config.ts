@@ -91,6 +91,18 @@ export default defineConfig({
       testMatch: 'bible-smoke.spec.ts',
     },
     {
+      name: 'nostalgia-48',
+      testMatch: 'puzzle-48.spec.ts',
+      use: {
+        browserName: 'chromium',
+        ...devices['Desktop Chrome'],
+        viewport: { width: 390, height: 844 },
+        baseURL: `http://127.0.0.1:${nostalgiaPort}`,
+        hasTouch: true,
+        isMobile: true,
+      },
+    },
+    {
       name: 'nostalgia-24',
       testMatch: 'puzzle-24.spec.ts',
       use: {

@@ -6,6 +6,7 @@ import {
   PuzzleSession,
   formatHelpBadge,
   formatHelpLimit,
+  playSfx,
   remainingHelp,
   type AppSettings,
   type PersistStore,
@@ -40,7 +41,11 @@ function loadImage(url: string): Promise<HTMLImageElement> {
   });
 }
 
-function HelpIcon({ name }: { name: 'image' | 'hint' | 'edge' | 'shuffle' | 'plus' | 'minus' | 'fit' | 'sound' }) {
+function HelpIcon({
+  name,
+}: {
+  name: 'image' | 'hint' | 'edge' | 'shuffle' | 'plus' | 'minus' | 'fit' | 'sound' | 'peek';
+}) {
   const common = {
     width: 18,
     height: 18,
@@ -109,6 +114,14 @@ function HelpIcon({ name }: { name: 'image' | 'hint' | 'edge' | 'shuffle' | 'plu
       </svg>
     );
   }
+  if (name === 'peek') {
+    return (
+      <svg {...common}>
+        <circle cx="12" cy="12" r="3" />
+        <path d="M4 12c2.8-5 5.6-7 8-7s5.2 2 8 7c-2.8 5-5.6 7-8 7s-5.2-2-8-7z" />
+      </svg>
+    );
+  }
   return (
     <svg {...common}>
       <path d="M11 5v14" />
@@ -139,6 +152,7 @@ export function PlayView({
     total: target.pieceCount as number,
     paused: false,
     remaining: HELP_PRESETS[settings.helpPreset],
+    peeking: false,
   });
   const [peek, setPeek] = useState(false);
   const [busy, setBusy] = useState(true);
@@ -241,6 +255,7 @@ export function PlayView({
       total: session.pieces.length,
       paused: session.paused && !session.completed,
       remaining: remainingHelp(session.helpLimits, session.helpUsed),
+      peeking: Boolean(session.partialPeek),
     });
     if (session.completed) {
       fireComplete(session);
@@ -296,6 +311,40 @@ export function PlayView({
           <canvas ref={canvasRef} aria-label="Área do quebra-cabeça" />
           {busy ? <div className="overlay">Preparando peças…</div> : null}
           {error ? <div className="overlay">{error}</div> : null}
+          {hud.peeking ? (
+            <div className="peek-banner" role="status">
+              Prévia parcial da imagem
+            </div>
+          ) : null}
+          <div className="zoom-dock" aria-label="Zoom e enquadramento">
+            <button
+              className="help-btn"
+              type="button"
+              aria-label="Aumentar zoom"
+              onClick={() => rendererRef.current?.zoomBy(1.15)}
+            >
+              <HelpIcon name="plus" />
+              <span>Zoom+</span>
+            </button>
+            <button
+              className="help-btn"
+              type="button"
+              aria-label="Diminuir zoom"
+              onClick={() => rendererRef.current?.zoomBy(1 / 1.15)}
+            >
+              <HelpIcon name="minus" />
+              <span>Zoom−</span>
+            </button>
+            <button
+              className="help-btn"
+              type="button"
+              aria-label="Ver tabuleiro e peças"
+              onClick={() => rendererRef.current?.requestFit()}
+            >
+              <HelpIcon name="fit" />
+              <span>Ver</span>
+            </button>
+          </div>
           {hud.paused ? (
             <div className="overlay">
               <div className="modal">
@@ -325,9 +374,12 @@ export function PlayView({
           aria-label={`Ver imagem (${formatHelpLimit(hud.remaining.peekImage)})`}
           onClick={() => {
             if (session()?.peekImage()) {
+              playSfx('help', settings.soundEnabled);
               setPeek(true);
               const current = session();
               if (current) refresh(current);
+            } else {
+              playSfx('error', settings.soundEnabled);
             }
           }}
         >
@@ -341,7 +393,9 @@ export function PlayView({
           disabled={hud.remaining.highlight <= 0}
           aria-label={`Destacar (${formatHelpLimit(hud.remaining.highlight)})`}
           onClick={() => {
-            session()?.highlightPiece(performance.now());
+            const id = session()?.highlightPiece(performance.now());
+            if (id) playSfx('help', settings.soundEnabled);
+            else playSfx('error', settings.soundEnabled);
             const current = session();
             if (current) refresh(current);
             rendererRef.current?.markDirty();
@@ -354,10 +408,29 @@ export function PlayView({
         <button
           className="help-btn"
           type="button"
+          disabled={hud.remaining.partialPeek <= 0}
+          aria-label={`Prévia parcial (${formatHelpLimit(hud.remaining.partialPeek)})`}
+          onClick={() => {
+            const ids = session()?.peekPartial(performance.now()) ?? [];
+            if (ids.length > 0) playSfx('help', settings.soundEnabled);
+            else playSfx('error', settings.soundEnabled);
+            const current = session();
+            if (current) refresh(current);
+            rendererRef.current?.markDirty();
+          }}
+        >
+          <HelpIcon name="peek" />
+          <span>Prévia</span>
+          <b className="help-badge">{formatHelpBadge(hud.remaining.partialPeek)}</b>
+        </button>
+        <button
+          className="help-btn"
+          type="button"
           disabled={hud.remaining.separateEdges <= 0}
           aria-label={`Bordas (${formatHelpLimit(hud.remaining.separateEdges)})`}
           onClick={() => {
-            session()?.separateEdges();
+            if (session()?.separateEdges()) playSfx('help', settings.soundEnabled);
+            else playSfx('error', settings.soundEnabled);
             const current = session();
             if (current) refresh(current);
             rendererRef.current?.requestFit();
@@ -374,7 +447,8 @@ export function PlayView({
           disabled={hud.remaining.shuffle <= 0}
           aria-label={`Embaralhar (${formatHelpLimit(hud.remaining.shuffle)})`}
           onClick={() => {
-            session()?.shuffle();
+            if (session()?.shuffle()) playSfx('help', settings.soundEnabled);
+            else playSfx('error', settings.soundEnabled);
             const current = session();
             if (current) refresh(current);
             rendererRef.current?.requestFit();
@@ -384,33 +458,6 @@ export function PlayView({
           <HelpIcon name="shuffle" />
           <span>Mistura</span>
           <b className="help-badge">{formatHelpBadge(hud.remaining.shuffle)}</b>
-        </button>
-        <button
-          className="help-btn"
-          type="button"
-          aria-label="Aumentar zoom"
-          onClick={() => rendererRef.current?.zoomBy(1.15)}
-        >
-          <HelpIcon name="plus" />
-          <span>Zoom+</span>
-        </button>
-        <button
-          className="help-btn"
-          type="button"
-          aria-label="Diminuir zoom"
-          onClick={() => rendererRef.current?.zoomBy(1 / 1.15)}
-        >
-          <HelpIcon name="minus" />
-          <span>Zoom−</span>
-        </button>
-        <button
-          className="help-btn"
-          type="button"
-          aria-label="Enquadrar tabuleiro"
-          onClick={() => rendererRef.current?.requestFit()}
-        >
-          <HelpIcon name="fit" />
-          <span>Ver</span>
         </button>
         <button
           className="help-btn"

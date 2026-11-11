@@ -70,6 +70,7 @@ test('peças iniciais cabem na tela sem transbordar a ajuda', async ({ page }) =
   expect(report.helpRight).toBeLessThanOrEqual((report.viewWidth ?? 0) + 1);
   expect(report.pageOverflow).toBeLessThanOrEqual(2);
   await expect(page.getByRole('button', { name: /Embaralhar/ })).toBeInViewport();
+  await expect(page.getByRole('button', { name: /Prévia parcial/ })).toBeInViewport();
 
   const vp = page.viewportSize();
   if (vp && vp.width === 390) {

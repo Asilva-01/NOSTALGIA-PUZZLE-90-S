@@ -16,7 +16,9 @@ import type {
   PieceGeometry,
   PuzzleGeneration,
   SharedEdge,
+  TabProfile,
 } from './types.ts';
+import { TAB_PROFILES } from './types.ts';
 
 export type GeneratePuzzleInput = {
   width: number;
@@ -48,26 +50,58 @@ function mix(a: number, b: number, t: number): number {
   return a + (b - a) * t;
 }
 
+function pickProfile(rng: () => number): TabProfile {
+  const index = Math.floor(rng() * TAB_PROFILES.length);
+  return TAB_PROFILES[index] ?? 'classic';
+}
+
+function profileShape(profile: TabProfile): {
+  depth: number;
+  half: number;
+  neck: number;
+  knob: number;
+  spread: number;
+} {
+  switch (profile) {
+    case 'wide':
+      return { depth: 0.18, half: 0.26, neck: 0.1, knob: 0.86, spread: 0.55 };
+    case 'tall':
+      return { depth: 0.3, half: 0.135, neck: 0.2, knob: 0.98, spread: 0.38 };
+    case 'round':
+      return { depth: 0.24, half: 0.2, neck: 0.06, knob: 1, spread: 0.5 };
+    case 'square':
+      return { depth: 0.2, half: 0.17, neck: 0.58, knob: 0.7, spread: 0.42 };
+    case 'stem':
+      return { depth: 0.27, half: 0.145, neck: 0.38, knob: 0.96, spread: 0.36 };
+    default:
+      return { depth: 0.22, half: 0.18, neck: 0.15, knob: 0.92, spread: 0.45 };
+  }
+}
+
 /**
  * Curva Bézier de aba clássica, na direção canônica da aresta compartilhada.
  * Horizontal L→R, bulge +y quando sign = +1.
  * Vertical T→B, bulge +x quando sign = +1.
+ * O perfil (largo, alto, redondo, quadrado, haste) muda o desenho sem quebrar o
+ * complementar: a peça vizinha usa o mesmo caminho invertido.
  */
 export function shapedEdgeCommands(edge: SharedEdge): PathCommand[] {
-  const { x0, y0, x1, y1, sign, center, size } = edge;
+  const { x0, y0, x1, y1, sign, center, size, lean } = edge;
   const dx = x1 - x0;
   const dy = y1 - y0;
   const len = Math.hypot(dx, dy);
   const nx = edge.axis === 'h' ? 0 : sign;
   const ny = edge.axis === 'h' ? sign : 0;
-  const depth = len * 0.22 * size;
-  const half = 0.18 * size;
+  const shape = profileShape(edge.profile);
+  const depth = len * shape.depth * size;
+  const half = shape.half * size;
+  const leanShift = lean * half * 0.55;
 
-  const tLine = Math.max(0.12, center - half);
-  const tNeck = center - half * 0.45;
-  const tMid = center;
-  const tNeck2 = center + half * 0.45;
-  const tLine2 = Math.min(0.88, center + half);
+  const tLine = Math.max(0.1, center - half + leanShift);
+  const tNeck = center - half * shape.spread + leanShift;
+  const tMid = center + leanShift * 0.35;
+  const tNeck2 = center + half * shape.spread + leanShift;
+  const tLine2 = Math.min(0.9, center + half + leanShift);
 
   const p = (t: number, offset: number) => ({
     x: mix(x0, x1, t) + nx * offset,
@@ -75,11 +109,11 @@ export function shapedEdgeCommands(edge: SharedEdge): PathCommand[] {
   });
 
   const a = p(tLine, 0);
-  const neckOut = p(tNeck, depth * 0.15);
-  const knobA = p(tNeck, depth * 0.92);
+  const neckOut = p(tNeck, depth * shape.neck);
+  const knobA = p(tNeck, depth * shape.knob);
   const knob = p(tMid, depth);
-  const knobB = p(tNeck2, depth * 0.92);
-  const neckIn = p(tNeck2, depth * 0.15);
+  const knobB = p(tNeck2, depth * shape.knob);
+  const neckIn = p(tNeck2, depth * shape.neck);
   const b = p(tLine2, 0);
   const end = { x: x1, y: y1 };
 
@@ -117,6 +151,16 @@ function appendEdge(path: PathCommand[], edge: SharedEdge, reverse: boolean): vo
   path.push(...cmds);
 }
 
+function makeShapedParams(rng: () => number): Pick<SharedEdge, 'sign' | 'center' | 'size' | 'profile' | 'lean'> {
+  return {
+    sign: rng() < 0.5 ? 1 : -1,
+    center: randomFloat(rng, 0.36, 0.64),
+    size: randomFloat(rng, 0.72, 1.32),
+    profile: pickProfile(rng),
+    lean: randomFloat(rng, -0.42, 0.42),
+  };
+}
+
 export function generatePuzzle(input: GeneratePuzzleInput): PuzzleGeneration {
   const originX = input.originX ?? 0;
   const originY = input.originY ?? 0;
@@ -143,9 +187,9 @@ export function generatePuzzle(input: GeneratePuzzleInput): PuzzleGeneration {
         x1,
         y1,
         kind: border ? 'flat' : 'shaped',
-        sign: rng() < 0.5 ? 1 : -1,
-        center: randomFloat(rng, 0.44, 0.56),
-        size: randomFloat(rng, 0.86, 1.14),
+        ...(border
+          ? { sign: 1 as const, center: 0.5, size: 1, profile: 'classic' as const, lean: 0 }
+          : makeShapedParams(rng)),
       });
     }
     horizontal.push(row);
@@ -168,9 +212,9 @@ export function generatePuzzle(input: GeneratePuzzleInput): PuzzleGeneration {
         x1,
         y1,
         kind: border ? 'flat' : 'shaped',
-        sign: rng() < 0.5 ? 1 : -1,
-        center: randomFloat(rng, 0.44, 0.56),
-        size: randomFloat(rng, 0.86, 1.14),
+        ...(border
+          ? { sign: 1 as const, center: 0.5, size: 1, profile: 'classic' as const, lean: 0 }
+          : makeShapedParams(rng)),
       });
     }
     vertical.push(row);
@@ -244,4 +288,15 @@ export function pieceAt(
 ): PieceGeometry {
   const piece = generation.pieces.find((item) => item.row === row && item.col === col);
   return defined(piece, `Peça ${row},${col} não encontrada`);
+}
+
+export function edgeSignature(edge: SharedEdge): string {
+  if (edge.kind === 'flat') return `${edge.id}:flat`;
+  return [
+    edge.profile,
+    edge.sign,
+    edge.center.toFixed(3),
+    edge.size.toFixed(3),
+    edge.lean.toFixed(3),
+  ].join(':');
 }
