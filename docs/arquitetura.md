@@ -31,7 +31,7 @@ Tamanho mínimo de peça na tela: 44 px (12/24 tentam caber na vista; 48+ pode e
 
 ## Progressão
 
-Tabela parametrizável em `PHASE_BANDS` (fases 1–200). Com 10 imagens, as fases 1–10 (12 peças) usam uma arte cada; a partir da 11 a tabela recicla o catálogo. Desbloqueio sequencial, replay liberado, estrelas e melhor pontuação por fase. No catálogo, 12/24/48 estão jogáveis para validar o motor sem grind.
+Tabela parametrizável em `PHASE_BANDS` (fases 1–200). Com 25 imagens, as fases 1–10 (12 peças) e 11–25 (24 peças) usam uma arte cada; a partir da 26 a tabela recicla o catálogo. Desbloqueio sequencial, replay liberado, estrelas e melhor pontuação por fase. No catálogo, 12/24/48 estão jogáveis para validar o motor sem grind.
 
 ## Aleatório
 

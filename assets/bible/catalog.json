@@ -342,6 +342,531 @@
         "height": 864,
         "hash": "23940033ef054a99fd57ef9c433384ede9b94ee145483f8c1d2fa07dbd12bff0"
       }
+    },
+    {
+      "id": "noe-arca",
+      "name": "Noé e a arca",
+      "collection": "Noé e a arca",
+      "description": "Arca de madeira enorme, pares de animais fofos e o arco-íris depois da chuva. Família de Noé na rampa — livro infantil, sem dilúvio assustador.",
+      "recommendedLevel": 11,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 11
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "A arca e o recomeço",
+        "summary": "Noé constrói a arca, a família e os animais entram, a chuva passa e um arco-íris assina a promessa de recomeçar a terra com cuidado.",
+        "reference": "Gênesis 6–9",
+        "message": "Cuidar da vida — gente e bicho — é parte da aliança, não um detalhe da história.",
+        "curiosity": "A arca do texto é um baú enorme de madeira (tebah), mais caixa do que barco de filme. O arco-íris entra como sinal, não como enfeite."
+      },
+      "image": {
+        "src": "images/noe-arca.webp",
+        "srcMedium": "images/noe-arca-800.webp",
+        "thumbnail": "images/noe-arca-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "d82f959d119e9318bbc5b462b695c400cbdbde9b37cf43002e99655efc50bfaf"
+      }
+    },
+    {
+      "id": "abraao-estrelas",
+      "name": "Abraão e as estrelas",
+      "collection": "Abraão",
+      "description": "Noite no deserto, tenda, fogueira e Abraão olhando o céu cheio de estrelas. Sara à entrada — promessa quieta, aquarela de livro.",
+      "recommendedLevel": 12,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 12
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "Conta as estrelas",
+        "summary": "Deus leva Abraão para fora da tenda e pede que olhe o céu: a descendência será como as estrelas — uma promessa grande para um homem ainda sem filho.",
+        "reference": "Gênesis 15",
+        "message": "Tem promessa que cabe no bolso de ninguém; a gente só consegue olhar para cima e confiar.",
+        "curiosity": "No deserto sem poluição luminosa, a Via Láctea é um rio. O texto usa o céu que Abraão realmente via — incontável de verdade."
+      },
+      "image": {
+        "src": "images/abraao-estrelas.webp",
+        "srcMedium": "images/abraao-estrelas-800.webp",
+        "thumbnail": "images/abraao-estrelas-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "90b0c12324ce469dd0c0ca28e2d5e170ac9a611be3f0deef3bb0866ddcad1038"
+      }
+    },
+    {
+      "id": "jose-manto",
+      "name": "José do Egito (manto)",
+      "collection": "José do Egito",
+      "description": "José menino de manto listrado colorido entre os irmãos, poço ao fundo, ovelhas e camelos. Cena de ciúme e escolha, sem violência explícita.",
+      "recommendedLevel": 13,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 13
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "O manto e os irmãos",
+        "summary": "Jacó presenteia José com um manto especial. Os irmãos se irritam, e o presente vira o início de uma viagem longa até o Egito — e até o perdão.",
+        "reference": "Gênesis 37",
+        "message": "Ciúme parte família. O fim da história de José mostra que dá para costurar de novo.",
+        "curiosity": "O “manto de muitas cores” pode ter sido uma túnica de mangas longas, marca de quem não ia para o campo. O presente dizia status, não só moda."
+      },
+      "image": {
+        "src": "images/jose-manto.webp",
+        "srcMedium": "images/jose-manto-800.webp",
+        "thumbnail": "images/jose-manto-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "f326fd44f22d8dea6140cd44048fbee4ae895c27b41aeed53127e0ec670f46e8"
+      }
+    },
+    {
+      "id": "sarca-ardente",
+      "name": "Sarça ardente",
+      "collection": "Moisés",
+      "description": "Arbusto em chamas douradas que não se consome, Moisés tirando as sandálias, ovelhas e monte ao fundo. Luz quente de livro infantil.",
+      "recommendedLevel": 14,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 14
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "O arbusto que não se apaga",
+        "summary": "Moisés pastoreia no deserto e vê um arbusto em fogo que não queima. Tira as sandálias: o chão é santo, e o recado é libertar o povo.",
+        "reference": "Êxodo 3",
+        "message": "Às vezes o chamado começa parado, descalço, prestando atenção no que já estava ali.",
+        "curiosity": "Sarça é um arbusto espinhoso do deserto. O milagre não é o fogo em si — é a planta continuar viva no meio dele."
+      },
+      "image": {
+        "src": "images/sarca-ardente.webp",
+        "srcMedium": "images/sarca-ardente-800.webp",
+        "thumbnail": "images/sarca-ardente-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "5bc6bac434d2e9b90fa1e0746f22cc9506f3a0280c37baa5610d290b90c37957"
+      }
+    },
+    {
+      "id": "jerico",
+      "name": "Muralhas de Jericó",
+      "collection": "Josué",
+      "description": "Muros altos de pedra, sacerdotes com shofares, o povo em volta e uma rachadura luminosa. Queda suave, sem batalha sangrenta.",
+      "recommendedLevel": 15,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 15
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "Sete voltas e o muro",
+        "summary": "O povo marcha ao redor de Jericó, os sacerdotes tocam as trombetas e, no sétimo dia, o muro cai. A vitória não vem de um exército barulhento de filme.",
+        "reference": "Josué 6",
+        "message": "Tem muralha que não cai na força — cai quando a gente insiste no passo certo juntos.",
+        "curiosity": "Jericó é das cidades habitadas mais antigas do mundo. O texto fala em shofar, trombeta de chifre, não em fanfarra de metal."
+      },
+      "image": {
+        "src": "images/jerico.webp",
+        "srcMedium": "images/jerico-800.webp",
+        "thumbnail": "images/jerico-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "94825802906afe608463a5b4e0e53848fb4005e361bef4aa3a05042226f62a20"
+      }
+    },
+    {
+      "id": "rute-noemi",
+      "name": "Rute e Noemi",
+      "collection": "Antigo Testamento",
+      "description": "Estrada de colheita, campo de cevada dourada e duas mulheres caminhando juntas. Aldeia ao fundo, pôr do sol — lealdade em aquarela.",
+      "recommendedLevel": 16,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 16
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "Onde fores, irei",
+        "summary": "Noemi perde marido e filhos e manda as noras voltarem para casa. Rute recusa: vai com ela para Belém, e as duas recomeçam no campo de cevada.",
+        "reference": "Rute 1",
+        "message": "Família também é quem escolhe ficar quando seria mais fácil ir embora.",
+        "curiosity": "Rute era moabita, estrangeira. A bisneta de uma “de fora” entra na árvore de Davi — o livro inteiro é sobre acolher quem veio de longe."
+      },
+      "image": {
+        "src": "images/rute-noemi.webp",
+        "srcMedium": "images/rute-noemi-800.webp",
+        "thumbnail": "images/rute-noemi-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "c47aae91462274b75e668cc0340c2b36fb7255e36df632116da8edd14353c6a0"
+      }
+    },
+    {
+      "id": "ester",
+      "name": "Ester",
+      "collection": "Antigo Testamento",
+      "description": "Salão dourado com colunas, Ester em traje simples e elegante diante do rei. Tom de livro infantil, coragem quieta, sem palácio de filme adulto.",
+      "recommendedLevel": 17,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 17
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "Para um tempo como este",
+        "summary": "Ester, rainha no palácio da Pérsia, arrisca a vida ao se aproximar do rei para defender o seu povo. Coragem com medo, não coragem de cartaz.",
+        "reference": "Ester 4–7",
+        "message": "Às vezes o lugar em que a gente está não é acaso — é o lugar de falar por quem não entra na sala.",
+        "curiosity": "O livro de Ester é um dos dois da Bíblia hebraica com nome de mulher (o outro é Rute). Deus não é citado diretamente; a providência aparece nas viradas da história."
+      },
+      "image": {
+        "src": "images/ester.webp",
+        "srcMedium": "images/ester-800.webp",
+        "thumbnail": "images/ester-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "6078974acd8656aa33fbf12090d417a27c96e1d3931bd9487fbc23a7353a300d"
+      }
+    },
+    {
+      "id": "salomao-templo",
+      "name": "Salomão e o templo",
+      "collection": "Salomão",
+      "description": "Templo de pedra e cedro, artesãos, pombas e Salomão em manto simples. Luz dourada na inauguração — construção, não palácio de videogame.",
+      "recommendedLevel": 18,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 18
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "A casa que Salomão levantou",
+        "summary": "Salomão constrói o templo em Jerusalém com cedro e pedra. Na inauguração, pede que aquele lugar seja casa de oração — não um monumento para ele.",
+        "reference": "1 Reis 6–8",
+        "message": "Obra bonita sem coração vira vitrine. O pedido de Salomão é que a casa sirva quem chega.",
+        "curiosity": "O cedro vinha do Líbano, em parceria com Hiram de Tiro. O templo unia ofício local e madeira de longe — obra de muitos nomes, não de um só."
+      },
+      "image": {
+        "src": "images/salomao-templo.webp",
+        "srcMedium": "images/salomao-templo-800.webp",
+        "thumbnail": "images/salomao-templo-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "20ecfcb64b3928e7fafedf8d755477e3c42b9d7d0fcb040550641b9a738cae89"
+      }
+    },
+    {
+      "id": "elias-corvos",
+      "name": "Elias e os corvos",
+      "collection": "Antigo Testamento",
+      "description": "Riacho no deserto, Elias sentado na pedra e corvos trazendo pão. Rocha, água e céu — provisão quieta, sem terror.",
+      "recommendedLevel": 19,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 19
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "Pão que veio pelo ar",
+        "summary": "Durante a seca, Elias se esconde junto a um riacho. Corvos lhe trazem pão de manhã e à tarde — o profeta aprende a receber o suficiente para o dia.",
+        "reference": "1 Reis 17",
+        "message": "Cuidado às vezes chega de um jeito estranho. O suficiente de hoje já é milagre.",
+        "curiosity": "Corvo na cultura antiga era animal “impuro”. O texto escolhe o mensageiro improvável de propósito: provisão não escolhe o carteiro bonito."
+      },
+      "image": {
+        "src": "images/elias-corvos.webp",
+        "srcMedium": "images/elias-corvos-800.webp",
+        "thumbnail": "images/elias-corvos-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "8386f2a2caed75d9004a7d209378935c854ae0d2ac221b8f4478acc9343d8c1a"
+      }
+    },
+    {
+      "id": "samuel-menino",
+      "name": "Samuel menino",
+      "collection": "Antigo Testamento",
+      "description": "Noite no santuário, lamparina, Samuel menino acordado e o velho Eli ao fundo. Luz quente, chamado suave, adequado para criança.",
+      "recommendedLevel": 20,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 20
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "Fala, que o teu servo ouve",
+        "summary": "Samuel dorme no santuário e ouve alguém chamar. Três vezes vai até Eli; na quarta, aprende a responder a Deus. O chamado chega a uma criança acordada.",
+        "reference": "1 Samuel 3",
+        "message": "Idade não é o filtro do recado. Prestação de ouvido, sim.",
+        "curiosity": "A lamparina do santuário queimava até de manhã. O narrador nota que “a lâmpada de Deus ainda não se tinha apagado” — é madrugada, não pesadelo."
+      },
+      "image": {
+        "src": "images/samuel-menino.webp",
+        "srcMedium": "images/samuel-menino-800.webp",
+        "thumbnail": "images/samuel-menino-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "20f02152c6965442cd96e8121b3eacad33dc81cbb192ef825a671d2d552a4dcb"
+      }
+    },
+    {
+      "id": "bodas-cana",
+      "name": "Bodas de Caná",
+      "collection": "Milagres de Jesus",
+      "description": "Festa de casamento, talhas de pedra, uvas e Jesus abençoando a água que vira vinho. Convidados alegres, videira, tons de livro infantil.",
+      "recommendedLevel": 21,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 21
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "Água que virou festa",
+        "summary": "Acaba o vinho no casamento. Maria avisa, Jesus manda encher talhas de água — e o festim continua. O primeiro sinal é cuidar da alegria de uma casa simples.",
+        "reference": "João 2",
+        "message": "Milagre também é não deixar a festa de alguém morrer no meio por falta do básico.",
+        "curiosity": "As talhas de pedra serviam para a purificação judaica. João escolhe justamente esses jarros: o sinal começa no que já estava ali para o rito."
+      },
+      "image": {
+        "src": "images/bodas-cana.webp",
+        "srcMedium": "images/bodas-cana-800.webp",
+        "thumbnail": "images/bodas-cana-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "01b831c06e90b9110cf589ee5148c0e1745628e9aa9eb68cf4f953d5dfaa65ee"
+      }
+    },
+    {
+      "id": "jesus-aguas",
+      "name": "Jesus anda sobre as águas",
+      "collection": "Milagres de Jesus",
+      "description": "Lago à noite, ondas, barco e Jesus caminhando sobre a água. Pedro dá o primeiro passo, lua rasgando nuvem — drama fofo, sem terror.",
+      "recommendedLevel": 22,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 22
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "Vem",
+        "summary": "Os discípulos lutam contra o vento no lago. Jesus vem andando sobre a água, Pedro pede para ir até ele, afunda no medo e é seguro pela mão.",
+        "reference": "Mateus 14:22–33",
+        "message": "Medo e fé podem molhar o mesmo pé. A mão que segura vale mais do que o passo perfeito.",
+        "curiosity": "Mateus é o único que narra Pedro saindo do barco. Os outros evangelhos contam Jesus sobre a água; este acrescenta o convite “vem”."
+      },
+      "image": {
+        "src": "images/jesus-aguas.webp",
+        "srcMedium": "images/jesus-aguas-800.webp",
+        "thumbnail": "images/jesus-aguas-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "ddffd1ef41a6af1cded797ac985fcebc4353cc02cb12545eb8165eb9bb0f81ee"
+      }
+    },
+    {
+      "id": "zaqueu",
+      "name": "Zaqueu no sicômoro",
+      "collection": "Milagres de Jesus",
+      "description": "Rua de Jericó, sicômoro frondoso, Zaqueu pequeno no galho e Jesus olhando para cima. Multidão colorida, casas de adobe, tom alegre.",
+      "recommendedLevel": 23,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 23
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "Desce depressa",
+        "summary": "Zaqueu, cobrador pequeno e malvisto, sobe num sicômoro para ver Jesus. Jesus para, chama pelo nome e vai jantar na casa dele — a rua inteira resmunga, e a vida dele vira.",
+        "reference": "Lucas 19:1–10",
+        "message": "Ser visto de verdade muda mais do que ser aplaudido de longe.",
+        "curiosity": "Sicômoro é figueira larga, fácil de subir. Lucas detalha a árvore para a gente enxergar o homem baixo fazendo papel de menino só para alcançar o olhar."
+      },
+      "image": {
+        "src": "images/zaqueu.webp",
+        "srcMedium": "images/zaqueu-800.webp",
+        "thumbnail": "images/zaqueu-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "a95ede04c38bd94a76295dc05d8dbb4e015d1b91635337d157d8c185212d4a55"
+      }
+    },
+    {
+      "id": "ovelha-perdida",
+      "name": "A ovelha perdida",
+      "collection": "Parábolas",
+      "description": "Pastor carrega o cordeiro nos ombros, rebanho no morro, pôr do sol. Jesus como pastor gentil — parábola em aquarela, um foco claro.",
+      "recommendedLevel": 24,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 24
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "A que faltava",
+        "summary": "Um pastor deixa as noventa e nove no campo e vai atrás da ovelha perdida. Quando acha, carrega no ombro e chama os amigos para comemorar.",
+        "reference": "Lucas 15:1–7",
+        "message": "Ninguém é “o resto que se perde”. A festa é por uma.",
+        "curiosity": "Lucas junta três parábolas de “perdido e achado”: ovelha, moeda, filho. A ovelha é a primeira — a mais simples de desenhar e a mais difícil de viver."
+      },
+      "image": {
+        "src": "images/ovelha-perdida.webp",
+        "srcMedium": "images/ovelha-perdida-800.webp",
+        "thumbnail": "images/ovelha-perdida-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "ecbb433f2d5d57df06c947eba203e79106a13d6ce23dcb40db268b51c28f797e"
+      }
+    },
+    {
+      "id": "tumulo-vazio",
+      "name": "Túmulo vazio",
+      "collection": "Crucificação e ressurreição",
+      "description": "Amanhecer no jardim, pedra rolada, luz dourada saindo do túmulo. Mulheres com perfume, anjo suave, lírios — alegria da ressurreição, sem gore.",
+      "recommendedLevel": 25,
+      "difficulty": "medium",
+      "defaultPieceCount": 24,
+      "unlock": {
+        "type": "phase",
+        "phase": 25
+      },
+      "license": {
+        "author": "Puzzle Universe",
+        "license": "CC BY 4.0",
+        "source": "Arte original gerada por IA para o Puzzle Universe",
+        "date": "2026-11-11",
+        "type": "original"
+      },
+      "story": {
+        "title": "Ele não está aqui",
+        "summary": "Ao amanhecer, as mulheres encontram a pedra rolada e o túmulo vazio. A notícia não é terror: é que a morte não segurou Jesus, e o jardim acorda primeiro.",
+        "reference": "João 20:1–18",
+        "message": "O fim que a gente temia pode ser porta. A manhã começa no lugar em que se chorava.",
+        "curiosity": "João destaca Maria Madalena como a primeira a ver o Ressuscitado. Numa cultura em que o testemunho de mulher pesava menos, o evangelho escolhe ela."
+      },
+      "image": {
+        "src": "images/tumulo-vazio.webp",
+        "srcMedium": "images/tumulo-vazio-800.webp",
+        "thumbnail": "images/tumulo-vazio-thumb.webp",
+        "width": 1152,
+        "height": 864,
+        "hash": "381ef99d328c5da25d41256ca1ec2af66be4d1396a203c47e555a871ce061693"
+      }
     }
   ]
 }

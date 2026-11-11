@@ -19,9 +19,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "npm run build && playwright test",
-    "validate:catalog": "tsx packages/content-manager/src/cli.ts --catalog assets/nostalgia/catalog.json --catalog assets/bible/catalog.json --min 10 --warn-below 200",
+    "validate:catalog": "tsx packages/content-manager/src/cli.ts --catalog assets/nostalgia/catalog.json --catalog assets/bible/catalog.json --min 25 --warn-below 200",
     "assets:rasterize": "tsx scripts/rasterize-assets.ts",
     "assets:optimize": "tsx scripts/optimize-lote.ts",
+    "assets:optimize:lote2": "tsx scripts/optimize-lote2.ts",
     "preview:nostalgia": "npm run preview -w @puzzle-universe/nostalgia-90",
     "preview:bible": "npm run preview -w @puzzle-universe/bible-puzzle"
   },

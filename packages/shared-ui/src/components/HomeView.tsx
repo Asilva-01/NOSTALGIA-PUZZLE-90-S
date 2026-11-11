@@ -132,8 +132,9 @@ export function HomeView({
       <section className="panel">
         <h2>Níveis</h2>
         <p>
-          As fases 1 a 10 usam 12 peças e estas {config.catalog.puzzles.length} imagens originais. Depois a campanha
-          reutiliza as artes com mais peças.
+          As fases 1 a 10 usam 12 peças; as fases 11 a 25 usam 24 peças. Cada uma destas{' '}
+          {config.catalog.puzzles.length} artes originais é um desafio diferente. Depois a campanha reutiliza as artes
+          com mais peças.
         </p>
         <ul className="level-grid">
           {config.catalog.puzzles.map((puzzle, index) => {
