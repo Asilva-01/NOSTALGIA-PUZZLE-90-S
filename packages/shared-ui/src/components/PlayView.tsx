@@ -8,6 +8,9 @@ import {
   formatHelpLimit,
   playSfx,
   remainingHelp,
+  silenceAudio,
+  unlockAudio,
+  withSoundEnabled,
   type AppSettings,
   type PersistStore,
   type SavedSession,
@@ -28,6 +31,7 @@ type Props = {
     elapsedMs: number;
     target: PlayTarget;
   }) => void;
+  onFail: (payload: { elapsedMs: number; limitMs: number; target: PlayTarget }) => void;
   onSettings: (settings: AppSettings) => void;
 };
 
@@ -139,18 +143,22 @@ export function PlayView({
   saved,
   onExit,
   onComplete,
+  onFail,
   onSettings,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sessionRef = useRef<PuzzleSession | null>(null);
   const rendererRef = useRef<PuzzleRenderer | null>(null);
   const completedRef = useRef(false);
+  const failedRef = useRef(false);
   const [hud, setHud] = useState({
     elapsed: 0,
+    remainingMs: null as number | null,
     score: 0,
     placed: 0,
     total: target.pieceCount as number,
     paused: false,
+    failed: false,
     remaining: HELP_PRESETS[settings.helpPreset],
     peeking: false,
   });
@@ -160,6 +168,10 @@ export function PlayView({
 
   const completeRef = useRef(onComplete);
   completeRef.current = onComplete;
+  const failRef = useRef(onFail);
+  failRef.current = onFail;
+  const settingsRef = useRef(settings);
+  settingsRef.current = settings;
   const savedOnMount = useRef(saved);
 
   useEffect(() => {
@@ -203,6 +215,7 @@ export function PlayView({
           session,
           image,
           soundEnabled: settings.soundEnabled,
+          sfxTheme: config.theme,
           reducedMotion: settings.reducedMotion,
           persist: () => {
             void persist.saveSession(session.toSaved());
@@ -237,7 +250,7 @@ export function PlayView({
   }, [config.appId, persist, target.phaseId, target.pieceCount, target.puzzle, target.seed]);
 
   function fireComplete(session: PuzzleSession) {
-    if (completedRef.current) return;
+    if (completedRef.current || failedRef.current) return;
     completedRef.current = true;
     completeRef.current({
       stars: session.stars(),
@@ -247,16 +260,33 @@ export function PlayView({
     });
   }
 
+  function fireFail(session: PuzzleSession) {
+    if (failedRef.current || completedRef.current) return;
+    failedRef.current = true;
+    playSfx('error', settingsRef.current.soundEnabled, config.theme);
+    failRef.current({
+      elapsedMs: session.elapsedMs,
+      limitMs: session.timeLimitMs ?? session.elapsedMs,
+      target,
+    });
+  }
+
   function refresh(session: PuzzleSession) {
     setHud({
       elapsed: session.elapsedMs,
+      remainingMs: session.remainingMs,
       score: session.score,
       placed: session.pieces.filter((piece) => piece.placed).length,
       total: session.pieces.length,
-      paused: session.paused && !session.completed,
+      paused: session.paused && !session.completed && !session.failed,
+      failed: session.failed,
       remaining: remainingHelp(session.helpLimits, session.helpUsed),
       peeking: Boolean(session.partialPeek),
     });
+    if (session.failed) {
+      fireFail(session);
+      return;
+    }
     if (session.completed) {
       fireComplete(session);
     }
@@ -282,7 +312,15 @@ export function PlayView({
               {hud.placed}/{hud.total}
             </span>
             <span className="hud-stat">{target.pieceCount}p</span>
-            {settings.timerEnabled ? (
+            {hud.remainingMs !== null ? (
+              <span
+                className={`hud-stat${hud.remainingMs <= 15_000 ? ' urgent' : ''}`}
+                aria-label="Tempo restante"
+                aria-live="polite"
+              >
+                resta {formatElapsed(hud.remainingMs)}
+              </span>
+            ) : settings.timerEnabled ? (
               <span className="hud-stat" aria-live="polite">
                 {formatElapsed(hud.elapsed)}
               </span>
@@ -374,12 +412,12 @@ export function PlayView({
           aria-label={`Ver imagem (${formatHelpLimit(hud.remaining.peekImage)})`}
           onClick={() => {
             if (session()?.peekImage()) {
-              playSfx('help', settings.soundEnabled);
+              playSfx('help', settings.soundEnabled, config.theme);
               setPeek(true);
               const current = session();
               if (current) refresh(current);
             } else {
-              playSfx('error', settings.soundEnabled);
+              playSfx('error', settings.soundEnabled, config.theme);
             }
           }}
         >
@@ -394,8 +432,8 @@ export function PlayView({
           aria-label={`Destacar (${formatHelpLimit(hud.remaining.highlight)})`}
           onClick={() => {
             const id = session()?.highlightPiece(performance.now());
-            if (id) playSfx('help', settings.soundEnabled);
-            else playSfx('error', settings.soundEnabled);
+            if (id) playSfx('help', settings.soundEnabled, config.theme);
+            else playSfx('error', settings.soundEnabled, config.theme);
             const current = session();
             if (current) refresh(current);
             rendererRef.current?.markDirty();
@@ -412,8 +450,8 @@ export function PlayView({
           aria-label={`Prévia parcial (${formatHelpLimit(hud.remaining.partialPeek)})`}
           onClick={() => {
             const ids = session()?.peekPartial(performance.now()) ?? [];
-            if (ids.length > 0) playSfx('help', settings.soundEnabled);
-            else playSfx('error', settings.soundEnabled);
+            if (ids.length > 0) playSfx('help', settings.soundEnabled, config.theme);
+            else playSfx('error', settings.soundEnabled, config.theme);
             const current = session();
             if (current) refresh(current);
             rendererRef.current?.markDirty();
@@ -429,8 +467,8 @@ export function PlayView({
           disabled={hud.remaining.separateEdges <= 0}
           aria-label={`Bordas (${formatHelpLimit(hud.remaining.separateEdges)})`}
           onClick={() => {
-            if (session()?.separateEdges()) playSfx('help', settings.soundEnabled);
-            else playSfx('error', settings.soundEnabled);
+            if (session()?.separateEdges()) playSfx('help', settings.soundEnabled, config.theme);
+            else playSfx('error', settings.soundEnabled, config.theme);
             const current = session();
             if (current) refresh(current);
             rendererRef.current?.requestFit();
@@ -447,8 +485,8 @@ export function PlayView({
           disabled={hud.remaining.shuffle <= 0}
           aria-label={`Embaralhar (${formatHelpLimit(hud.remaining.shuffle)})`}
           onClick={() => {
-            if (session()?.shuffle()) playSfx('help', settings.soundEnabled);
-            else playSfx('error', settings.soundEnabled);
+            if (session()?.shuffle()) playSfx('help', settings.soundEnabled, config.theme);
+            else playSfx('error', settings.soundEnabled, config.theme);
             const current = session();
             if (current) refresh(current);
             rendererRef.current?.requestFit();
@@ -464,7 +502,17 @@ export function PlayView({
           type="button"
           aria-pressed={settings.soundEnabled}
           aria-label={settings.soundEnabled ? 'Som ligado' : 'Som desligado'}
-          onClick={() => onSettings({ ...settings, soundEnabled: !settings.soundEnabled })}
+          onClick={() => {
+            const enabled = !settings.soundEnabled;
+            if (enabled) {
+              unlockAudio();
+              playSfx('help', true, config.theme);
+            } else {
+              silenceAudio();
+            }
+            rendererRef.current?.setSoundEnabled(enabled);
+            onSettings(withSoundEnabled(settings, enabled));
+          }}
         >
           <HelpIcon name="sound" />
           <span>Som</span>

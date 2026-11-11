@@ -28,7 +28,7 @@ npm run build
 npm run test:e2e
 ```
 
-Atalhos de desenvolvimento: `/?play=12`, `/?play=24` e `/?play=48` abrem o item do catálogo direto na contagem pedida.
+Atalhos de desenvolvimento: `/?play=12`, `/?play=24` e `/?play=48` abrem o item do catálogo direto na contagem pedida. `/?play=12&preset=desafio` força o preset Desafio (countdown e derrota por tempo).
 
 ## Catálogo (mínimo 200 na etapa 8)
 

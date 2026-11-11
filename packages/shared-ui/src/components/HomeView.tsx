@@ -2,7 +2,11 @@ import type { CatalogEntry } from '@puzzle-universe/content-manager';
 import {
   isUnlocked,
   PHASE_BANDS,
+  playSfx,
   practiceCounts,
+  silenceAudio,
+  unlockAudio,
+  withSoundEnabled,
   type AppSettings,
   type PhaseDefinition,
   type PieceCount,
@@ -202,10 +206,12 @@ export function HomeView({
         ))}
       </section>
       <section className="panel">
-        <h2>Ajuda e cronômetro</h2>
+        <h2>Ajuda, som e cronômetro</h2>
         <p>
           Presets de limite por partida (imagem, dica, prévia parcial, bordas, mistura). Casual é
-          generoso; desafio é curto.
+          generoso e o cronômetro só conta para pontos e estrelas — não se perde por tempo. Desafio
+          aperta as ajudas e tem countdown obrigatório: se o relógio zerar, a partida falha e você
+          tenta de novo, sem perder desbloqueios.
         </p>
         <div className="chip-row">
           <button
@@ -236,7 +242,16 @@ export function HomeView({
             type="button"
             className="chip"
             aria-pressed={settings.soundEnabled}
-            onClick={() => onSettings({ ...settings, soundEnabled: !settings.soundEnabled })}
+            onClick={() => {
+              const enabled = !settings.soundEnabled;
+              if (enabled) {
+                unlockAudio();
+                playSfx('help', true, config.theme);
+              } else {
+                silenceAudio();
+              }
+              onSettings(withSoundEnabled(settings, enabled));
+            }}
           >
             Som {settings.soundEnabled ? 'ligado' : 'desligado'}
           </button>

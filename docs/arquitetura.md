@@ -22,10 +22,10 @@ Cada app é publicável sozinha: `VITE_BASE`, `manifest.webmanifest`, ícones e 
 
 1. **Grade** — 12, 24, 48, 72, 96, 150, 200. Escolhe cols×rows mais próxima do aspecto da imagem.
 2. **Geometria** — arestas compartilhadas. Contorno liso (`flat`). Interiores com aba/encaixe em Bézier cúbica e perfis variados (`classic`, `wide`, `tall`, `round`, `square`, `stem`), seed determinística. Peça vizinha usa a mesma aresta invertida (abas complementares).
-3. **Sessão** — embaralhamento Fisher–Yates, pointer drag, grupos de peças vizinhas alinhadas, snap por proximidade no tabuleiro, conclusão, pausa, cronômetro, limites de ajuda (incluindo prévia parcial), pontuação e estrelas.
+3. **Sessão** — embaralhamento Fisher–Yates, pointer drag, grupos de peças vizinhas alinhadas, snap por proximidade no tabuleiro, conclusão, pausa, cronômetro, limites de ajuda (incluindo prévia parcial), pontuação e estrelas. No preset Desafio há tempo limite (9 s por peça) e derrota se o relógio zerar; no Casual o cronômetro é só para pontos/estrelas.
 4. **Renderer** — bitmap por peça (`OffscreenCanvas` com fallback), `requestAnimationFrame` só quando a tela está suja ou há arrasto, zoom/pan (roda, pinça, botões). Em 48+ a câmera inicial prioriza tamanho tátil; “Ver” enquadra o mundo inteiro.
 5. **Persistência** — IndexedDB versionado (`puzzle-universe` v1): sessão corrente (inclui `groupId`), progresso, ajustes. Falha de leitura devolve estado vazio.
-6. **Som** — Web Audio original (pegar, encaixar, unir grupo, concluir, erro, ajuda), respeitando o interruptor ligar/desligar.
+6. **Som** — Web Audio original, paletas distintas por app (Nostalgia: chiptune/square; Bible: sino/madeira). Eventos: pegar, encaixar, unir grupo, concluir, erro, ajuda. Ligado por padrão; o botão Som desbloqueia o AudioContext no mesmo gesto. Sem música de fundo.
 
 Tamanho mínimo de peça na tela: 44 px (12/24 tentam caber na vista; 48+ pode exigir pan).
 

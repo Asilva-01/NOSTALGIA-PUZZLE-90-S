@@ -11,14 +11,38 @@ export type AppSettings = {
   timerEnabled: boolean;
   reducedMotion: boolean;
   soundEnabled: boolean;
+  /** true só depois do jogador tocar Som; settings antigas sem este campo são migradas para som ligado. */
+  soundChoiceMade: boolean;
 };
 
-const DEFAULT_SETTINGS: AppSettings = {
+export const DEFAULT_SETTINGS: AppSettings = {
   helpPreset: 'casual',
   timerEnabled: true,
   reducedMotion: false,
-  soundEnabled: false,
+  soundEnabled: true,
+  soundChoiceMade: false,
 };
+
+type StoredSettings = Partial<AppSettings> & { appId?: string };
+
+/**
+ * O default antigo era `soundEnabled: false`. Quem só herdou esse valor
+ * (sites recém-publicados) passa a ter som ligado até desligar de propósito.
+ */
+export function normalizeSettings(raw?: StoredSettings | null): AppSettings {
+  const soundChoiceMade = Boolean(raw?.soundChoiceMade);
+  return {
+    helpPreset: raw?.helpPreset === 'desafio' ? 'desafio' : DEFAULT_SETTINGS.helpPreset,
+    timerEnabled: raw?.timerEnabled ?? DEFAULT_SETTINGS.timerEnabled,
+    reducedMotion: raw?.reducedMotion ?? DEFAULT_SETTINGS.reducedMotion,
+    soundEnabled: soundChoiceMade ? Boolean(raw?.soundEnabled) : true,
+    soundChoiceMade,
+  };
+}
+
+export function withSoundEnabled(settings: AppSettings, enabled: boolean): AppSettings {
+  return { ...settings, soundEnabled: enabled, soundChoiceMade: true };
+}
 
 function openDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -155,9 +179,9 @@ export class PersistStore {
       const row = await requestToPromise<AppSettings & { appId: string }>(request);
       await txDone(tx);
       db.close();
-      return { ...DEFAULT_SETTINGS, ...row };
+      return normalizeSettings(row);
     } catch {
-      return { ...DEFAULT_SETTINGS };
+      return normalizeSettings();
     }
   }
 

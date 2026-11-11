@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CatalogEntry } from '@puzzle-universe/content-manager';
 import {
+  DEFAULT_SETTINGS,
   PersistStore,
   PLAYABLE_COUNTS,
   applyCompletion,
@@ -13,12 +14,14 @@ import {
   pickSurpriseChallenge,
   practiceCounts,
   rememberRandom,
+  setSfxTheme,
   type AppSettings,
   type PieceCount,
   type ProgressState,
   type SavedSession,
 } from '@puzzle-universe/puzzle-engine';
 import { CompleteView } from './components/CompleteView.tsx';
+import { FailView } from './components/FailView.tsx';
 import { HomeView } from './components/HomeView.tsx';
 import { PlayView } from './components/PlayView.tsx';
 import { UpdateBanner } from './components/UpdateBanner.tsx';
@@ -35,6 +38,12 @@ type Route =
       elapsedMs: number;
       target: PlayTarget;
       next: PlayTarget | null;
+    }
+  | {
+      name: 'failed';
+      elapsedMs: number;
+      limitMs: number;
+      target: PlayTarget;
     };
 
 export function AppRoot({ config }: { config: ProductConfig }) {
@@ -45,12 +54,7 @@ export function AppRoot({ config }: { config: ProductConfig }) {
   );
   const [route, setRoute] = useState<Route>({ name: 'home' });
   const [progress, setProgress] = useState<ProgressState>(() => emptyProgress(config.appId));
-  const [settings, setSettings] = useState<AppSettings>({
-    helpPreset: 'casual',
-    timerEnabled: true,
-    reducedMotion: false,
-    soundEnabled: false,
-  });
+  const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
   const [saved, setSaved] = useState<SavedSession | null>(null);
   const [updateReady, setUpdateReady] = useState(false);
   const [ready, setReady] = useState(false);
@@ -58,17 +62,25 @@ export function AppRoot({ config }: { config: ProductConfig }) {
 
   useEffect(() => {
     document.documentElement.dataset.theme = config.theme;
+    setSfxTheme(config.theme);
   }, [config.theme]);
 
   useEffect(() => {
     let alive = true;
     void (async () => {
-      const [nextProgress, nextSettings, nextSaved] = await Promise.all([
+      const [nextProgress, loadedSettings, nextSaved] = await Promise.all([
         persist.loadProgress(),
         persist.loadSettings(),
         persist.loadSession(),
       ]);
       if (!alive) return;
+      const preset = new URLSearchParams(window.location.search).get('preset');
+      const nextSettings: AppSettings =
+        preset === 'desafio'
+          ? { ...loadedSettings, helpPreset: 'desafio' }
+          : preset === 'casual'
+            ? { ...loadedSettings, helpPreset: 'casual' }
+            : loadedSettings;
       setProgress(ensureProgress(config.appId, nextProgress));
       setSettings(nextSettings);
       setSaved(nextSaved);
@@ -88,7 +100,8 @@ export function AppRoot({ config }: { config: ProductConfig }) {
 
   useEffect(() => {
     if (!ready || bootedQuery.current) return;
-    const play = new URLSearchParams(window.location.search).get('play');
+    const params = new URLSearchParams(window.location.search);
+    const play = params.get('play');
     if (play !== '12' && play !== '24' && play !== '48') return;
     const puzzle = config.catalog.puzzles[0];
     if (!puzzle) return;
@@ -209,6 +222,15 @@ export function AppRoot({ config }: { config: ProductConfig }) {
     [persist, phases, progress, resolveNextTarget],
   );
 
+  const onFail = useCallback(
+    async (payload: { elapsedMs: number; limitMs: number; target: PlayTarget }) => {
+      await persist.clearSession();
+      setSaved(null);
+      setRoute({ name: 'failed', ...payload });
+    },
+    [persist],
+  );
+
   const resume = useCallback(() => {
     if (!saved) return;
     startPlay({
@@ -294,6 +316,7 @@ export function AppRoot({ config }: { config: ProductConfig }) {
               setRoute({ name: 'home' });
             }}
             onComplete={onComplete}
+            onFail={onFail}
             onSettings={saveSettings}
           />
         ) : null}
@@ -306,6 +329,20 @@ export function AppRoot({ config }: { config: ProductConfig }) {
             onHome={() => setRoute({ name: 'home' })}
             onReplay={() => void startPlay(route.target)}
             onNext={route.next ? () => void startPlay(route.next as PlayTarget) : undefined}
+          />
+        ) : null}
+        {route.name === 'failed' ? (
+          <FailView
+            config={config}
+            elapsedMs={route.elapsedMs}
+            limitMs={route.limitMs}
+            onHome={() => setRoute({ name: 'home' })}
+            onRetry={() =>
+              void startPlay({
+                ...route.target,
+                seed: Date.now() % 1_000_000,
+              })
+            }
           />
         ) : null}
       </main>
