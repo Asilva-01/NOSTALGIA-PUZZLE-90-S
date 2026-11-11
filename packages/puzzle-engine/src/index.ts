@@ -28,6 +28,13 @@ export {
 export { fisherYates, scatterPieces, separateEdgePieces } from './shuffle.ts';
 export { computeScore, computeStars } from './score.ts';
 export {
+  CHALLENGE_LIMIT_MS_PER_PIECE,
+  STAR_PAR_MS_PER_PIECE,
+  challengeTimeLimitMs,
+  isChallengeTimedOut,
+  remainingChallengeMs,
+} from './challenge.ts';
+export {
   HELP_PRESETS,
   canUseHelp,
   countHintUses,
@@ -39,9 +46,12 @@ export {
 } from './help.ts';
 export { PuzzleSession, type SessionConfig } from './session.ts';
 export {
+  DEFAULT_SETTINGS,
   PersistStore,
   emptyProgress,
+  normalizeSettings,
   sessionKey,
+  withSoundEnabled,
   type AppSettings,
 } from './persist.ts';
 export {
@@ -76,7 +86,18 @@ export {
   worldToScreen,
 } from './camera.ts';
 export { pathToSvg } from './path.ts';
-export { beep, playSfx, unlockAudio, type SfxKind } from './audio.ts';
+export {
+  beep,
+  getSfxTheme,
+  playSfx,
+  setSfxTheme,
+  sfxVoices,
+  silenceAudio,
+  unlockAudio,
+  type SfxKind,
+  type SfxTheme,
+  type SfxVoice,
+} from './audio.ts';
 export {
   MAX_START_OVERLAP,
   contentsWorld,

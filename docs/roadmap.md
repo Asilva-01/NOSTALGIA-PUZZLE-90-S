@@ -4,7 +4,7 @@ A etapa 1 (arquitetura + motor jogável 12/24 + UI inicial + 1 imagem por app) j
 
 ## 2. Engine
 
-Fechado neste PR: grupos de peças que se unem ao encostar (não só no slot final), variação de recorte (perfis de aba), prévia parcial com limites casual/desafio, feedback sonoro além do beep (ligar/desligar nas duas apps).
+Fechado neste PR: grupos de peças que se unem ao encostar (não só no slot final), variação de recorte (perfis de aba), prévia parcial com limites casual/desafio, feedback sonoro além do beep (ligado por padrão, paletas distintas Nostalgia vs Bible, confirmação no gesto do botão Som).
 
 ## 3. Protótipo 12 / 24 / 48
 
@@ -12,7 +12,7 @@ Fechado neste PR: grupos de peças que se unem ao encostar (não só no slot fin
 
 ## 4. Progressão + ajuda
 
-Tabela, presets casual/desafio e limites por partida (imagem, dica, prévia parcial, bordas, mistura) existem. Falta medalhas, coleções completas, estatísticas na home e limites configuráveis peça a peça.
+Tabela, presets casual/desafio e limites por partida (imagem, dica, prévia parcial, bordas, mistura) existem. Desafio tem countdown obrigatório (9 s/peça) e derrota por tempo, sem travar a campanha. Falta medalhas, coleções completas, estatísticas na home e limites configuráveis peça a peça.
 
 ## 5. Aleatório
 

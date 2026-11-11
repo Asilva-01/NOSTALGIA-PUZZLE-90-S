@@ -1,5 +1,5 @@
 import { debounce } from '@puzzle-universe/shared-utils';
-import { playSfx, unlockAudio } from './audio.ts';
+import { playSfx, unlockAudio, type SfxTheme } from './audio.ts';
 import {
   MIN_PIECE_SCREEN_PX,
   clampCameraToWorld,
@@ -71,6 +71,7 @@ export class PuzzleRenderer {
   private pathCache = new Map<string, Path2D>();
   private pulses: Array<{ id: string; start: number }> = [];
   private soundEnabled: boolean;
+  private sfxTheme: SfxTheme;
   private reducedMotion: boolean;
 
   constructor(options: {
@@ -81,6 +82,7 @@ export class PuzzleRenderer {
     onComplete: () => void;
     persist: () => void;
     soundEnabled?: boolean;
+    sfxTheme?: SfxTheme;
     reducedMotion?: boolean;
   }) {
     this.canvas = options.canvas;
@@ -95,7 +97,8 @@ export class PuzzleRenderer {
     this.onComplete = options.onComplete;
     this.persist = options.persist;
     this.persistDebounced = debounce(this.persist, 400);
-    this.soundEnabled = options.soundEnabled ?? false;
+    this.soundEnabled = options.soundEnabled ?? true;
+    this.sfxTheme = options.sfxTheme ?? 'nostalgia';
     this.reducedMotion = options.reducedMotion ?? false;
     this.camera = { x: 0, y: 0, scale: 1 };
     this.resize();
@@ -153,7 +156,11 @@ export class PuzzleRenderer {
     const now = performance.now();
     const hadHighlight = Boolean(this.session.highlight);
     const hadPeek = Boolean(this.session.partialPeek);
+    const wasFailed = this.session.failed;
     this.session.tick(now);
+    if (this.session.failed && !wasFailed) {
+      this.onChange();
+    }
     if (this.session.lastPulseIds.length > 0) {
       for (const id of this.session.lastPulseIds) {
         this.pulses.push({ id, start: now });
@@ -444,7 +451,7 @@ export class PuzzleRenderer {
     const hit = this.session.hitTest(world.x, world.y);
     if (hit && !this.session.paused) {
       this.session.beginDrag(hit.id, world.x, world.y);
-      playSfx('pickup', this.soundEnabled);
+      playSfx('pickup', this.soundEnabled, this.sfxTheme);
       this.markDirty();
       this.onChange();
       return;
@@ -498,13 +505,13 @@ export class PuzzleRenderer {
     if (this.session.draggingId) {
       const result = this.session.endDrag();
       if (result.placed) {
-        playSfx('snap', this.soundEnabled);
+        playSfx('snap', this.soundEnabled, this.sfxTheme);
         if (this.session.completed) {
-          playSfx('complete', this.soundEnabled);
+          playSfx('complete', this.soundEnabled, this.sfxTheme);
           this.onComplete();
         }
       } else if (result.joined) {
-        playSfx('join', this.soundEnabled);
+        playSfx('join', this.soundEnabled, this.sfxTheme);
       }
       this.persistDebounced();
       this.onChange();

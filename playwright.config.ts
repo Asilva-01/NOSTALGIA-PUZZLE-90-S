@@ -70,7 +70,7 @@ export default defineConfig({
     },
     {
       name: 'nostalgia-desktop',
-      testMatch: /(puzzle-12|layout)\.spec\.ts/,
+      testMatch: /(puzzle-12|layout|sound|desafio)\.spec\.ts/,
       use: {
         browserName: 'chromium',
         ...devices['Desktop Chrome'],
@@ -88,7 +88,7 @@ export default defineConfig({
         hasTouch: true,
         isMobile: true,
       },
-      testMatch: 'bible-smoke.spec.ts',
+      testMatch: /(bible-smoke|sound)\.spec\.ts/,
     },
     {
       name: 'nostalgia-48',

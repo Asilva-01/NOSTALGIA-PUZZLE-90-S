@@ -402,6 +402,10 @@ a {
   padding: 0 0.4rem;
 }
 
+.hud-stat.urgent {
+  color: color-mix(in srgb, #ff8a7a 80%, var(--text));
+}
+
 .board-bezel {
   min-height: 0;
   margin: 0.35rem 0.45rem;
@@ -569,6 +573,10 @@ a {
   font-size: 1.1rem;
   margin: 0;
   font-variant-numeric: tabular-nums;
+}
+
+.complete.fail h1 {
+  max-width: 12ch;
 }
 
 @keyframes star-pop {

@@ -1,3 +1,4 @@
+import { STAR_PAR_MS_PER_PIECE } from './challenge.ts';
 import { countHintUses } from './help.ts';
 import type { HelpUsage, PieceCount } from './types.ts';
 
@@ -18,7 +19,7 @@ export function computeScore(input: ScoreInput): number {
 
 export function computeStars(input: ScoreInput): 1 | 2 | 3 {
   const hintUses = countHintUses(input.helpUsed);
-  const parMs = input.pieceCount * 6000;
+  const parMs = input.pieceCount * STAR_PAR_MS_PER_PIECE;
   if (hintUses === 0 && input.elapsedMs <= parMs) {
     return 3;
   }

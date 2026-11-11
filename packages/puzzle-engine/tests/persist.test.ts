@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PersistStore } from '../src/persist.ts';
+import { DEFAULT_SETTINGS, normalizeSettings, PersistStore } from '../src/persist.ts';
 import { PuzzleSession } from '../src/session.ts';
 import { applyCompletion, buildPhaseTable } from '../src/progression.ts';
 
@@ -67,5 +67,39 @@ describe('salvar e recuperar', () => {
     const again = await store.loadProgress();
     expect(again.unlockedPhaseIds).toContain('phase-2');
     expect(again.stars['phase-1']).toBe(3);
+  });
+
+  it('liga o som por padrão e migra o default antigo mudo', () => {
+    expect(DEFAULT_SETTINGS.soundEnabled).toBe(true);
+    expect(normalizeSettings().soundEnabled).toBe(true);
+    expect(
+      normalizeSettings({
+        helpPreset: 'casual',
+        timerEnabled: true,
+        reducedMotion: false,
+        soundEnabled: false,
+      }).soundEnabled,
+    ).toBe(true);
+    expect(
+      normalizeSettings({
+        helpPreset: 'casual',
+        timerEnabled: true,
+        reducedMotion: false,
+        soundEnabled: false,
+        soundChoiceMade: true,
+      }).soundEnabled,
+    ).toBe(false);
+  });
+
+  it('grava a escolha explícita de som', async () => {
+    const store = new PersistStore('nostalgia-90');
+    await store.saveSettings({
+      ...DEFAULT_SETTINGS,
+      soundEnabled: false,
+      soundChoiceMade: true,
+    });
+    const loaded = await store.loadSettings();
+    expect(loaded.soundEnabled).toBe(false);
+    expect(loaded.soundChoiceMade).toBe(true);
   });
 });

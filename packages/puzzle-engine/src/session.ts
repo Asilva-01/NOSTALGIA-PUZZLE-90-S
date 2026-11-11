@@ -8,6 +8,7 @@ import {
   mergeGroupIds,
   translateGroup,
 } from './groups.ts';
+import { challengeTimeLimitMs, isChallengeTimedOut } from './challenge.ts';
 import { canUseHelp, emptyHelpUsage, HELP_PRESETS, normalizeHelpUsage, remainingHelp } from './help.ts';
 import { computeScore, computeStars } from './score.ts';
 import { contentsWorld, fitPlayCamera, fitWorldInView, isPortraitView, layoutPlayfield } from './playfield.ts';
@@ -55,6 +56,7 @@ export class PuzzleSession {
   timerEnabled: boolean;
   paused: boolean;
   completed: boolean;
+  failed: boolean;
   score: number;
   startedAt: string;
   updatedAt: string;
@@ -85,6 +87,7 @@ export class PuzzleSession {
     this.timerEnabled = config.timerEnabled ?? true;
     this.paused = false;
     this.completed = false;
+    this.failed = false;
     this.score = 0;
     this.startedAt = new Date().toISOString();
     this.updatedAt = this.startedAt;
@@ -156,18 +159,39 @@ export class PuzzleSession {
     return remainingHelp(this.helpLimits, this.helpUsed);
   }
 
+  get timeLimitMs(): number | null {
+    return this.helpPreset === 'desafio' ? challengeTimeLimitMs(this.config.pieceCount) : null;
+  }
+
+  get remainingMs(): number | null {
+    if (this.timeLimitMs === null) return null;
+    return Math.max(0, this.timeLimitMs - this.elapsedMs);
+  }
+
+  /** No Desafio o relógio da derrota corre mesmo com o cronômetro de pontuação desligado. */
+  tracksElapsedTime(): boolean {
+    return this.timerEnabled || this.helpPreset === 'desafio';
+  }
+
+  isOverTime(): boolean {
+    return this.helpPreset === 'desafio' && isChallengeTimedOut(this.elapsedMs, this.config.pieceCount);
+  }
+
   groupOf(id: string): PieceRuntime[] {
     return groupMembers(this.pieces, this.pieceById(id).groupId);
   }
 
   tick(now: number): void {
-    if (this.paused || this.completed || !this.timerEnabled) {
+    if (this.paused || this.completed || this.failed) {
       this.lastTick = now;
     } else {
-      if (this.lastTick !== null) {
+      if (this.tracksElapsedTime() && this.lastTick !== null) {
         this.elapsedMs += now - this.lastTick;
       }
       this.lastTick = now;
+      if (this.isOverTime()) {
+        this.failByTime();
+      }
     }
     if (this.highlight && now > this.highlight.until) {
       this.highlight = null;
@@ -184,8 +208,17 @@ export class PuzzleSession {
   }
 
   resume(): void {
-    if (this.completed) return;
+    if (this.completed || this.failed) return;
     this.paused = false;
+    this.lastTick = null;
+    this.touch();
+  }
+
+  failByTime(): void {
+    if (this.completed || this.failed) return;
+    this.failed = true;
+    this.paused = true;
+    this.score = 0;
     this.lastTick = null;
     this.touch();
   }
@@ -218,7 +251,7 @@ export class PuzzleSession {
   }
 
   beginDrag(id: string, worldX: number, worldY: number): void {
-    if (this.paused || this.completed) return;
+    if (this.paused || this.completed || this.failed) return;
     const piece = this.pieceById(id);
     if (piece.placed) return;
     this.draggingId = id;
@@ -366,6 +399,7 @@ export class PuzzleSession {
     this.timerEnabled = saved.timerEnabled;
     this.paused = saved.paused;
     this.completed = saved.completed;
+    this.failed = false;
     this.score = saved.score;
     this.startedAt = saved.startedAt;
     this.updatedAt = saved.updatedAt;
@@ -461,19 +495,24 @@ export class PuzzleSession {
   }
 
   private placePiece(piece: PieceRuntime): void {
+    if (this.failed) return;
     piece.placed = true;
     piece.x = piece.bounds.x;
     piece.y = piece.bounds.y;
     piece.zIndex = piece.row * this.generation.cols + piece.col;
     this.lastPulseIds.push(piece.id);
     if (this.unplacedPieces().length === 0) {
-      this.completed = true;
-      this.paused = true;
-      this.score = computeScore({
-        pieceCount: this.config.pieceCount,
-        elapsedMs: this.elapsedMs,
-        helpUsed: this.helpUsed,
-      });
+      if (this.isOverTime()) {
+        this.failByTime();
+      } else {
+        this.completed = true;
+        this.paused = true;
+        this.score = computeScore({
+          pieceCount: this.config.pieceCount,
+          elapsedMs: this.elapsedMs,
+          helpUsed: this.helpUsed,
+        });
+      }
     }
     this.touch();
   }
